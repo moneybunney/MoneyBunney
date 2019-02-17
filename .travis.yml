@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "stable"
+
+install:
+  - npm --prefix ./frontend install
+  - npm --prefix ./backend install
+
+# No idea if this is correct
+script:
+  - npm --prefix ./frontend build
+  - npm --prefix ./backend build
+  - npm --prefix ./frontend test --no-watch
+  - npm --prefix ./backend test

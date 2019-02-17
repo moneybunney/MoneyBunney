@@ -29,5 +29,6 @@
   ],
   "devDependencies": {
     "tslint-eslint-rules": "^5.4.0"
-  }
+  },
+  "proxy":"http://localhost:8080"
 }

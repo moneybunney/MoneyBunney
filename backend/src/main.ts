@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 3000;
+  const port = 8080;
   // tslint:disable-next-line:no-console
   console.log('Listening on http://localhost:' + port);
   await app.listen(port);

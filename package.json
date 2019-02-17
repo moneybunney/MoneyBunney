@@ -1,0 +1,25 @@
+{
+  "name": "moneybunney",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "start": "concurrently \"npm --prefix ./frontend start\" \"npm --prefix ./backend start\"",
+    "start:dev": "concurrently \"npm --prefix ./frontend start\" \"npm --prefix ./backend run start:dev\"",
+    "build": "npm --prefix ./frontend run build && npm --prefix ./backend run build",
+    "test": "npm --prefix ./frontend run test --no-watch && npm --prefix ./backend run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moneybunney/MoneyBunney.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/moneybunney/MoneyBunney/issues"
+  },
+  "homepage": "https://github.com/moneybunney/MoneyBunney#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}

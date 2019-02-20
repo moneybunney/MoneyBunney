@@ -6,6 +6,7 @@ Biudžeto planavimo sistema "**MoneyBunney**" - tai sistema, kuri leis vartotoja
 Prieš leidžiant __MoneyBunney__ reikia įsidiegti:
 * [NodeJS](https://nodejs.org/en/)
 * [Git Bash](https://git-scm.com/downloads/)
+* [Mongo DB](https://www.mongodb.com/download-center/community)
 
 ## Sistemos įdiegimas:
 
@@ -18,8 +19,8 @@ cd ../backend && npm install
 Išorinė dalis:
 `cd frontend && npm start`
 
-Vidinė dalis:
-`cd backend && npm start`
+Vidinė dalis (įsitikinus, kad mongo serveris paleistas):
+`cd backend && npm run start:dev`
 
 ## Papildoma informacija
 Komandos narių rolės/pareigos:

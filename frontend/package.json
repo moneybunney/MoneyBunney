@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "@types/jest": "^24.0.5",
     "@types/node": "^11.9.4",
     "@types/react": "^16.8.3",
@@ -30,5 +31,5 @@
   "devDependencies": {
     "tslint-eslint-rules": "^5.4.0"
   },
-  "proxy":"http://localhost:8080"
+  "proxy": "http://localhost:8080"
 }

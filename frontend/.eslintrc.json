@@ -3,11 +3,12 @@
         "browser": true,
         "es6": true
     },
-    "extends": [ "airbnb", "tslint-eslint-rules"],
+    "extends": [ "airbnb", "plugin:@typescript-eslint/recommended"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -16,8 +17,10 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/rule-name": "error"
     }
 }

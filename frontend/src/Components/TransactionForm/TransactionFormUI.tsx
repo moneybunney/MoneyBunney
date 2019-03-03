@@ -16,6 +16,7 @@ import {
 import React, { ChangeEvent } from "react";
 import IAccount from "./AccountModel";
 import ICategory from "./CategoryModel";
+import TagPicker from "./TagPicker";
 import ITransaction from "./TransactionModel";
 
 const styles = (theme: Theme) => createStyles({
@@ -34,23 +35,23 @@ const styles = (theme: Theme) => createStyles({
 
 interface IProps extends WithStyles<typeof styles> {
   onFieldChange: (field: string, value: any) => void;
-  initalTransaction: ITransaction;
+  transaction: ITransaction;
   categories: ICategory[];
   accounts: IAccount[];
 }
 
-const TransactionFormUI = ({initalTransaction, onFieldChange, classes, categories, accounts}: IProps) => {
+const TransactionFormUI = ({ transaction, onFieldChange, classes, categories, accounts}: IProps) => {
 
   const fieldUpdate = (fieldId: string) => (e: ChangeEvent<HTMLInputElement>): void  => {
     onFieldChange(fieldId, e.target.value);
   };
 
-  const [category, setCategory] = React.useState("");
-  const [account, setAccount] = React.useState("0");
-
   const handleSelect = (fieldId: string) => (e: ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
     onFieldChange(fieldId, e.target.value);
+  };
+
+  const onTagsChange = (tags: string[]) => {
+    onFieldChange("tags", tags);
   };
 
   return (
@@ -64,7 +65,7 @@ const TransactionFormUI = ({initalTransaction, onFieldChange, classes, categorie
           <InputLabel htmlFor="category-helper">Category</InputLabel>
           <Select
             fullWidth={true}
-            value={category}
+            value={transaction.category}
             onChange={handleSelect("category")}
             input={<Input name="category" id="category-helper" />}
           >
@@ -77,7 +78,7 @@ const TransactionFormUI = ({initalTransaction, onFieldChange, classes, categorie
         id="transaction-datetime"
         label="Time"
         type="datetime-local"
-        defaultValue={initalTransaction.date}
+        defaultValue={transaction.date}
         InputLabelProps={{shrink: true}}
         onChange={fieldUpdate("date")}
         fullWidth={true}
@@ -105,7 +106,7 @@ const TransactionFormUI = ({initalTransaction, onFieldChange, classes, categorie
           <InputLabel htmlFor="account-helper">Account</InputLabel>
           <Select
             fullWidth={true}
-            value={account}
+            value={transaction.account}
             onChange={handleSelect("account")}
             input={<Input name="category" id="category-helper" />}
           >
@@ -124,6 +125,7 @@ const TransactionFormUI = ({initalTransaction, onFieldChange, classes, categorie
           rowsMax={4}
         />
       </Grid>
+      <TagPicker tags={transaction.tags} onChange={onTagsChange}/>
     </Grid>
   </React.Fragment>
   );

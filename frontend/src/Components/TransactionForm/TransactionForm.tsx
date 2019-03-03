@@ -84,9 +84,9 @@ const Checkout = (props: IProps) => {
   };
 
   const onFieldChange = (field: string, value: any) => {
-    const tmp = transaction as any;
-    tmp[field] = value;
-    setTransaction(tmp as ITransaction);
+    const clone = {...transaction} as any;
+    clone[field] = value;
+    setTransaction(clone);
   };
 
   return (
@@ -101,7 +101,7 @@ const Checkout = (props: IProps) => {
                 <form onSubmit={handleSubmit}>
                   <TransactionFormUI
                     onFieldChange={onFieldChange}
-                    initalTransaction={transaction}
+                    transaction={transaction}
                     categories={categories}
                     accounts={accounts}
                   />

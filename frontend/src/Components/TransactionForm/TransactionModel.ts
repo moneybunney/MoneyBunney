@@ -1,19 +1,21 @@
+import { array } from "prop-types";
+
 export default interface ITransaction {
     date: string;
-    account: string;
-    category: string;
+    account: number; // account index
+    category: number; // category index
     price: string;
     description: string;
     tags: string[];
 }
 
 export const createEmptyTransaction = (): ITransaction => ({
-    account: "",
-    category: "",
+    account: 0,
+    category: -1,
     date: getNowDate(),
     description: "",
     price: "",
-    tags: [""],
+    tags: ["test"],
   });
 
 export const getNowDate = () => {

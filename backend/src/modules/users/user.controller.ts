@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UserController {
@@ -15,6 +16,8 @@ export class UserController {
     }
 
     @Get()
+    //authorization guards this request(others are currently unguarded).
+    @UseGuards(AuthGuard())
     getAllUsers(): Promise<User[]> {
         console.log('GET to /users | getAllUsers');
         return this.userService.findAll();

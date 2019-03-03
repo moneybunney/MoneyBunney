@@ -20,4 +20,9 @@ export class UserService {
     async findById(id: string): Promise<User> {
         return await this.userModel.findById(id).exec();
     }
+
+    async findOneByToken(token: string): Promise<User>{
+        return await this.userModel.findOne({Token: token}).exec();
+    }
+
 }

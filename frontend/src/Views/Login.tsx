@@ -1,36 +1,30 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Paper from '@material-ui/core/Paper';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import createStyles from '@material-ui/core/styles/createStyles';
-import Typography from '@material-ui/core/Typography';
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import {
+  Avatar, Button, Checkbox, CssBaseline, FormControl, FormControlLabel,
+  Input, InputLabel, Paper, Typography,
+} from "@material-ui/core";
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import { createStyles } from "@material-ui/core/styles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React from "react";
 
-const styles = (theme : Theme) => createStyles({
+const styles = (theme: Theme) => createStyles({
   main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    width: "auto",
+    display: "block", // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      marginLeft: "auto",
+      marginRight: "auto",
     },
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
   avatar: {
@@ -38,7 +32,7 @@ const styles = (theme : Theme) => createStyles({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
   submit: {
@@ -46,9 +40,9 @@ const styles = (theme : Theme) => createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface IProps extends WithStyles<typeof styles> {}
 
-function SignIn(props : Props) {
+function SignIn(props: IProps) {
   const { classes } = props;
 
   return (
@@ -62,11 +56,11 @@ function SignIn(props : Props) {
           Sign in
         </Typography>
         <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" required={true} fullWidth={true}>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
+            <Input id="email" name="email" autoComplete="email" autoFocus={true} />
           </FormControl>
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" required={true} fullWidth={true}>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input name="password" type="password" id="password" autoComplete="current-password" />
           </FormControl>
@@ -76,7 +70,7 @@ function SignIn(props : Props) {
           />
           <Button
             type="submit"
-            fullWidth
+            fullWidth={true}
             variant="contained"
             color="primary"
             className={classes.submit}

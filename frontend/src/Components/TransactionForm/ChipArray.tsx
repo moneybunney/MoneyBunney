@@ -24,7 +24,6 @@ interface IChipData {
 }
 
 const ChipsArray = ({ classes, chips, onRemove}: IProps) => {
-    console.log("Chips:" + chips);
     const chipData = chips.map((chip, id) => ({key: id, label: chip }));
 
     const handleDelete = (data: IChipData) => () => {

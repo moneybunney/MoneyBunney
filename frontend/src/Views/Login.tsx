@@ -8,6 +8,7 @@ import {
   Typography,
   WithStyles,
   withStyles,
+  LinearProgress,
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import React from "react";
@@ -27,8 +28,10 @@ const styles = (theme: Theme) =>
         marginRight: "auto",
       },
     },
-    paper: {
+    formContainer: {
       marginTop: theme.spacing.unit * 8,
+    },
+    paper: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -38,9 +41,6 @@ const styles = (theme: Theme) =>
     avatar: {
       margin: theme.spacing.unit,
       backgroundColor: theme.palette.secondary.main,
-    },
-    progress: {
-      margin: theme.spacing.unit * 2,
     },
   });
 
@@ -81,24 +81,27 @@ function SignIn(props: IProps) {
   return (
     <main className={classes.main}>
       <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined/>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-          {loading && <CircularProgress className={classes.progress} />}
-        </Typography>
-        <LoginForm
-          loading={loading}
-          error={error}
-          handleSubmit={handleSubmit}
-          username={username}
-          password={password}
-          onUsernameChange={onUsernameChange}
-          onPasswordChange={onPasswordChange}
-        />
-      </Paper>
+
+      <div className={classes.formContainer}>
+        {loading && <LinearProgress />}
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlined/>
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <LoginForm
+            loading={loading}
+            error={error}
+            handleSubmit={handleSubmit}
+            username={username}
+            password={password}
+            onUsernameChange={onUsernameChange}
+            onPasswordChange={onPasswordChange}
+          />
+        </Paper>
+      </div>
     </main>
   );
 }

@@ -80,7 +80,7 @@ const LoginForm = (props: IProps) => {
         )}
       </FormControl>
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox value="remember" color="primary" disabled={loading} />}
         label="Remember me"
       />
       <Button

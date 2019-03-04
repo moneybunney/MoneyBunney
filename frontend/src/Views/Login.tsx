@@ -1,14 +1,13 @@
 import {
   Avatar,
-  CircularProgress,
   createStyles,
   CssBaseline,
+  LinearProgress,
   Paper,
   Theme,
   Typography,
   WithStyles,
   withStyles,
-  LinearProgress,
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import React from "react";
@@ -86,7 +85,7 @@ function SignIn(props: IProps) {
         {loading && <LinearProgress />}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlined/>
+            <LockOutlined />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in

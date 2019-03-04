@@ -2,16 +2,14 @@ import {
   Button,
   Checkbox,
   createStyles,
-  FormControl,
   FormControlLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
   Theme,
   WithStyles,
   withStyles,
 } from "@material-ui/core";
 import React from "react";
+
+import LoginFormField from "./LoginFormField";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,52 +33,43 @@ interface IProps extends WithStyles<typeof styles> {
 }
 
 const LoginForm = (props: IProps) => {
-  const { classes, loading, error, handleSubmit,
-          username, onUsernameChange, password, onPasswordChange } = props;
+  const {
+    classes,
+    loading,
+    error,
+    handleSubmit,
+    username,
+    onUsernameChange,
+    password,
+    onPasswordChange,
+  } = props;
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <FormControl
-        margin="normal"
-        required={true}
-        fullWidth={true}
-        disabled={loading}
+      <LoginFormField
         error={error}
-      >
-        <InputLabel htmlFor="email">Email Address</InputLabel>
-        <Input
-          id="email"
-          name="email"
-          autoComplete="email"
-          autoFocus={true}
-          onChange={onUsernameChange}
-          value={username}
-        />
-      </FormControl>
-      <FormControl
-        margin="normal"
-        required={true}
-        fullWidth={true}
         disabled={loading}
+        fieldType="text"
+        name="email"
+        text="Email Address"
+        onChange={onUsernameChange}
+        value={username}
+        autoFocus={true}
+      />
+      <LoginFormField
         error={error}
-      >
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          name="password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={onPasswordChange}
-          value={password}
-        />
-        {error && (
-          <FormHelperText id="component-error-text">
-            Wrong password
-          </FormHelperText>
-        )}
-      </FormControl>
+        disabled={loading}
+        fieldType="password"
+        name="password"
+        text="Password"
+        onChange={onPasswordChange}
+        value={password}
+        errorText="Wrong password"
+      />
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" disabled={loading} />}
+        control={
+          <Checkbox value="remember" color="primary" disabled={loading} />
+        }
         label="Remember me"
       />
       <Button

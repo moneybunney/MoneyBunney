@@ -1,15 +1,13 @@
 import {
   Button,
   createStyles,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
   Theme,
   WithStyles,
   withStyles,
 } from "@material-ui/core";
 import React from "react";
+
+import LoginFormField from "../Login/LoginFormField";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -72,69 +70,38 @@ const RegistrationForm = (props: IProps) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <FormControl
-        margin="normal"
-        required={true}
-        fullWidth={true}
-        disabled={loading}
+      <LoginFormField
         error={emailError}
-      >
-        <InputLabel htmlFor="email">Email Address</InputLabel>
-        <Input
-          id="email"
-          name="email"
-          autoComplete="email"
-          autoFocus={true}
-          onChange={onUsernameChange}
-          value={username}
-        />
-        {emailError && (
-          <FormHelperText id="component-error-text">
-            This email is already in use!
-          </FormHelperText>
-        )}
-      </FormControl>
-      <FormControl
-        margin="normal"
-        required={true}
-        fullWidth={true}
         disabled={loading}
+        fieldType="text"
+        name="email"
+        text="Email Address"
+        onChange={onUsernameChange}
+        value={username}
+        autoFocus={true}
+        errorText="This email is already in use!"
+      />
+      <LoginFormField
         error={!passwordsMatch}
-      >
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          name="password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={onPasswordChange}
-          value={password}
-          onBlur={checkIfPasswordsMatch}
-        />
-      </FormControl>
-      <FormControl
-        margin="normal"
-        required={true}
-        fullWidth={true}
         disabled={loading}
+        fieldType="password"
+        name="password"
+        text="Password"
+        onChange={onPasswordChange}
+        value={password}
+        onBlur={checkIfPasswordsMatch}
+      />
+      <LoginFormField
         error={!passwordsMatch}
-      >
-        <InputLabel htmlFor="password">Confirm password</InputLabel>
-        <Input
-          name="password"
-          type="password"
-          id="confirm_password"
-          autoComplete="current-password"
-          onChange={onPasswordConfirmationChange}
-          value={passwordConfirmation}
-          onBlur={checkIfPasswordsMatch}
-        />
-        {!passwordsMatch && (
-          <FormHelperText id="component-error-text">
-            Passwords do not match
-          </FormHelperText>
-        )}
-      </FormControl>
+        disabled={loading}
+        fieldType="password"
+        name="passwordConfirmation"
+        text="Confirm Password"
+        onChange={onPasswordConfirmationChange}
+        value={passwordConfirmation}
+        onBlur={checkIfPasswordsMatch}
+        errorText="Passwords do not match"
+      />
       <Button
         type="submit"
         fullWidth={true}

@@ -48,14 +48,14 @@ interface IProps extends WithStyles<typeof styles> {}
 function SignIn(props: IProps) {
   const { classes } = props;
 
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
-  const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
-    setUsername(event.target.value);
+    setEmail(event.target.value);
   };
 
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +68,7 @@ function SignIn(props: IProps) {
     setLoading(true);
 
     setTimeout(() => {
-      if (username === "username" && password === "password") {
+      if (email === "email" && password === "password") {
         alert("Login success");
       } else {
         setError(true);
@@ -94,9 +94,9 @@ function SignIn(props: IProps) {
             loading={loading}
             error={error}
             handleSubmit={handleSubmit}
-            username={username}
+            email={email}
             password={password}
-            onUsernameChange={onUsernameChange}
+            onEmailChange={onEmailChange}
             onPasswordChange={onPasswordChange}
           />
         </Paper>

@@ -26,8 +26,8 @@ interface IProps extends WithStyles<typeof styles> {
   loading: boolean;
   error: boolean;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  username: string;
-  onUsernameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  email: string;
+  onEmailChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   password: string;
   onPasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -38,8 +38,8 @@ const LoginForm = (props: IProps) => {
     loading,
     error,
     handleSubmit,
-    username,
-    onUsernameChange,
+    email,
+    onEmailChange,
     password,
     onPasswordChange,
   } = props;
@@ -52,8 +52,8 @@ const LoginForm = (props: IProps) => {
         fieldType="text"
         name="email"
         text="Email Address"
-        onChange={onUsernameChange}
-        value={username}
+        onChange={onEmailChange}
+        value={email}
         autoFocus={true}
       />
       <LoginFormField

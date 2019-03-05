@@ -29,14 +29,14 @@ interface IProps extends WithStyles<typeof styles> {
 const RegistrationForm = (props: IProps) => {
   const { classes, loading, emailError, handleRegistration } = props;
 
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
 
   const [passwordsMatch, setPasswordsMatch] = React.useState(true);
 
-  const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,7 @@ const RegistrationForm = (props: IProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (passwordConfirmation === password) {
-      handleRegistration(username, password);
+      handleRegistration(email, password);
     }
   };
 
@@ -76,8 +76,8 @@ const RegistrationForm = (props: IProps) => {
         fieldType="text"
         name="email"
         text="Email Address"
-        onChange={onUsernameChange}
-        value={username}
+        onChange={onEmailChange}
+        value={email}
         autoFocus={true}
         errorText="This email is already in use!"
       />

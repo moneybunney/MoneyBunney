@@ -15,8 +15,10 @@ const styles = (theme: Theme) =>
       width: "100%", // Fix IE 11 issue.
       marginTop: theme.spacing.unit,
     },
-    submit: {
+    buttonContainer: {
       marginTop: theme.spacing.unit * 3,
+      display: "flex",
+      justifyContent: "space-between",
     },
   });
 
@@ -102,16 +104,19 @@ const RegistrationForm = (props: IProps) => {
         onBlur={checkIfPasswordsMatch}
         errorText="Passwords do not match"
       />
-      <Button
-        type="submit"
-        fullWidth={true}
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        disabled={loading || !passwordsMatch}
-      >
-        Register
-      </Button>
+      <div className={classes.buttonContainer}>
+        <Button color="primary" disabled={loading}>
+          Log in instead
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading || !passwordsMatch}
+        >
+          Register
+        </Button>
+      </div>
     </form>
   );
 };

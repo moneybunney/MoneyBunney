@@ -25,24 +25,30 @@ const styles = (theme: Theme) =>
 interface IProps extends WithStyles<typeof styles> {
   loading: boolean;
   error: boolean;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  email: string;
-  onEmailChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  password: string;
-  onPasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleLogin: (email: string, password: string) => void;
+  setError: (error: boolean) => void;
 }
 
 const LoginForm = (props: IProps) => {
-  const {
-    classes,
-    loading,
-    error,
-    handleSubmit,
-    email,
-    onEmailChange,
-    password,
-    onPasswordChange,
-  } = props;
+  const { classes, loading, error, handleLogin, setError } = props;
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false);
+    setEmail(event.target.value);
+  };
+
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false);
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleLogin(email, password);
+  };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>

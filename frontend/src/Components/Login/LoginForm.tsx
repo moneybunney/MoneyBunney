@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
+import { Route } from "react-router-dom";
+
 import LoginFormField from "../Shared/LoginFormField";
 
 const styles = (theme: Theme) =>
@@ -81,9 +83,19 @@ const LoginForm = (props: IProps) => {
         label="Remember me"
       />
       <div className={classes.buttonContainer}>
-        <Button color="primary" disabled={loading}>
-          Register
-        </Button>
+        <Route
+          render={({ history }) => (
+            <Button
+              color="primary"
+              disabled={loading}
+              onClick={() => {
+                history.replace("/register");
+              }}
+            >
+              Register
+            </Button>
+          )}
+        />
         <Button
           type="submit"
           variant="contained"

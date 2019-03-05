@@ -7,6 +7,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
+import { Route } from "react-router-dom";
+
 import LoginFormField from "../Shared/LoginFormField";
 
 const styles = (theme: Theme) =>
@@ -105,9 +107,19 @@ const RegistrationForm = (props: IProps) => {
         errorText="Passwords do not match"
       />
       <div className={classes.buttonContainer}>
-        <Button color="primary" disabled={loading}>
-          Log in instead
-        </Button>
+        <Route
+          render={({ history }) => (
+            <Button
+              color="primary"
+              disabled={loading}
+              onClick={() => {
+                history.replace("/login");
+              }}
+            >
+              Log in instead
+            </Button>
+          )}
+        />
         <Button
           type="submit"
           variant="contained"

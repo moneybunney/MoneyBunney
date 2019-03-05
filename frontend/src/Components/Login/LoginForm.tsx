@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
-import LoginFormField from "./LoginFormField";
+import LoginFormField from "../Shared/LoginFormField";
 
 const styles = (theme: Theme) =>
   createStyles({

@@ -9,10 +9,10 @@ import {
   WithStyles,
   withStyles,
 } from "@material-ui/core";
-import { LockOutlined } from "@material-ui/icons";
+import { PersonAdd } from "@material-ui/icons";
 import React from "react";
 
-import LoginForm from "../Components/Login/LoginForm";
+import RegistrationForm from "./RegistrationForm";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -39,24 +39,26 @@ const styles = (theme: Theme) =>
     },
     avatar: {
       margin: theme.spacing.unit,
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
     },
   });
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function SignIn({ classes }: IProps) {
+function Register({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [emailError, setEmailError] = React.useState(false);
 
-  const handleLogin = (email: string, password: string) => {
+  const handleRegistration = (email: string, password: string) => {
+    setEmailError(false);
     setLoading(true);
 
     setTimeout(() => {
-      if (email === "email" && password === "password") {
-        alert("Login success");
+      // If email is already in use
+      if (email === "email") {
+        setEmailError(true);
       } else {
-        setError(true);
+        alert("Registration successful");
       }
       setLoading(false);
     }, 1000);
@@ -65,21 +67,19 @@ function SignIn({ classes }: IProps) {
   return (
     <main className={classes.main}>
       <CssBaseline />
-
       <div className={classes.formContainer}>
         {loading && <LinearProgress />}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlined />
+            <PersonAdd />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Register
           </Typography>
-          <LoginForm
+          <RegistrationForm
             loading={loading}
-            error={error}
-            handleLogin={handleLogin}
-            setError={setError}
+            emailError={emailError}
+            handleRegistration={handleRegistration}
           />
         </Paper>
       </div>
@@ -87,4 +87,4 @@ function SignIn({ classes }: IProps) {
   );
 }
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(Register);

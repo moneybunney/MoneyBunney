@@ -1,6 +1,8 @@
 import {
   Button,
+  Checkbox,
   createStyles,
+  FormControlLabel,
   Theme,
   WithStyles,
   withStyles,
@@ -9,7 +11,7 @@ import React from "react";
 
 import { Route } from "react-router-dom";
 
-import LoginFormField from "../Shared/LoginFormField";
+import LoginFormField from "../../Components/LoginFormField";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -26,59 +28,40 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {
   loading: boolean;
-  emailError: boolean;
-  handleRegistration: (email: string, password: string) => void;
+  error: boolean;
+  handleLogin: (email: string, password: string) => void;
+  setError: (error: boolean) => void;
 }
 
-const RegistrationForm = ({
+const LoginForm = ({
   classes,
   loading,
-  emailError,
-  handleRegistration,
+  error,
+  handleLogin,
+  setError,
 }: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
-
-  const [passwordsMatch, setPasswordsMatch] = React.useState(true);
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false);
     setEmail(event.target.value);
   };
 
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordsMatch(true);
+    setError(false);
     setPassword(event.target.value);
   };
 
-  const onPasswordConfirmationChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setPasswordsMatch(true);
-    setPasswordConfirmation(event.target.value);
-  };
-
-  const checkIfPasswordsMatch = () => {
-    if (
-      password !== "" &&
-      passwordConfirmation !== "" &&
-      passwordConfirmation !== password
-    ) {
-      setPasswordsMatch(false);
-    }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (passwordConfirmation === password) {
-      handleRegistration(email, password);
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleLogin(email, password);
   };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <LoginFormField
-        error={emailError}
+        error={error}
         disabled={loading}
         fieldType="text"
         name="email"
@@ -86,28 +69,22 @@ const RegistrationForm = ({
         onChange={onEmailChange}
         value={email}
         autoFocus={true}
-        errorText="This email is already in use!"
       />
       <LoginFormField
-        error={!passwordsMatch}
+        error={error}
         disabled={loading}
         fieldType="password"
         name="password"
         text="Password"
         onChange={onPasswordChange}
         value={password}
-        onBlur={checkIfPasswordsMatch}
+        errorText="Wrong password"
       />
-      <LoginFormField
-        error={!passwordsMatch}
-        disabled={loading}
-        fieldType="password"
-        name="passwordConfirmation"
-        text="Confirm Password"
-        onChange={onPasswordConfirmationChange}
-        value={passwordConfirmation}
-        onBlur={checkIfPasswordsMatch}
-        errorText="Passwords do not match"
+      <FormControlLabel
+        control={
+          <Checkbox value="remember" color="primary" disabled={loading} />
+        }
+        label="Remember me"
       />
       <div className={classes.buttonContainer}>
         <Route
@@ -116,10 +93,10 @@ const RegistrationForm = ({
               color="primary"
               disabled={loading}
               onClick={() => {
-                history.replace("/login");
+                history.replace("/register");
               }}
             >
-              Log in instead
+              Register
             </Button>
           )}
         />
@@ -127,13 +104,13 @@ const RegistrationForm = ({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={loading || !passwordsMatch}
+          disabled={loading}
         >
-          Register
+          Sign in
         </Button>
       </div>
     </form>
   );
 };
 
-export default withStyles(styles)(RegistrationForm);
+export default withStyles(styles)(LoginForm);

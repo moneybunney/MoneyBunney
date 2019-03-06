@@ -6,8 +6,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import Login from "./Views/Login";
-import Register from "./Views/Register";
+import Login from "./Views/Login/Login";
+import Register from "./Views/Register/Register";
 
 const App = () => {
   return (

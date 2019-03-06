@@ -7,6 +7,7 @@ import {
 import React from "react";
 
 type FieldType = "text" | "password";
+type AutoCompleteType = "email" | "current-password";
 
 interface IProps {
   error: boolean;
@@ -19,9 +20,10 @@ interface IProps {
   autoFocus?: boolean;
   onBlur?: () => void;
   errorText?: string;
+  autoComplete?: AutoCompleteType;
 }
 
-const LoginFormField = ({
+const FormField = ({
   error,
   disabled,
   fieldType,
@@ -32,9 +34,8 @@ const LoginFormField = ({
   autoFocus,
   onBlur,
   errorText,
+  autoComplete,
 }: IProps) => {
-  const autoComplete = fieldType === "password" ? "current-password" : "email";
-
   return (
     <FormControl
       margin="normal"
@@ -43,7 +44,9 @@ const LoginFormField = ({
       disabled={disabled}
       error={error}
     >
-      <InputLabel htmlFor={name}>{text}</InputLabel>
+      <InputLabel error={error} htmlFor={name}>
+        {text}
+      </InputLabel>
       <Input
         name={name}
         type={fieldType}
@@ -58,4 +61,4 @@ const LoginFormField = ({
   );
 };
 
-export default LoginFormField;
+export default FormField;

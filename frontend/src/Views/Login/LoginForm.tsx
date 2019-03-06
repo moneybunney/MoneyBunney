@@ -11,7 +11,7 @@ import React from "react";
 
 import { Route } from "react-router-dom";
 
-import LoginFormField from "../../Components/LoginFormField";
+import FormField from "../../Components/FormField";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -33,13 +33,7 @@ interface IProps extends WithStyles<typeof styles> {
   setError: (error: boolean) => void;
 }
 
-const LoginForm = ({
-  classes,
-  loading,
-  error,
-  onSubmit,
-  setError,
-}: IProps) => {
+const LoginForm = ({ classes, loading, error, onSubmit, setError }: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -60,7 +54,7 @@ const LoginForm = ({
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <LoginFormField
+      <FormField
         error={error}
         disabled={loading}
         fieldType="text"
@@ -69,8 +63,9 @@ const LoginForm = ({
         onChange={onEmailChange}
         value={email}
         autoFocus={true}
+        autoComplete="email"
       />
-      <LoginFormField
+      <FormField
         error={error}
         disabled={loading}
         fieldType="password"
@@ -79,6 +74,7 @@ const LoginForm = ({
         onChange={onPasswordChange}
         value={password}
         errorText="Wrong password"
+        autoComplete="current-password"
       />
       <FormControlLabel
         control={

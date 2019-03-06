@@ -9,7 +9,7 @@ import React from "react";
 
 import { Route } from "react-router-dom";
 
-import LoginFormField from "../../Components/LoginFormField";
+import FormField from "../../Components/FormField";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -77,7 +77,7 @@ const RegistrationForm = ({
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <LoginFormField
+      <FormField
         error={emailError}
         disabled={loading}
         fieldType="text"
@@ -87,8 +87,9 @@ const RegistrationForm = ({
         value={email}
         autoFocus={true}
         errorText="This email is already in use!"
+        autoComplete="email"
       />
-      <LoginFormField
+      <FormField
         error={!passwordsMatch}
         disabled={loading}
         fieldType="password"
@@ -98,7 +99,7 @@ const RegistrationForm = ({
         value={password}
         onBlur={checkIfPasswordsMatch}
       />
-      <LoginFormField
+      <FormField
         error={!passwordsMatch}
         disabled={loading}
         fieldType="password"

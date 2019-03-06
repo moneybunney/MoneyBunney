@@ -20,4 +20,8 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect('Index of MonneyBunney');
   });
+
+  afterAll(async () => {
+    await app.close();
+  });
 });

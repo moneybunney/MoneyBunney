@@ -49,7 +49,7 @@ function Register({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
 
-  const handleRegistration = (email: string, password: string) => {
+  const onSubmit = (email: string, password: string) => {
     setEmailError(false);
     setLoading(true);
 
@@ -79,7 +79,7 @@ function Register({ classes }: IProps) {
           <RegistrationForm
             loading={loading}
             emailError={emailError}
-            handleRegistration={handleRegistration}
+            onSubmit={onSubmit}
           />
         </Paper>
       </div>

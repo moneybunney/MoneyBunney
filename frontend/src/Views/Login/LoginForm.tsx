@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
 interface IProps extends WithStyles<typeof styles> {
   loading: boolean;
   error: boolean;
-  handleLogin: (email: string, password: string) => void;
+  onSubmit: (email: string, password: string) => void;
   setError: (error: boolean) => void;
 }
 
@@ -37,7 +37,7 @@ const LoginForm = ({
   classes,
   loading,
   error,
-  handleLogin,
+  onSubmit,
   setError,
 }: IProps) => {
   const [email, setEmail] = React.useState("");
@@ -55,7 +55,7 @@ const LoginForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleLogin(email, password);
+    onSubmit(email, password);
   };
 
   return (

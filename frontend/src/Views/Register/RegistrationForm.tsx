@@ -27,14 +27,14 @@ const styles = (theme: Theme) =>
 interface IProps extends WithStyles<typeof styles> {
   loading: boolean;
   emailError: boolean;
-  handleRegistration: (email: string, password: string) => void;
+  onSubmit: (email: string, password: string) => void;
 }
 
 const RegistrationForm = ({
   classes,
   loading,
   emailError,
-  handleRegistration,
+  onSubmit,
 }: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -71,7 +71,7 @@ const RegistrationForm = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (passwordConfirmation === password) {
-      handleRegistration(email, password);
+      onSubmit(email, password);
     }
   };
 

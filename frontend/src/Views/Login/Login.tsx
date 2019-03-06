@@ -49,7 +49,7 @@ function SignIn({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
-  const handleLogin = (email: string, password: string) => {
+  const onSubmit = (email: string, password: string) => {
     setLoading(true);
 
     setTimeout(() => {
@@ -78,7 +78,7 @@ function SignIn({ classes }: IProps) {
           <LoginForm
             loading={loading}
             error={error}
-            handleLogin={handleLogin}
+            onSubmit={onSubmit}
             setError={setError}
           />
         </Paper>

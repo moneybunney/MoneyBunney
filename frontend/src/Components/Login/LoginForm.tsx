@@ -33,9 +33,13 @@ interface IProps extends WithStyles<typeof styles> {
   setError: (error: boolean) => void;
 }
 
-const LoginForm = (props: IProps) => {
-  const { classes, loading, error, handleLogin, setError } = props;
-
+const LoginForm = ({
+  classes,
+  loading,
+  error,
+  handleLogin,
+  setError,
+}: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 

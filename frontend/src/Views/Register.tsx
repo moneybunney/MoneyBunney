@@ -45,9 +45,7 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function Register(props: IProps) {
-  const { classes } = props;
-
+function Register({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
 

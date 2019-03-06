@@ -21,9 +21,18 @@ interface IProps {
   errorText?: string;
 }
 
-const LoginFormField = (props: IProps) => {
-  const { error, disabled, fieldType, name, text, onChange, value, autoFocus, onBlur, errorText } = props;
-
+const LoginFormField = ({
+  error,
+  disabled,
+  fieldType,
+  name,
+  text,
+  onChange,
+  value,
+  autoFocus,
+  onBlur,
+  errorText,
+}: IProps) => {
   const autoComplete = fieldType === "password" ? "current-password" : "email";
 
   return (
@@ -44,9 +53,7 @@ const LoginFormField = (props: IProps) => {
         onBlur={onBlur}
         autoFocus={autoFocus}
       />
-      {errorText && error && (
-        <FormHelperText>{errorText}</FormHelperText>
-      )}
+      {errorText && error && <FormHelperText>{errorText}</FormHelperText>}
     </FormControl>
   );
 };

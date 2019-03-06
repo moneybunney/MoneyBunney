@@ -30,9 +30,12 @@ interface IProps extends WithStyles<typeof styles> {
   handleRegistration: (email: string, password: string) => void;
 }
 
-const RegistrationForm = (props: IProps) => {
-  const { classes, loading, emailError, handleRegistration } = props;
-
+const RegistrationForm = ({
+  classes,
+  loading,
+  emailError,
+  handleRegistration,
+}: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");

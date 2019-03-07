@@ -1,4 +1,4 @@
-import { Chip, createStyles, Grid, TextField, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, Grid, TextField, Theme, withStyles, WithStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import * as React from "react";
 import ChipArray from "./ChipArray";

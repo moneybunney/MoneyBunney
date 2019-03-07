@@ -1,4 +1,4 @@
-import { Chip, createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { Chip, createStyles, Theme, withStyles, WithStyles } from "@material-ui/core";
 import React from "react";
 
 const styles = (theme: Theme) => createStyles({

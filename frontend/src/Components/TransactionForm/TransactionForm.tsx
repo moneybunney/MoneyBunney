@@ -8,7 +8,6 @@ import {
   WithStyles,
 } from "@material-ui/core";
 import React from "react";
-import { fileURLToPath } from "url";
 import withRoot from "../../withRoot";
 import TransactionFormUI from "./TransactionFormUI";
 import ITransaction, { createEmptyTransaction } from "./TransactionModel";
@@ -19,10 +18,6 @@ interface IState {
 
 // tslint:disable:object-literal-sort-keys
 const styles = (theme: Theme) => createStyles({
-  buttons: {
-    // display: "flex",
-    // justifyContent: "flex-end",
-  },
   layout: {
     width: "auto",
     marginRight: theme.spacing.unit * 2,
@@ -42,12 +37,6 @@ const styles = (theme: Theme) => createStyles({
       marginTop: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3,
     },
-  },
-  stepper: {
-    padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
-  },
-  textField: {
-
   },
 });
 

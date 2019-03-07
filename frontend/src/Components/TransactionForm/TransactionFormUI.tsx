@@ -3,6 +3,7 @@ import {
   Collapse,
   createStyles,
   FormControl,
+  FormHelperText,
   Grid,
   Input,
   InputAdornment,
@@ -22,9 +23,8 @@ import { IAccount, ICategory } from "./TransactionForm";
 import ITransaction from "./TransactionModel";
 
 const styles = (theme: Theme) => createStyles({
-  categoryDropdown: {
+  fullWidthDropdown: {
     width: "100%",
-    marginRight: theme.spacing.unit,
   },
   strech: {
     width: "100%",
@@ -40,6 +40,9 @@ const styles = (theme: Theme) => createStyles({
   progress: {
     width: "100%",
     marginTop: theme.spacing.unit * 4,
+  },
+  hidden: {
+    opacity: 0,
   },
 });
 
@@ -62,12 +65,36 @@ const TransactionFormUI = ({
   onSubmit,
  }: IProps) => {
 
+  const [categoryError, setCategoryError] = React.useState(false);
+  const [priceError, setPriceError] = React.useState(false);
+  const [dateError, setDateError] = React.useState(false);
+
   const fieldUpdate = (fieldId: string) => (e: ChangeEvent<HTMLInputElement>): void  => {
+    if (fieldId === "date") {
+      // the date picker sucks
+      // so just stop it from becomming invalid
+      const selectedDate = new Date(e.target.value);
+      const now = new Date();
+      if (selectedDate > now) {
+        setDateError(true);
+        // disallow bad time entry
+        e.preventDefault();
+        return;
+      } else {
+        setDateError(false);
+      }
+    }
     onFieldChange(fieldId, e.target.value);
+    if (fieldId === "price") {
+      setPriceError(false);
+    }
   };
 
   const handleSelect = (fieldId: string) => (e: ChangeEvent<HTMLSelectElement>) => {
     onFieldChange(fieldId, e.target.value);
+    if (fieldId === "category") {
+      setCategoryError(false);
+     }
   };
 
   const onTagsChange = (tags: string[]) => {
@@ -75,9 +102,25 @@ const TransactionFormUI = ({
   };
 
   const handleSubmit = (e: SyntheticEvent) => {
+    // basic validation:
+    let error = false;
     e.preventDefault();
-    // validate
-    onSubmit();
+    if (transaction.category <= 0) {
+      setCategoryError(true);
+      error = true;
+    } else {
+      setCategoryError(false);
+    }
+    if (transaction.price === "") {
+      setPriceError(true);
+      error = true;
+    } else {
+      setPriceError(false);
+    }
+
+    if (!error) {
+      onSubmit();
+    }
   };
 
   return (
@@ -87,8 +130,8 @@ const TransactionFormUI = ({
     </Typography>
     <form onSubmit={handleSubmit}>
       <Grid container={true} spacing={24}>
-        <Grid item={true} xs={12} sm={5}>
-          <FormControl className={classes.categoryDropdown} >
+        <Grid item={true} xs={12} sm={6}>
+          <FormControl  fullWidth={true} error={categoryError}>
             <InputLabel htmlFor="category-helper">Category</InputLabel>
             <Select
               fullWidth={true}
@@ -99,43 +142,52 @@ const TransactionFormUI = ({
             >
               {categories.map((item) => (<MenuItem value={item.id} key={item.id}>{item.text}</MenuItem>))}
             </Select>
+            <FormHelperText className={categoryError ? "" : classes.hidden} >Please select a category</FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item={true} xs={12} sm={7} className={classes.strech}>
-        <TextField
-          id="transaction-datetime"
-          label="Time"
-          type="datetime-local"
-          defaultValue={transaction.date}
-          InputLabelProps={{shrink: true}}
-          onChange={fieldUpdate("date")}
-          fullWidth={true}
-          disabled={loading}
-        />
-        </Grid>
-        <Grid item={true} xs={6} sm={7}>
+        <Grid item={true} xs={12} sm={6} className={classes.strech}>
+        <FormControl  fullWidth={true} error={dateError}>
           <TextField
-            id="price"
-            name="price"
-            label="Price"
+            id="transaction-datetime"
+            label="Time"
+            type="datetime-local"
+            value={transaction.date}
+            InputLabelProps={{shrink: true}}
+            onChange={fieldUpdate("date")}
             fullWidth={true}
-            onChange={fieldUpdate("price")}
             disabled={loading}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">€</InputAdornment>,
-              type: "number",
-              min: "1",
-            }}
+            error={dateError}
           />
+          <FormHelperText className={dateError ? "" : classes.hidden} >Can't set a future date</FormHelperText>
+        </FormControl>
         </Grid>
-        <Grid item={true} xs={6} sm={5}>
-          <FormControl className={classes.categoryDropdown} >
+        <Grid item={true} xs={6} sm={6}>
+          <FormControl error={priceError} fullWidth={true}>
+            <TextField
+              id="price"
+              name="price"
+              label="Price"
+              fullWidth={true}
+              onChange={fieldUpdate("price")}
+              error={priceError}
+              disabled={loading}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">€</InputAdornment>,
+                type: "number",
+                min: "1",
+              }}
+            />
+            <FormHelperText className={priceError ? "" : classes.hidden}>Please enter a price</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item={true} xs={6} sm={6}>
+          <FormControl fullWidth={true}>
             <InputLabel htmlFor="account-helper">Account</InputLabel>
             <Select
               fullWidth={true}
               value={transaction.account}
               onChange={handleSelect("account")}
-              input={<Input name="category" id="category-helper" />}
+              input={<Input name="account" id="account-helper" />}
               disabled={loading}
             >
               {accounts.map((item) => (<MenuItem value={item.id} key={item.id}>{item.text}</MenuItem>))}

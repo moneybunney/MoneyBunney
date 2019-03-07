@@ -87,6 +87,7 @@ const Checkout = (props: IProps) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      alert("Success!");
     }, 1000);
   };
 

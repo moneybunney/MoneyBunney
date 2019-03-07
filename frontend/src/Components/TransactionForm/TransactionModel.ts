@@ -19,7 +19,7 @@ export const createEmptyTransaction = (): ITransaction => ({
 export const getNowDate = () => {
     const pad = (s: number) => String(s).length < 2 ? "0" + s : s;
     const d = new Date();
-    const month = pad(d.getMonth());
+    const month = pad(d.getMonth() + 1);
     const day = pad(d.getDate());
     const date = d.getFullYear() + "-" + month + "-" + day;
     const hours = pad(d.getHours());

@@ -1,23 +1,15 @@
 import {
-  Button,
   createStyles,
   CssBaseline,
-  Grid,
   Paper,
-  Step,
-  StepLabel,
-  Stepper,
-  TextField,
   Theme,
   Typography,
   withStyles,
   WithStyles,
 } from "@material-ui/core";
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import { fileURLToPath } from "url";
 import withRoot from "../../withRoot";
-import { createAccount } from "./AccountModel";
-import { createCategory } from "./CategoryModel";
 import TransactionFormUI from "./TransactionFormUI";
 import ITransaction, { createEmptyTransaction } from "./TransactionModel";
 
@@ -54,10 +46,6 @@ const styles = (theme: Theme) => createStyles({
   stepper: {
     padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
   },
-  button: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit,
-  },
   textField: {
 
   },
@@ -67,26 +55,39 @@ interface IProps extends WithStyles<typeof styles> {
   onSubmit: (transaction: ITransaction) => any;
 }
 
+export interface ICategory {
+  id: number;
+  text: string;
+}
+
+export interface IAccount {
+  id: number;
+  text: string;
+}
+
 const Checkout = (props: IProps) => {
 
   // fetch these from the api aswell
-  const categories = ["Beer", "Wine", "Other"].map((item, index) => createCategory(index, item));
-  const accounts = ["Cash", "Wallet", "Revolut"].map((item, index) => createAccount(index, item));
+  const categories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
+  const accounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
 
   const [transaction, setTransaction] = React.useState(createEmptyTransaction());
 
+  const [loading, setLoading] = React.useState(false);
   const classes = props.classes;
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    // tslint:disable-next-line:no-console
-    console.log(transaction);
-    // props.onSubmit(transaction);
-  };
 
   const onFieldChange = (field: string, value: any) => {
     const clone = {...transaction} as any;
     clone[field] = value;
     setTransaction(clone);
+  };
+
+  const onSubmit = () => {
+    console.log(transaction);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   return (
@@ -98,22 +99,14 @@ const Checkout = (props: IProps) => {
                 New Transaction
               </Typography>
               <React.Fragment>
-                <form onSubmit={handleSubmit}>
                   <TransactionFormUI
                     onFieldChange={onFieldChange}
                     transaction={transaction}
                     categories={categories}
                     accounts={accounts}
+                    loading={loading}
+                    onSubmit={onSubmit}
                   />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    type="submit"
-                  >
-                    Submit
-                  </Button>
-                </form>
               </React.Fragment>
             </Paper>
           </main>;

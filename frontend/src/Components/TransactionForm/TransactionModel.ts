@@ -1,5 +1,3 @@
-import { array } from "prop-types";
-
 export default interface ITransaction {
     date: string;
     account: number; // account index
@@ -15,7 +13,7 @@ export const createEmptyTransaction = (): ITransaction => ({
     date: getNowDate(),
     description: "",
     price: "",
-    tags: ["test"],
+    tags: [],
   });
 
 export const getNowDate = () => {

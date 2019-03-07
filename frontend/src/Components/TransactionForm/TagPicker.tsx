@@ -1,5 +1,5 @@
 import { Chip, createStyles, Grid, TextField, Theme, withStyles, WithStyles } from "@material-ui/core";
-import { Add } from "@material-ui/icons"
+import { Add } from "@material-ui/icons";
 import * as React from "react";
 import ChipArray from "./ChipArray";
 
@@ -12,39 +12,57 @@ const styles = (theme: Theme) => createStyles({
     chip: {
         margin: theme.spacing.unit / 4,
       },
-    addTagCell:{
-        position: "relative"
+    addTagCell: {
+        position: "relative",
     },
-    addTagIcon:{
+    addTagIcon: {
         position: "absolute",
-        bottom: theme.spacing.unit
-    }
+        bottom: theme.spacing.unit,
+    },
+    addTagIconDisabled: {
+        opacity: 50,
+        position: "absolute",
+        bottom: theme.spacing.unit,
+    },
   });
 
 interface IProps extends WithStyles<typeof styles> {
     onChange: (tags: string[]) => void;
     tags: string[];
+    disabled: boolean;
 }
 
-const TagPicker = ({tags, classes, onChange}: IProps) => {
-    const [ inputTag, setInputTag ] = React.useState("")
-    
+const TagPicker = ({tags, classes, onChange, disabled}: IProps) => {
+    const [ inputTag, setInputTag ] = React.useState("");
+    const [tagError, setTagError] = React.useState(false);
     const removeTag = (tag: string) => {
         const tmp = tags.filter((item) => item !== tag);
         onChange(tmp);
     };
 
-    const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-        setInputTag(e.target.value)
-    }
-    const handleAddTagClick = ()=>{
-        if(tags.indexOf(inputTag) == -1){
-            // only push tags that are not yet applied
-            tags.push(inputTag)
-            onChange(tags)
+    const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTagError(false);
+        if (e.target.value.endsWith(" ")) {
+            handleAddTagClick();
+        } else {
+            setInputTag(e.target.value);
         }
-        setInputTag("")
-    }
+    };
+    const handleAddTagClick = () => {
+        if (disabled) { return; }
+        setInputTag(inputTag.trim());
+        if (inputTag.length <= 0) {
+            setTagError(true);
+            return;
+        }
+
+        if (tags.indexOf(inputTag) === -1) {
+            // only push tags that are not yet applied
+            tags.push(inputTag);
+            onChange(tags);
+        }
+        setInputTag("");
+    };
     const renderTags = () => {
         return (
             <ChipArray chips={tags} onRemove={removeTag}/>
@@ -63,10 +81,16 @@ const TagPicker = ({tags, classes, onChange}: IProps) => {
                     value={inputTag}
                     onChange={handleTagInputChange}
                     fullWidth={true}
+                    error={tagError && !disabled}
+                    disabled={disabled}
                 />
             </Grid>
             <Grid item={true} xs={2} sm={1} className={classes.addTagCell}>
-                <Add onClick={handleAddTagClick} className={classes.addTagIcon}/>
+                <Add
+                    onClick={handleAddTagClick}
+                    className={classes.addTagIcon}
+                    color={disabled ? "disabled" : "action"}
+                />
             </Grid>
         </React.Fragment>
     );

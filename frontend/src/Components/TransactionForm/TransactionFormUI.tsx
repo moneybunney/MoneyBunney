@@ -23,13 +23,6 @@ import { IAccount, ICategory } from "./TransactionForm";
 import ITransaction from "./TransactionModel";
 
 const styles = (theme: Theme) => createStyles({
-  fullWidthDropdown: {
-    width: "100%",
-  },
-  strech: {
-    width: "100%",
-    justifyItems: "flex-end",
-  },
   margin: {
     margin: theme.spacing.unit,
   },
@@ -145,7 +138,7 @@ const TransactionFormUI = ({
             <FormHelperText className={categoryError ? "" : classes.hidden} >Please select a category</FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item={true} xs={12} sm={6} className={classes.strech}>
+        <Grid item={true} xs={12} sm={6}>
         <FormControl  fullWidth={true} error={dateError}>
           <TextField
             id="transaction-datetime"

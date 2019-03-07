@@ -16,7 +16,6 @@ interface IState {
   activeStep: number;
 }
 
-// tslint:disable:object-literal-sort-keys
 const styles = (theme: Theme) => createStyles({
   layout: {
     width: "auto",
@@ -41,7 +40,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface IProps extends WithStyles<typeof styles> {
-  onSubmit: (transaction: ITransaction) => any;
+  onSubmit?: (transaction: ITransaction) => void;
 }
 
 export interface ICategory {
@@ -74,6 +73,7 @@ const Checkout = (props: IProps) => {
   const onSubmit = () => {
     console.log(transaction);
     setLoading(true);
+    const _ = (props.onSubmit && props.onSubmit(transaction));
     setTimeout(() => {
       setLoading(false);
       alert("Success!");
@@ -104,4 +104,4 @@ const Checkout = (props: IProps) => {
       );
 };
 
-export default withRoot(withStyles(styles)(Checkout as any));
+export default withRoot(withStyles(styles)(Checkout));

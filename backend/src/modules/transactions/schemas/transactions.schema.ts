@@ -6,5 +6,5 @@ export const TransactionsSchema = new mongoose.Schema({
   Category: String,
   Price: Number,
   Description: String,
-  Tags: String[],
+  Tags: [String],
 });

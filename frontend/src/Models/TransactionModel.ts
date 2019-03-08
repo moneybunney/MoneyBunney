@@ -1,4 +1,5 @@
 // copied over from the transaction-frontend branch
+// because our code review is slooooooow
 export default interface ITransaction {
     date: string;
     account: number; // account index
@@ -28,3 +29,13 @@ export const getNowDate = () => {
     const time = hours + ":" + minutes;
     return date + "T" + time;
 };
+
+export interface ICategory {
+    id: number;
+    text: string;
+  }
+
+export interface IAccount {
+    id: number;
+    text: string;
+  }

@@ -4,9 +4,9 @@ import Icon from "@mdi/react";
 import React from "react";
 
 const iconMap = {
-    1 : mdiBeer,
-    2 : mdiGlassWine,
-    3 : mdiBankTransfer,
+    0 : mdiBeer,
+    1 : mdiGlassWine,
+    2 : mdiBankTransfer,
 };
 
 interface IProps {

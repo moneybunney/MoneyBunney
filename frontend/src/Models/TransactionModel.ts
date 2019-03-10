@@ -14,7 +14,7 @@ export const createEmptyTransaction = (): ITransaction => ({
     category: -1,
     date: getNowDate(),
     description: "",
-    price: "",
+    price: String(Math.random() * 100 - 50),
     tags: [],
   });
 

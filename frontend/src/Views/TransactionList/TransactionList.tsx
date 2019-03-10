@@ -1,6 +1,6 @@
-import { createStyles, List, Paper, Theme, WithStyles, withStyles} from "@material-ui/core";
+import { Collapse, createStyles, List, Paper, Theme, WithStyles, withStyles} from "@material-ui/core";
 import React from "react";
-import { createEmptyTransaction, IAccount, ICategory } from "../../Models/TransactionModel";
+import ITransaction, { IAccount, ICategory } from "../../Models/TransactionModel";
 import TransactionListItem from "./TransactionListItem";
 import TransactionListLoadingItem from "./TransactionListLoadingItem";
 
@@ -11,49 +11,74 @@ const styles = (theme: Theme) => createStyles({
         paddingTop: 0,
         paddingBottom: 0,
     },
-    paper: {
-        display: "block", // Fix IE 11 issue.
-        width: 400,
-        marginTop: 32,
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-          marginLeft: "auto",
-          marginRight: "auto",
-        },
-    },
 });
 
 interface IProps extends WithStyles<typeof styles> {
+    transactions: ITransaction[];
+    accounts: IAccount[];
+    categories: ICategory[];
+    requestMoreTransactions: () => void;
+    canLoadMore?: boolean;
+    loading?: boolean;
 }
 
-const TransactionList = ({classes}: IProps) => {
-    const transactions = [0, 1, 2].map((i) => {
-        const transaction = createEmptyTransaction();
-        transaction.category = i;
-        transaction.price = String(Math.random() * 100 - 50);
-        return transaction;
-    });
+class TransactionList extends React.Component<IProps, any> {
+    constructor(props: IProps) {
+        super(props);
+        if (props.loading === undefined) {
+            props.loading = true;
+        }
+    }
 
-    transactions[2].date = "2019-03-07T12:30";
+    public componentDidMount() {
+        window.addEventListener("scroll", this.checkIfShouldLoadMore);
 
-    const categories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
-    const accounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
+        // in case the element is already on screen but not yet loaded
+        this.checkIfShouldLoadMore();
+    }
 
-    return (
-        <Paper className={classes.paper}>
-            <List className={classes.listRoot}>
-                {transactions.map((t, i) =>
+    public componentDidUpdate(prevProps: IProps) {
+        // after each sequential load is finished, check
+        // if the user sees the bottom of the list
+        if (this.props.transactions.length !== prevProps.transactions.length) {
+            this.checkIfShouldLoadMore();
+        }
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener("scroll", this.checkIfShouldLoadMore);
+    }
+
+    public isAtBottom = () => {
+        const triggerElem = document.getElementById("transactionListLoaderTriggerItem");
+        return triggerElem!!.getBoundingClientRect().bottom <= window.innerHeight;
+    }
+
+    public checkIfShouldLoadMore = () => {
+        if (this.props.canLoadMore && !this.props.loading) {
+            if (this.isAtBottom()) {
+                this.props.requestMoreTransactions();
+            }
+        }
+    }
+
+    public render() {
+        return(
+            <List className={this.props.classes.listRoot} >
+                {this.props.transactions.map((t, i) =>
                 <TransactionListItem
                     key={"transaction_" + i}
                     transaction={t}
-                    categoryText={categories[t.category].text}
-                    accountText={accounts[t.account].text}
+                    categoryText={this.props.categories[t.category].text}
+                    accountText={this.props.accounts[t.account].text}
                 />)}
-                <TransactionListLoadingItem />
-            </List>
-        </Paper>
-    );
-};
+                  <Collapse in={this.props.loading}>
+                    <TransactionListLoadingItem/>
+                  </Collapse>
+                  <span id="transactionListLoaderTriggerItem"/>
+            </List >
+        );
+    }
+}
 
 export default withStyles(styles)(TransactionList);

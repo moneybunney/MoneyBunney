@@ -1,4 +1,5 @@
 import {
+    Collapse,
     createStyles,
     ListItem,
     ListItemText,
@@ -6,8 +7,7 @@ import {
     WithStyles,
     withStyles,
 } from "@material-ui/core";
-import { NaturePeopleTwoTone } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import ITransaction from "../../Models/TransactionModel";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 import TransactionListItemPrice from "./TransactionListItemPrice";
@@ -33,6 +33,12 @@ const toDisplayDate = (d: Date) => {
 };
 
 const TransactionListItem = ({transaction, classes, categoryText, accountText}: IProps) => {
+    const [shown, setShown] = React.useState(false);
+
+    useEffect(() => {
+        setShown(true);
+    });
+
     const primaryText = transaction.description ? transaction.description : categoryText;
     const parsedPrice = parseFloat(transaction.price);
 
@@ -46,11 +52,13 @@ const TransactionListItem = ({transaction, classes, categoryText, accountText}: 
         "Today" :
         toDisplayDate(parsedDate);
     return (
-        <ListItem button={true}>
-            <TransactionListItemIcon iconId={transaction.category}/>
-            <ListItemText primary={primaryText} secondary={dateString}/>
-            <TransactionListItemPrice price={parsedPrice}/>
-        </ListItem>
+        <Collapse in={shown}>
+            <ListItem button={true}>
+                <TransactionListItemIcon iconId={transaction.category}/>
+                <ListItemText primary={primaryText} secondary={dateString}/>
+                <TransactionListItemPrice price={parsedPrice}/>
+            </ListItem>
+        </Collapse>
     );
 };
 

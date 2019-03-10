@@ -24,9 +24,6 @@
     "eject": "react-scripts eject",
     "lint": "tslint -p ./tsconfig.json -c ./tslint.json --force"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",

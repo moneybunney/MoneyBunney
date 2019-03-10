@@ -1,4 +1,5 @@
-import { Avatar, createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
+import classes from "*.module.css";
+import { Avatar, CircularProgress, createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
 import { mdiBankTransfer, mdiBeer, mdiGlassWine } from "@mdi/js";
 import Icon from "@mdi/react";
 import React from "react";
@@ -10,16 +11,17 @@ const iconMap = {
 };
 
 interface IProps {
-    iconId: number;
+    iconId?: number;
 
     // measurements in pixels
     size?: number;
     margin?: number;
     innerSize?: number;
     color?: string | null;
+    loading?: boolean;
 }
 
-const TransactionListItemIcon = ({ iconId, margin, innerSize, size, color }: IProps) => {
+const TransactionListItemIcon = ({ iconId, margin, innerSize, size, color, loading }: IProps) => {
 
     const resolveIconPath = (id: number) => {
         return (iconMap as any)[id];
@@ -32,20 +34,39 @@ const TransactionListItemIcon = ({ iconId, margin, innerSize, size, color }: IPr
     const totalSizeFinal = size ? size : 48;
     const innerSizeFinal = innerSize ? innerSize : totalSizeFinal * 3 / 4;
     const colorFinal = color ? color : "#fafafa";
-    const avatarStyles = {
+    const avatarSizeStyle = {
         width: totalSizeFinal,
         height: totalSizeFinal,
         margin,
     };
-    return (
-        <Avatar style={avatarStyles}>
+
+    const getLoadingDummy = () => {
+        return(
+        <div style={avatarSizeStyle}>
+            <CircularProgress
+                size={innerSizeFinal}
+            />
+        </div>
+        );
+    };
+
+    const getItemIcon = (icId: number) => {
+        return(
+        <Avatar style={avatarSizeStyle}>
             <Icon
-                path={resolveIconPath(iconId)}
+                path={resolveIconPath(icId)}
                 size={(innerSizeFinal) + "px"}
                 color={colorFinal}
             />
         </Avatar>
-    );
+        );
+    };
+
+    if (loading || iconId === undefined) {
+        return getLoadingDummy();
+    } else {
+        return getItemIcon(iconId);
+    }
 };
 
 export default TransactionListItemIcon;

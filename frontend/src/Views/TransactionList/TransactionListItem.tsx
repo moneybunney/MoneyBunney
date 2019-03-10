@@ -13,7 +13,6 @@ import TransactionListItemIcon from "./TransactionListItemIcon";
 import TransactionListItemPrice from "./TransactionListItemPrice";
 
 const styles = (theme: Theme) => createStyles({
-
 });
 
 interface IProps extends WithStyles<typeof styles> {

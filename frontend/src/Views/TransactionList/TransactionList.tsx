@@ -2,6 +2,7 @@ import { createStyles, List, Paper, Theme, WithStyles, withStyles} from "@materi
 import React from "react";
 import { createEmptyTransaction, IAccount, ICategory } from "../../Models/TransactionModel";
 import TransactionListItem from "./TransactionListItem";
+import TransactionListLoadingItem from "./TransactionListLoadingItem";
 
 const styles = (theme: Theme) => createStyles({
     listRoot: {
@@ -49,6 +50,7 @@ const TransactionList = ({classes}: IProps) => {
                     categoryText={categories[t.category].text}
                     accountText={accounts[t.account].text}
                 />)}
+                <TransactionListLoadingItem />
             </List>
         </Paper>
     );

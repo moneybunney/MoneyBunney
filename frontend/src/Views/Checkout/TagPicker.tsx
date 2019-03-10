@@ -63,11 +63,6 @@ const TagPicker = ({tags, classes, onChange, disabled}: IProps) => {
         }
         setInputTag("");
     };
-    const renderTags = () => {
-        return (
-            <ChipArray chips={tags} onRemove={removeTag}/>
-        );
-    };
 
     if (disabled && tagError) {
         setTagError(false);
@@ -75,7 +70,7 @@ const TagPicker = ({tags, classes, onChange, disabled}: IProps) => {
     return(
         <React.Fragment>
             <Grid item={true} xs={12} sm={12} className={classes.chips}>
-                {renderTags()}
+              <ChipArray chips={tags} onRemove={removeTag}/>
             </Grid>
             <Grid item={true} xs={10} sm={5}>
                 <TextField

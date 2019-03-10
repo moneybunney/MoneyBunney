@@ -73,7 +73,9 @@ const Checkout = (props: IProps) => {
   const onSubmit = () => {
     // console.log(transaction);
     setLoading(true);
-    const _ = (props.onSubmit && props.onSubmit(transaction));
+    if (props.onSubmit) {
+      props.onSubmit(transaction);
+    }
     setTimeout(() => {
       setLoading(false);
       alert("Success!");

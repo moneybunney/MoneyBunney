@@ -1,5 +1,3 @@
-// copied over from the transaction-frontend branch
-// because our code review is slooooooow
 export default interface ITransaction {
     date: string;
     account: number; // account index

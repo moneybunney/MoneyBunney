@@ -1,4 +1,4 @@
-import { createStyles, ListItem, ListItemAvatar, ListItemText, Theme, WithStyles, withStyles } from "@material-ui/core";
+import { createStyles, ListItem, Theme, WithStyles, withStyles } from "@material-ui/core";
 import React from "react";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 

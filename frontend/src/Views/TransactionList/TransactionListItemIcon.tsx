@@ -1,9 +1,11 @@
-import classes from "*.module.css";
-import { Avatar, CircularProgress, createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
+import { Avatar, CircularProgress } from "@material-ui/core";
 import { mdiBankTransfer, mdiBeer, mdiGlassWine } from "@mdi/js";
 import Icon from "@mdi/react";
 import React from "react";
 
+// fetch these from the server?
+// embed these into the category?
+// TBD
 const iconMap = {
     0 : mdiBeer,
     1 : mdiGlassWine,

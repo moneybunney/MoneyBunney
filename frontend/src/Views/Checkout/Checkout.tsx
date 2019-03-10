@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import withRoot from "../../withRoot";
-import TransactionFormUI from "./TransactionFormUI";
+import TransactionForm from "./TransactionForm";
 import ITransaction, { createEmptyTransaction } from "./TransactionModel";
 
 interface IState {
@@ -89,7 +89,7 @@ const Checkout = (props: IProps) => {
                 New Transaction
               </Typography>
               <React.Fragment>
-                  <TransactionFormUI
+                  <TransactionForm
                     onFieldChange={onFieldChange}
                     transaction={transaction}
                     categories={categories}

@@ -18,8 +18,8 @@ import {
   withStyles,
 } from "@material-ui/core";
 import React, { ChangeEvent, SyntheticEvent } from "react";
+import { IAccount, ICategory } from "./Checkout";
 import TagPicker from "./TagPicker";
-import { IAccount, ICategory } from "./TransactionForm";
 import ITransaction from "./TransactionModel";
 
 const styles = (theme: Theme) => createStyles({
@@ -48,7 +48,7 @@ interface IProps extends WithStyles<typeof styles> {
   onSubmit: () => void;
 }
 
-const TransactionFormUI = ({
+const TransactionForm = ({
   transaction,
   onFieldChange,
   classes,
@@ -224,4 +224,4 @@ const TransactionFormUI = ({
   );
 };
 
-export default withStyles(styles)(TransactionFormUI);
+export default withStyles(styles)(TransactionForm);

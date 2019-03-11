@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from "./auth.service";
+import { AuthService } from './auth.service';
 import { HttpStrategy } from './http.strategy';
-import { UserModule } from '../users/user.module';
-import { PassportModule } from '@nestjs/passport';
+import { UserModule } from '../user/user.module';
 
 @Module({
     imports: [UserModule],

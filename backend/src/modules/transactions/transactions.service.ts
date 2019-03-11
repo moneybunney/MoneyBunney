@@ -8,9 +8,9 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 export class TransactionsService {
   constructor(@InjectModel('Transactions') private readonly transactionModel: Model<Transactions>) {}
 
-  async create(createTestDto: CreateTransactionDto): Promise<Transactions> {
-    const createdTest = new this.transactionModel(createTestDto);
-    return await createdTest.save();
+  async create(createTransactionDto: CreateTransactionDto): Promise<Transactions> {
+    const createdTransaction = new this.transactionModel(createTransactionDto);
+    return await createdTransaction.save();
   }
 
   async findAll(): Promise<Transactions[]> {

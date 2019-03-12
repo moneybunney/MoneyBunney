@@ -31,9 +31,8 @@ const TransactionList = ({
  loading,
 }: IProps) => {
 
-    if (props.loading === undefined) {
-        props.loading = true;
-    };
+    // loading by default
+    const loadingFinal = loading === undefined ? true : loading;
 
     public componentDidMount(); {
         window.addEventListener("scroll", this.checkIfShouldLoadMore);
@@ -77,7 +76,7 @@ const TransactionList = ({
                     categoryText={this.props.categories[t.category].text}
                     accountText={this.props.accounts[t.account].text}
                 />)}
-                  <Collapse in={this.props.loading}>
+                  <Collapse in={loadingFinal}>
                     <TransactionListLoadingItem/>
                   </Collapse>
                   <span id="transactionListLoaderTriggerItem"/>

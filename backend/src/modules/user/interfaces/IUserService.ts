@@ -1,8 +1,8 @@
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UserEntity } from '../user.entity';
+import { UserDTO } from '../dto/create-user.dto';
+import { User } from '../interfaces/user.interface';
 
 export interface IUserService {
-    findAll(): Promise<UserEntity[]>;
-    createUser(user: CreateUserDto): Promise<UserEntity>;
-    authenticateUser(user: {username: string, password: string}): Promise<UserEntity>;
+    findAll(): Promise<User[]>;
+    createUser(user: UserDTO): Promise<User>;
+    authenticateUser(user: UserDTO): Promise<User>;
 }

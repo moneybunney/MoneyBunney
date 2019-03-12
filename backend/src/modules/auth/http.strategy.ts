@@ -2,7 +2,8 @@ import { Strategy } from 'passport-http-bearer';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserEntity } from '../user/user.entity';
+import { User } from '../user/interfaces/user.interface';
+import { UserDTO } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class HttpStrategy extends PassportStrategy(Strategy) {
@@ -12,11 +13,11 @@ export class HttpStrategy extends PassportStrategy(Strategy) {
 
     /** validate by token, representing a user */
     async validate(token: any) {
-        let authObject: {username: string, password: string} = null;
+        let authObject: UserDTO = null;
         const decoded = Buffer.from(token, 'base64').toString();
         try{
             authObject = JSON.parse(decoded);
-            const user: UserEntity = await this.authService.validateUser(authObject);
+            const user: User = await this.authService.validateUser(authObject);
             if(!user){
                 throw new UnauthorizedException();
             }

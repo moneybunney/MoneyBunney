@@ -52,7 +52,7 @@ export class UserController {
         const foundUser: UserEntity = await this.userService.authenticateUser(user);
         if(foundUser) {
             const token : string = await Buffer.from(JSON.stringify(user)).toString('base64');
-            return res.status(HttpStatus.OK).send(token)
+            return res.status(HttpStatus.OK).cookie('Token', token).send();
         } else {
             throw new AppError(AppErrorTypeEnum.AUTHENTICATION_FAILED);
         }

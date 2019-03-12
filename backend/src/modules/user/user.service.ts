@@ -21,9 +21,9 @@ export class UserService implements IUserService{
 
     /** Creates a user in the database */
     public async createUser(user: UserDTO): Promise<User> {
-        let u: User;
-        u = await this.userModel.findOne({email: user.email}).exec();
-        if (u) {
+        let existingUser: User;
+        existingUser = await this.userModel.findOne({email: user.email}).exec();
+        if (existingUser) {
             throw new AppError(AppErrorTypeEnum.USER_EXISTS);
         } else {
             const createdUser =  new this.userModel(user);
@@ -31,12 +31,12 @@ export class UserService implements IUserService{
         }
     }
 
-    /** Finds a single user in the database by a username */
+    /** Finds a single user in the database by an email */
     public async findByEmail(email: string): Promise<User> {
-        const user: User = await this.userModel.findOne({email: email}).exec()
-        if(user)
+        const existingUser: User = await this.userModel.findOne({email: email}).exec()
+        if(existingUser)
         {
-            return Promise.resolve(user);
+            return Promise.resolve(existingUser);
         } else {
             throw new AppError(AppErrorTypeEnum.USER_NOT_FOUND);
         }
@@ -44,12 +44,12 @@ export class UserService implements IUserService{
 
     /** Authenticates a user */
     public async authenticateUser(user: UserDTO): Promise<User> {
-        const u: User = await this.userModel.findOne({email: user.email}).exec();
-        if(u)
+        const existingUser: User = await this.userModel.findOne({email: user.email}).exec();
+        if(existingUser)
         {
             const passHash = await crypto.createHmac('sha256', user.password).digest('hex');
-            if (u.password === passHash) {
-                return u;
+            if (existingUser.password === passHash) {
+                return existingUser;
             }
         } else {
             throw new AppError(AppErrorTypeEnum.AUTHENTICATION_FAILED);

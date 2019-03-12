@@ -25,9 +25,7 @@ export class UserController {
     public async getAllUsers(@Res() res: Response) {
         this.logger.log('Get to /user | getAllUsers');
         const users: User[] = await this.userService.findAll();
-        return res
-                .status(HttpStatus.OK)
-                .send(users);
+        return res.status(HttpStatus.OK).send(users);
     }
 
     /** Create user endpoint */
@@ -58,7 +56,7 @@ export class UserController {
         }
     }
 
-    /** Find by username endpoint */
+    /** Find by email endpoint */
     @Get(':email')
     @ApiOperation({title: 'Find by email'})
     @ApiResponse({ status: 200, description: 'User found.'})

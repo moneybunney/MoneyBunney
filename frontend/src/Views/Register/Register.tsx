@@ -53,15 +53,24 @@ function Register({ classes }: IProps) {
     setEmailError(false);
     setLoading(true);
 
-    setTimeout(() => {
-      // If email is already in use
-      if (email === "email") {
-        setEmailError(true);
-      } else {
+    fetch("/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: email,
+        password,
+      }),
+    }).then(response => {
+      if (response.status === 201) {
         alert("Registration successful");
+      } else {
+        setEmailError(true);
+        alert("Registration unsuccessful");
       }
       setLoading(false);
-    }, 1000);
+    });
   };
 
   return (

@@ -9,7 +9,7 @@ import { AppError } from '../../common/error/AppError';
 import { AppErrorTypeEnum } from '../../common/error/AppErrorTypeEnum';
 import { Logger } from '../logger/logger.service';
 
-@Controller('user')
+@Controller('api/user')
 export class UserController {
     constructor(private readonly userService: UserService, private readonly logger: Logger) {}
 

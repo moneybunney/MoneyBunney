@@ -8,7 +8,7 @@ async function bootstrap() {
   const port = 8080;
   //Basic error management
   app.useGlobalFilters(new DispatchError());
-  //Api which lists all endpoints and allows to send request, very convenient. Available through 'localhost:8080/api/#/'
+  //Api which lists all endpoints and allows to send request, very convenient. Available through 'localhost:8080/api/index/#/'
   const options = new DocumentBuilder()
           .setTitle('User requests')
           .setDescription('Basic request management')
@@ -17,7 +17,7 @@ async function bootstrap() {
           .addBearerAuth('Authorization', 'header')
           .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/index', app, document);
 
   // tslint:disable-next-line:no-console
   console.log('Listening on http://localhost:' + port);

@@ -22,22 +22,25 @@ interface IProps extends WithStyles<typeof styles> {
     loading?: boolean;
 }
 
-class TransactionList extends React.Component<IProps, any> {
-    constructor(props: IProps) {
-        super(props);
-        if (props.loading === undefined) {
-            props.loading = true;
-        }
-    }
+const TransactionList = ({
+    transactions,
+    accounts,
+    categories,
+    requestMoreTransactions,
+    canLoadMore,
+    loading,
+}: IProps) => {
+    // default to true
+    const loadingFinal = loading === undefined ? true : loading;
 
-    public componentDidMount() {
+    public componentDidMount(); {
         window.addEventListener("scroll", this.checkIfShouldLoadMore);
 
         // in case the element is already on screen but not yet loaded
         this.checkIfShouldLoadMore();
     }
 
-    public componentDidUpdate(prevProps: IProps) {
+    public componentDidUpdate(prevProps: IProps); {
         // after each sequential load is finished, check
         // if the user sees the bottom of the list
         if (this.props.transactions.length !== prevProps.transactions.length) {
@@ -45,14 +48,14 @@ class TransactionList extends React.Component<IProps, any> {
         }
     }
 
-    public componentWillUnmount() {
+    public componentWillUnmount(); {
         window.removeEventListener("scroll", this.checkIfShouldLoadMore);
     }
 
     public isAtBottom = () => {
         const triggerElem = document.getElementById("transactionListLoaderTriggerItem");
         return triggerElem!!.getBoundingClientRect().bottom <= window.innerHeight;
-    }
+    };
 
     public checkIfShouldLoadMore = () => {
         if (this.props.canLoadMore && !this.props.loading) {
@@ -60,9 +63,9 @@ class TransactionList extends React.Component<IProps, any> {
                 this.props.requestMoreTransactions();
             }
         }
-    }
+    };
 
-    public render() {
+    public render(); {
         return(
             <List className={this.props.classes.listRoot} >
                 {this.props.transactions.map((t, i) =>

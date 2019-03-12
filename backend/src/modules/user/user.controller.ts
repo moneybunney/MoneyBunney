@@ -22,7 +22,6 @@ export class UserController {
     @ApiBearerAuth()
     @ApiResponse({ status: 200, description: 'User found.'})
     @ApiResponse({ status: 401, description: 'User not authorized for this request.'})
-    @ApiResponse({ status: 404, description: 'No Users found.'})
     public async getAllUsers(@Res() res: Response) {
         this.logger.log('Get to /user | getAllUsers');
         const users: User[] = await this.userService.findAll();
@@ -35,10 +34,10 @@ export class UserController {
     @Post('')
     @ApiOperation({title: 'Create User'})
     @ApiResponse({ status: 201, description: 'User created.'})
-    @ApiResponse({ status: 422, description: 'User already exists.'})
+    @ApiResponse({ status: 409, description: 'User already exists.'})
     public async create(@Body() createUser: UserDTO, @Res() res : Response) {
-        this.logger.log('Received user object');
-        this.logger.log(createUser.toString());
+        this.logger.log('Received user');
+        this.logger.log(createUser.email);
         await this.userService.createUser(createUser);
         return res.status(HttpStatus.CREATED).send();
     }
@@ -65,7 +64,7 @@ export class UserController {
     @ApiResponse({ status: 200, description: 'User found.'})
     @ApiResponse({ status: 404, description: 'User not found.'})
     public async getByEmail(@Param('email')email: string, @Res() res: Response){
-        this.logger.log('GET to /user | getByUsername');
+        this.logger.log('GET to /user | getByEmail');
         const user: User = await this.userService.findByEmail(email);
         return res.status(HttpStatus.OK).send(user);
     }

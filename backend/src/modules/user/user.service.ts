@@ -16,11 +16,7 @@ export class UserService implements IUserService{
     /** Finds all users in the database */
     public async findAll(): Promise<User[]> {
         const users: User[] = await this.userModel.find().exec();
-        if (users.length > 0) {
-            return Promise.resolve(users);
-        } else {
-            throw new AppError(AppErrorTypeEnum.NO_USERS_IN_DB);
-        }
+        return users;
     }
 
     /** Creates a user in the database */

@@ -1,5 +1,5 @@
-import { UserDTO } from '../dto/create-user.dto';
-import { User } from '../interfaces/user.interface';
+import { UserDTO } from '../dto/user.dto';
+import { User } from './user.interface';
 
 export interface IUserService {
     findAll(): Promise<User[]>;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
-import { IUserService } from './interfaces/IUserService';
-import { UserDTO } from './dto/create-user.dto';
+import { IUserService } from './interfaces/userservice.interface';
+import { UserDTO } from './dto/user.dto';
 import {AppErrorTypeEnum} from '../../common/error/AppErrorTypeEnum';
 import {AppError} from '../../common/error/AppError';
 import * as crypto from 'crypto';

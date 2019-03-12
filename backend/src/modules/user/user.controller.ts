@@ -2,15 +2,16 @@ import {Body, Controller, Get, HttpStatus, Post, Res, Param, UseGuards } from '@
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './interfaces/user.interface';
-import { UserDTO } from './dto/create-user.dto';
+import { UserDTO } from './dto/user.dto';
 import { Response} from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { AppError } from '../../common/error/AppError';
 import { AppErrorTypeEnum } from '../../common/error/AppErrorTypeEnum';
+import { Logger } from '../logger/logger.service';
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService, private readonly logger: Logger) {}
 
     /** Get all endpoint - authorization required */
     @Get('')
@@ -23,7 +24,7 @@ export class UserController {
     @ApiResponse({ status: 401, description: 'User not authorized for this request.'})
     @ApiResponse({ status: 404, description: 'No Users found.'})
     public async getAllUsers(@Res() res: Response) {
-        console.log('Get to /user | getAllUsers');
+        this.logger.log('Get to /user | getAllUsers');
         const users: User[] = await this.userService.findAll();
         return res
                 .status(HttpStatus.OK)
@@ -36,8 +37,8 @@ export class UserController {
     @ApiResponse({ status: 201, description: 'User created.'})
     @ApiResponse({ status: 422, description: 'User already exists.'})
     public async create(@Body() createUser: UserDTO, @Res() res : Response) {
-        console.log('Received user object');
-        console.log(createUser);
+        this.logger.log('Received user object');
+        this.logger.log(createUser.toString());
         await this.userService.createUser(createUser);
         return res.status(HttpStatus.CREATED).send();
     }
@@ -48,7 +49,7 @@ export class UserController {
     @ApiResponse({ status: 200, description: 'Authentication successful.'})
     @ApiResponse({ status: 401, description: 'Wrong credentials.'})
     public async login(@Body() user: UserDTO, @Res() res: Response) {
-        console.log('Trying to log in to: ' + user.email);
+        this.logger.log('Trying to log in to: ' + user.email);
         const foundUser: User = await this.userService.authenticateUser(user);
         if(foundUser) {
             const token : string = await Buffer.from(JSON.stringify(user)).toString('base64');
@@ -59,12 +60,12 @@ export class UserController {
     }
 
     /** Find by username endpoint */
-    @Get(':username')
-    @ApiOperation({title: 'Find by username'})
+    @Get(':email')
+    @ApiOperation({title: 'Find by email'})
     @ApiResponse({ status: 200, description: 'User found.'})
     @ApiResponse({ status: 404, description: 'User not found.'})
-    public async getByUsername(@Param('username')email: string, @Res() res: Response){
-        console.log('GET to /user | getByUsername');
+    public async getByEmail(@Param('email')email: string, @Res() res: Response){
+        this.logger.log('GET to /user | getByUsername');
         const user: User = await this.userService.findByEmail(email);
         return res.status(HttpStatus.OK).send(user);
     }

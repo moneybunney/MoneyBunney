@@ -5,8 +5,8 @@ import { UserEntity } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response} from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { AppError } from 'src/common/error/AppError';
-import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
+import { AppError } from '../../common/error/AppError';
+import { AppErrorTypeEnum } from '../../common/error/AppErrorTypeEnum';
 
 @Controller('user')
 export class UserController {

@@ -52,14 +52,23 @@ function SignIn({ classes }: IProps) {
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
 
-    setTimeout(() => {
-      if (email === "email" && password === "password") {
-        alert("Login success");
+    fetch("/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: email,
+        password,
+      }),
+    }).then(response => {
+      if (response.status === 200) {
+        alert("Login successful");
       } else {
         setError(true);
       }
       setLoading(false);
-    }, 1000);
+    });
   };
 
   return (

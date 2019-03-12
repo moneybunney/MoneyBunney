@@ -67,7 +67,6 @@ function Register({ classes }: IProps) {
         alert("Registration successful");
       } else {
         setEmailError(true);
-        alert("Registration unsuccessful");
       }
       setLoading(false);
     });

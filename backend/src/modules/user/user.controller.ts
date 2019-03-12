@@ -37,7 +37,14 @@ export class UserController {
         this.logger.log('Received user');
         this.logger.log(createUser.email);
         await this.userService.createUser(createUser);
-        return res.status(HttpStatus.CREATED).send();
+        let token: string = await Buffer.from(JSON.stringify(createUser)).toString('base64');
+        //made these checks, because token is encoded to url when setting cookie which messes with the padding symbol '='
+        if(await token.slice(-2) === "=="){
+            token = await token.substring(0, token.length - 2);
+        } else if (await token.slice(-1) === "=") {
+            token = await token.substring(0, token.length - 1);
+        }
+        return res.status(HttpStatus.CREATED).cookie('Token', token).send();
     }
 
     /** Login endpoint returns a token */
@@ -49,8 +56,14 @@ export class UserController {
         this.logger.log('Trying to log in to: ' + user.email);
         const foundUser: User = await this.userService.authenticateUser(user);
         if(foundUser) {
-            const token : string = await Buffer.from(JSON.stringify(user)).toString('base64');
-            return res.status(HttpStatus.OK).cookie('Token', token.substring(0, token.length-1)).send();
+            let token : string = await Buffer.from(JSON.stringify(user)).toString('base64');
+        //made these checks, because token is encoded to url when setting cookie which messes with the padding symbol '='
+            if(await token.slice(-2) === "==") {
+                token = await token.substring(0, token.length - 2);
+            } else if(await token.slice(-1) === "=") {
+                token = await token.substring(0, token.length - 1);
+            }
+            return res.status(HttpStatus.OK).cookie('Token', token).send();
         } else {
             throw new AppError(AppErrorTypeEnum.AUTHENTICATION_FAILED);
         }

@@ -23,15 +23,17 @@ interface IProps extends WithStyles<typeof styles> {
 }
 
 const TransactionList = ({
-    transactions,
-    accounts,
-    categories,
-    requestMoreTransactions,
-    canLoadMore,
-    loading,
+ transactions,
+ accounts,
+ categories,
+ requestMoreTransactions,
+ canLoadMore,
+ loading,
 }: IProps) => {
-    // default to true
-    const loadingFinal = loading === undefined ? true : loading;
+
+    if (props.loading === undefined) {
+        props.loading = true;
+    };
 
     public componentDidMount(); {
         window.addEventListener("scroll", this.checkIfShouldLoadMore);

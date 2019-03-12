@@ -68,7 +68,7 @@ const TransactionForm = ({
       // so just stop it from becomming invalid
       const selectedDate = new Date(e.target.value);
       const now = new Date();
-      if (selectedDate > now) {
+      if (selectedDate > now || isNaN(selectedDate.getTime())) {
         setDateError(true);
         // disallow bad time entry
         e.preventDefault();
@@ -151,7 +151,7 @@ const TransactionForm = ({
             disabled={loading}
             error={dateError}
           />
-          <FormHelperText className={dateError ? "" : classes.hidden} >Can't set a future date</FormHelperText>
+          <FormHelperText className={dateError ? "" : classes.hidden} >Can't set an invalid date</FormHelperText>
         </FormControl>
         </Grid>
         <Grid item={true} xs={6} sm={6}>

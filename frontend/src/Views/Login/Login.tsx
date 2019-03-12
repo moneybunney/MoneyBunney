@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 import LoginForm from "./LoginForm";
 
@@ -45,7 +46,7 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function SignIn({ classes }: IProps) {
+function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -63,7 +64,7 @@ function SignIn({ classes }: IProps) {
       }),
     }).then(response => {
       if (response.status === 200) {
-        alert("Login successful");
+        history.replace("/");
       } else {
         setError(true);
       }
@@ -96,4 +97,4 @@ function SignIn({ classes }: IProps) {
   );
 }
 
-export default withStyles(styles)(SignIn);
+export default withRouter(withStyles(styles)(SignIn));

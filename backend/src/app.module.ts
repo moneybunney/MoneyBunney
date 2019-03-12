@@ -12,7 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
     MongooseModule.forRoot('mongodb://localhost/nest'),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      database: 'users',
+      database: 'MoneyBunney',
       entities: [UserEntity],
       synchronize: true
     }),

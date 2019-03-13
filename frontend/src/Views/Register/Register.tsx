@@ -13,6 +13,7 @@ import { PersonAdd } from "@material-ui/icons";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
+import { post } from "../../Utilities/Http";
 import RegistrationForm from "./RegistrationForm";
 
 const styles = (theme: Theme) =>
@@ -54,15 +55,9 @@ function Register({ classes, history }: IProps & RouteComponentProps<any>) {
     setEmailError(false);
     setLoading(true);
 
-    fetch("/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: email,
-        password,
-      }),
+    post("/user", {
+      username: email,
+      password,
     }).then(response => {
       if (response.status === 201) {
         history.replace("/");

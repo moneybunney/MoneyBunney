@@ -21,12 +21,24 @@ export class TransactionsService {
       return await this.transactionModel.findById(id).exec();
   }
 
-  async findByAccount(account: string): Promise<Transactions[]>{
-    return await this.transactionModel.find().where('Account', account).exec();
+  async findByAccount(account: string, type: string): Promise<Transactions[]>{
+    if (type == "expenses")
+    {
+      return await this.transactionModel.find().where('Price').lt(0).where('Account', account).exec();
+    }
+    else if (type == "income")
+    {
+      return await this.transactionModel.find().where('Price').gt(0).where('Account', account).exec();
+    }
+    else if (type == undefined)
+    {
+      return await this.transactionModel.find().where('Account', account).exec();
+    }
+    else return null;
   }
 
   async findIncome(): Promise<Transactions[]>{
-    return await this.transactionModel.find().where('Price').gt(0).exec();
+      return await this.transactionModel.find().where('Price').gt(0).exec();
   }
 
   async findExpenses(): Promise<Transactions[]>{

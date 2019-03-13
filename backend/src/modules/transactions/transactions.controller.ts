@@ -43,10 +43,11 @@ export class TransactionsController {
     return this.transactionsService.findById(id);
   }
 
-  @Get('/account/:account')
-  getAccountTransactions(@Param('account') account: string): Promise<Transactions[]>{
+  @Get('(:subpage/)?account/:account')
+  getAccountTransactions(@Param('account') account: string, @Param('subpage') subpage : string)
+  : Promise<Transactions[]>{
   	console.log(`GET to /transactions/account | getAccountTransactions`);
-  	return this.transactionsService.findByAccount(account);
+  	return this.transactionsService.findByAccount(account, subpage);
   }
 
 }

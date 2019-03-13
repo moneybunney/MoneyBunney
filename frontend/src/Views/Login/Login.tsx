@@ -13,7 +13,7 @@ import { LockOutlined } from "@material-ui/icons";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { post } from "../../Utilities/Http";
+import { postLogin } from "../../Utilities/Api";
 import LoginForm from "./LoginForm";
 
 const styles = (theme: Theme) =>
@@ -54,7 +54,7 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
 
-    post("/user/login", {
+    postLogin({
       username: email,
       password,
     }).then(response => {

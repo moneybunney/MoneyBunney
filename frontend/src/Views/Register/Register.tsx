@@ -13,7 +13,7 @@ import { PersonAdd } from "@material-ui/icons";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { post } from "../../Utilities/Http";
+import { postRegister } from "../../Utilities/Api";
 import RegistrationForm from "./RegistrationForm";
 
 const styles = (theme: Theme) =>
@@ -55,7 +55,7 @@ function Register({ classes, history }: IProps & RouteComponentProps<any>) {
     setEmailError(false);
     setLoading(true);
 
-    post("/user", {
+    postRegister({
       username: email,
       password,
     }).then(response => {

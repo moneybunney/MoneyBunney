@@ -20,4 +20,8 @@ export class TransactionsService {
   async findById(id: string): Promise<Transactions> {
     return await this.transactionModel.findById(id).exec();
   }
+
+  async findByAccount(account: string): Promise<Transactions[]>{
+    return await this.transactionModel.find().where('Account', account).exec();
+  }
 }

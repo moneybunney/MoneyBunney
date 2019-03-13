@@ -18,7 +18,7 @@ export class TransactionsController {
   }
 
   @Get()
-  getAllTests(): Promise<Transactions[]> {
+  getAllTransactions(): Promise<Transactions[]> {
     var temp = new Date();
     console.log(temp);
     console.log(`GET to /transactions | getAllTransactions`);
@@ -26,8 +26,14 @@ export class TransactionsController {
   }
 
   @Get(':id')
-  getTest(@Param('id') id: string): Promise<Transactions> {
+  getTransaction(@Param('id') id: string): Promise<Transactions> {
     console.log('GET to /transactions | getTransaction');
     return this.transactionsService.findById(id);
+  }
+
+  @Get('/account/:account')
+  getAccountTransactions(@Param('account') account: string): Promise<Transactions[]>{
+  	console.log(`GET to /transactions | getAccountTransactions`);
+  	return this.transactionsService.findByAccount(account);
   }
 }

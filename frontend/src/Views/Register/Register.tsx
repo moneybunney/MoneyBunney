@@ -55,14 +55,16 @@ function Register({ classes, history }: IProps & RouteComponentProps<any>) {
     setEmailError(false);
     setLoading(true);
 
-    postRegister({ email, password }).then(response => {
-      if (response.status === 201) {
-        history.replace("/");
-      } else {
-        setEmailError(true);
-      }
-      setLoading(false);
-    });
+    setTimeout(() => {
+      postRegister({ email, password }).then(response => {
+        if (response.status === 201) {
+          history.replace("/");
+        } else {
+          setEmailError(true);
+        }
+        setLoading(false);
+      });
+    }, 1500);
   };
 
   return (

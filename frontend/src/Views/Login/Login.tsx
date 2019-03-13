@@ -54,14 +54,16 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
 
-    postLogin({ email, password }).then(response => {
-      if (response.status === 200) {
-        history.replace("/");
-      } else {
-        setError(true);
-      }
-      setLoading(false);
-    });
+    setTimeout(() => {
+      postLogin({ email, password }).then(response => {
+        if (response.status === 200) {
+          history.replace("/");
+        } else {
+          setError(true);
+        }
+        setLoading(false);
+      });
+    }, 1500);
   };
 
   return (

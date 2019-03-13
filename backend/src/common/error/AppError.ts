@@ -36,7 +36,7 @@ export class AppError extends Error {
             case AppErrorTypeEnum.USER_EXISTS:
                 res = {
                     type: AppErrorTypeEnum.USER_EXISTS,
-                    httpStatus: HttpStatus.UNPROCESSABLE_ENTITY,
+                    httpStatus: HttpStatus.CONFLICT,
                     errorMessage: 'User exists',
                     userMessage: 'Username exists'
                 }
@@ -49,13 +49,6 @@ export class AppError extends Error {
                     userMessage: 'Wrong credentials'
                 }
                 break;
-            case AppErrorTypeEnum.NO_USERS_IN_DB:
-                res = {
-                    type: AppErrorTypeEnum.NO_USERS_IN_DB,
-                    httpStatus: HttpStatus.NOT_FOUND,
-                    errorMessage: 'No users exist in the database',
-                    userMessage: 'No users. Create some.'
-                }
         }
         return res;
     }

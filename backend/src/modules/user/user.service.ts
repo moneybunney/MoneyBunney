@@ -1,60 +1,55 @@
-import { Injectable, UseGuards } from '@nestjs/common';
-import { UserEntity } from './user.entity';
-import { IUserService } from './interfaces/IUserService';
-import { CreateUserDto } from './dto/create-user.dto';
-import { MongoRepository, Column, ObjectID } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { User } from './interfaces/user.interface';
+import { IUserService } from './interfaces/userservice.interface';
+import { UserDTO } from './dto/user.dto';
 import {AppErrorTypeEnum} from '../../common/error/AppErrorTypeEnum';
 import {AppError} from '../../common/error/AppError';
 import * as crypto from 'crypto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService implements IUserService{
 
-    constructor(@InjectRepository(UserEntity) private readonly userRepository : MongoRepository<UserEntity>) {}
+    constructor(@InjectModel('User') private readonly userModel : Model<User>) {}
 
     /** Finds all users in the database */
-    public async findAll(): Promise<UserEntity[]> {
-        const users: UserEntity[] = await this.userRepository.find();
-        if (users.length > 0) {
-            return Promise.resolve(users);
-        } else {
-            throw new AppError(AppErrorTypeEnum.NO_USERS_IN_DB);
-        }
+    public async findAll(): Promise<User[]> {
+        const users: User[] = await this.userModel.find().exec();
+        return users;
     }
 
     /** Creates a user in the database */
-    public async createUser(user: CreateUserDto): Promise<UserEntity> {
-        let u: UserEntity;
-        u = await this.userRepository.findOne({username: user.username});
-        if (u) {
+    public async createUser(user: UserDTO): Promise<User> {
+        let existingUser: User;
+        existingUser = await this.userModel.findOne({email: user.email}).exec();
+        if (existingUser) {
             throw new AppError(AppErrorTypeEnum.USER_EXISTS);
         } else {
-            u = new UserEntity();
-            Object.assign(u, user);
-            return await this.userRepository.save(u);
+            const createdUser =  new this.userModel(user);
+            return await createdUser.save();
         }
     }
 
-    /** Finds a single user in the database by a username */
-    public async findByUsername(username: string): Promise<UserEntity> {
-        const user: UserEntity = await this.userRepository.findOne({username: username})
-        if(user)
+    /** Finds a single user in the database by an email */
+    public async findByEmail(email: string): Promise<User> {
+        const existingUser: User = await this.userModel.findOne({email: email}).exec()
+        if(existingUser)
         {
-            return Promise.resolve(user);
+            return Promise.resolve(existingUser);
         } else {
             throw new AppError(AppErrorTypeEnum.USER_NOT_FOUND);
         }
     }
 
     /** Authenticates a user */
-    public async authenticateUser(user: {username: string, password: string}): Promise<UserEntity> {
-        const u: UserEntity = await this.userRepository.findOne({username: user.username});
-        if(u)
+    public async authenticateUser(user: UserDTO): Promise<User> {
+        const existingUser: User = await this.userModel.findOne({email: user.email}).exec();
+        if(existingUser)
         {
             const passHash = await crypto.createHmac('sha256', user.password).digest('hex');
-            if (u.password_hash === passHash) {
-                return u;
+            if (existingUser.password === passHash) {
+                return existingUser;
             }
         } else {
             throw new AppError(AppErrorTypeEnum.AUTHENTICATION_FAILED);

@@ -25,6 +25,18 @@ export class TransactionsController {
     return this.transactionsService.findAll();
   }
 
+  @Get('/income')
+  getIncome(): Promise<Transactions[]>{
+  	console.log(`GET to /transactions | getIncome`);
+  	return this.transactionsService.findIncome();
+  }
+
+   @Get('/expenses')
+  getExpenses(): Promise<Transactions[]>{
+  	console.log(`GET to /transactions | getTransactions`);
+  	return this.transactionsService.findExpenses();
+  }
+
   @Get(':id')
   getTransaction(@Param('id') id: string): Promise<Transactions> {
     console.log('GET to /transactions | getTransaction');
@@ -33,7 +45,8 @@ export class TransactionsController {
 
   @Get('/account/:account')
   getAccountTransactions(@Param('account') account: string): Promise<Transactions[]>{
-  	console.log(`GET to /transactions | getAccountTransactions`);
+  	console.log(`GET to /transactions/account | getAccountTransactions`);
   	return this.transactionsService.findByAccount(account);
   }
+
 }

@@ -10,11 +10,8 @@ import Checkout from "./Views/Checkout/Checkout";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
 
+import LogOutButton from "./Components/LogOutButton";
 import RouteWithAuthentication from "./Components/RouteWithAuthentication";
-
-const DummyMainPage = () => {
-  return <div>Delete the cookies to see the login page</div>;
-};
 
 const App = () => {
   return (
@@ -25,7 +22,7 @@ const App = () => {
           redirectRoute="/login"
           exact={true}
           path="/"
-          Component={DummyMainPage}
+          Component={LogOutButton}
         />
         <RouteWithAuthentication
           onlyLoggedIn={false}

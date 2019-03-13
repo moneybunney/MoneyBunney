@@ -55,10 +55,7 @@ function Register({ classes, history }: IProps & RouteComponentProps<any>) {
     setEmailError(false);
     setLoading(true);
 
-    postRegister({
-      username: email,
-      password,
-    }).then(response => {
+    postRegister({ email, password }).then(response => {
       if (response.status === 201) {
         history.replace("/");
       } else {

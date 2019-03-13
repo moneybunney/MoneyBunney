@@ -54,10 +54,7 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
 
-    postLogin({
-      username: email,
-      password,
-    }).then(response => {
+    postLogin({ email, password }).then(response => {
       if (response.status === 200) {
         history.replace("/");
       } else {

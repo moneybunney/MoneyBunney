@@ -70,7 +70,7 @@ class TransactionListContainer extends React.Component<IProps, IState>  {
             }));
             const chunksLoaded = this.state.chunksLoaded + 1;
             let canLoadMore = true;
-            if (chunksLoaded >= 5) { // all items are loaded
+            if (chunksLoaded >= 10) { // all items are loaded
                 canLoadMore = false;
             }
             // it's important to have the state update as a single

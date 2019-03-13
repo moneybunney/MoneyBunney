@@ -29,51 +29,45 @@ const TransactionList = ({
  requestMoreTransactions,
  canLoadMore,
  loading,
+ classes,
 }: IProps) => {
 
     // loading by default
     const loadingFinal = loading === undefined ? true : loading;
 
-    public componentDidMount(); {
-        window.addEventListener("scroll", this.checkIfShouldLoadMore);
+    React.useEffect(() => {
+        window.addEventListener("scroll", checkIfShouldLoadMore);
+        return () => {
+            window.removeEventListener("scroll", checkIfShouldLoadMore);
+        };
+    });
 
-        // in case the element is already on screen but not yet loaded
-        this.checkIfShouldLoadMore();
-    }
+    React.useEffect(() => {
+        // called on initial load and every change of transactions thereafter
+        checkIfShouldLoadMore();
+    }, [transactions]);
 
-    public componentDidUpdate(prevProps: IProps); {
-        // after each sequential load is finished, check
-        // if the user sees the bottom of the list
-        if (this.props.transactions.length !== prevProps.transactions.length) {
-            this.checkIfShouldLoadMore();
-        }
-    }
-
-    public componentWillUnmount(); {
-        window.removeEventListener("scroll", this.checkIfShouldLoadMore);
-    }
-
-const isAtBottom = () => {
+    const isAtBottom = () => {
         const triggerElem = document.getElementById("transactionListLoaderTriggerItem");
         return triggerElem!!.getBoundingClientRect().bottom <= window.innerHeight;
     };
 
-const checkIfShouldLoadMore = () => {
-        if (this.props.canLoadMore && !this.props.loading) {
-            if (this.isAtBottom()) {
-                this.props.requestMoreTransactions();
+    const checkIfShouldLoadMore = () => {
+        if (canLoadMore && !loadingFinal) {
+            if (isAtBottom()) {
+                requestMoreTransactions();
             }
         }
     };
 
-return(
-        <List className={this.props.classes.listRoot} >
-            {this.props.transactions.map((t, i) =>
+    return(
+        <List className={classes.listRoot} >
+            {transactions.map((t, i) =>
             <TransactionListItem
                 key={"transaction_" + i}
                 transaction={t}
-                categoryText={this.props.categories[t.category].text}
-                accountText={this.props.accounts[t.account].text}
+                categoryText={categories[t.category].text}
+                accountText={accounts[t.account].text}
             />)}
                 <Collapse in={loadingFinal}>
                 <TransactionListLoadingItem/>
@@ -81,6 +75,6 @@ return(
                 <span id="transactionListLoaderTriggerItem"/>
         </List >
     );
-}
+};
 
 export default withStyles(styles)(TransactionList);

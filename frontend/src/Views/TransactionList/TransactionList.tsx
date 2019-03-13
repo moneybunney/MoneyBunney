@@ -35,6 +35,7 @@ const TransactionList = ({
     // loading by default
     const loadingFinal = loading === undefined ? true : loading;
 
+    const triggerChild = React.useRef<HTMLSpanElement>(null);
     React.useEffect(() => {
         window.addEventListener("scroll", checkIfShouldLoadMore);
         return () => {
@@ -47,9 +48,12 @@ const TransactionList = ({
         checkIfShouldLoadMore();
     }, [transactions]);
 
-    const isAtBottom = () => {
-        const triggerElem = document.getElementById("transactionListLoaderTriggerItem");
-        return triggerElem!!.getBoundingClientRect().bottom <= window.innerHeight;
+    const isAtBottom = (): boolean => {
+        if (triggerChild && triggerChild.current) {
+            const triggerElem = triggerChild.current;
+            return triggerElem!!.getBoundingClientRect().bottom <= window.innerHeight;
+        }
+        return false;
     };
 
     const checkIfShouldLoadMore = () => {
@@ -72,7 +76,7 @@ const TransactionList = ({
                 <Collapse in={loadingFinal}>
                 <TransactionListLoadingItem/>
                 </Collapse>
-                <span id="transactionListLoaderTriggerItem"/>
+                <span ref={triggerChild} />
         </List >
     );
 };

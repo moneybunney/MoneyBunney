@@ -1,7 +1,7 @@
 import { createStyles, List, Paper, Theme, WithStyles, withStyles} from "@material-ui/core";
 import { Satellite } from "@material-ui/icons";
 import React from "react";
-import ITransaction, { createEmptyTransaction, IAccount, ICategory } from "../../Models/TransactionModel";
+import { createEmptyTransaction, IAccount, ICategory, ITransaction } from "../../Models/TransactionModel";
 import TransactionList from "./TransactionList";
 
 const styles = (theme: Theme) => createStyles({

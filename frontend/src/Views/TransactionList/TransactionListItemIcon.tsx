@@ -19,7 +19,7 @@ interface IProps {
     size?: number;
     margin?: number;
     innerSize?: number;
-    color?: string | null;
+    color?: string;
     loading?: boolean;
 }
 

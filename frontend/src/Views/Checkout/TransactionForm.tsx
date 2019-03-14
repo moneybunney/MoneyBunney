@@ -18,7 +18,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import React, { ChangeEvent, SyntheticEvent } from "react";
-import ITransaction from "../../Models/TransactionModel";
+import { ITransaction } from "../../Models/TransactionModel";
 import { IAccount, ICategory } from "./Checkout";
 import TagPicker from "./TagPicker";
 

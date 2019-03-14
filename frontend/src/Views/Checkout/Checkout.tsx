@@ -8,7 +8,7 @@ import {
   WithStyles,
 } from "@material-ui/core";
 import React from "react";
-import ITransaction, { createEmptyTransaction } from "../../Models/TransactionModel";
+import { createEmptyTransaction,  ITransaction } from "../../Models/TransactionModel";
 import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
 

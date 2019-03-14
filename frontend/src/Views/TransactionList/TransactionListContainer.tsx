@@ -1,4 +1,5 @@
 import { createStyles, List, Paper, Theme, WithStyles, withStyles} from "@material-ui/core";
+import { Satellite } from "@material-ui/icons";
 import React from "react";
 import ITransaction, { createEmptyTransaction, IAccount, ICategory } from "../../Models/TransactionModel";
 import TransactionList from "./TransactionList";
@@ -22,6 +23,18 @@ const styles = (theme: Theme) => createStyles({
 interface IProps extends WithStyles<typeof styles> {
 }
 
+enum ActionType {
+    LoadStart = 1,
+    ItemsLoaded,
+    NoItemsFound,
+    Error,
+}
+
+interface IAction {
+    type: ActionType;
+    payload: ITransaction[] | [];
+}
+
 interface IState {
     transactions: ITransaction[];
     categories: ICategory[];
@@ -33,21 +46,50 @@ interface IState {
 
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
-class TransactionListContainer extends React.Component<IProps, IState>  {
-    constructor(props: IProps) {
-        super(props);
-        const initialTransactions = [0, 1, 2].map((i) => {
+const TransactionListContainer = ({classes}: IProps) => {
+    const reducer = (oldState: IState, action: IAction): IState => {
+        switch (action.type) {
+            case ActionType.LoadStart:
+                return{
+                    ...oldState,
+                    loadingMore: true,
+                };
+            case ActionType.ItemsLoaded:
+                const newChunksLoaded = oldState.chunksLoaded + 1;
+                return {
+                    ...oldState,
+                    transactions: [ ...oldState.transactions, ...action.payload ],
+                    loadingMore: false,
+                    canLoadMore: true,
+                    chunksLoaded: newChunksLoaded,
+                 };
+            case ActionType.NoItemsFound:
+                 return{
+                     ...oldState,
+                     loadingMore: false,
+                     canLoadMore: false,
+                 };
+            case ActionType.Error:
+                return{
+                    ...oldState,
+                    loadingMore: false,
+                    canLoadMore: false,
+                };
+        }
+    };
+
+    const initialTransactions = [0, 1, 2].map((i) => {
             const transaction = createEmptyTransaction();
             transaction.category = i;
             return transaction;
         });
 
-        initialTransactions[2].date = "2019-03-07T12:30";
+    initialTransactions[2].date = "2019-03-07T12:30";
 
-        const categories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
-        const accounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
+    const categories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
+    const accounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
 
-        this.state = {
+    const initialState = {
             transactions: initialTransactions,
             categories,
             accounts,
@@ -55,49 +97,41 @@ class TransactionListContainer extends React.Component<IProps, IState>  {
             canLoadMore: true,
             chunksLoaded: 1,
         };
-    }
 
-    public onRequestMoreTranscations = () => {
-        this.setState({loadingMore: true});
+    const [state, dispatch] = React.useReducer(reducer, initialState);
+
+    const onRequestMoreTranscations = () => {
+        dispatch({type: ActionType.LoadStart, payload: []});
         setTimeout(() => {
-            const newTransactions: ITransaction[] = [];
+            if (state.chunksLoaded >= 6) {
+                // this is intended to be called after the items in db (or page)
+                // are exhausted
+                dispatch({type: ActionType.NoItemsFound, payload: []});
+                return;
+            }
 
-            newTransactions.push(...this.state.transactions);
+            const newTransactions: ITransaction[] = [];
             newTransactions.push(...[0, 1, 2, 3, 5].map((i) => {
                 const transaction = createEmptyTransaction();
                 transaction.category = Math.floor(Math.random() * 3);
                 return transaction;
             }));
-            const chunksLoaded = this.state.chunksLoaded + 1;
-            let canLoadMore = true;
-            if (chunksLoaded >= 10) { // all items are loaded
-                canLoadMore = false;
-            }
-            // it's important to have the state update as a single
-            // transaction, so that the child `componentDidUpdate` gets
-            // called only once per new batch of items (with valid new settings)
-            this.setState({
-                loadingMore: false,
-                canLoadMore,
-                chunksLoaded,
-                transactions: newTransactions,
-            });
+            dispatch({ type: ActionType.ItemsLoaded, payload: newTransactions });
         }, 1500);
-    }
-    public render() {
-        return (
-            <Paper className={this.props.classes.paper}>
-                <TransactionList
-                    transactions={this.state.transactions}
-                    categories={this.state.categories}
-                    accounts={this.state.accounts}
-                    requestMoreTransactions={this.onRequestMoreTranscations}
-                    loading={this.state.loadingMore}
-                    canLoadMore={this.state.canLoadMore}
-                />
-            </Paper>
-        );
-    }
-}
+    };
+
+    return (
+        <Paper className={classes.paper}>
+            <TransactionList
+                transactions={state.transactions}
+                categories={state.categories}
+                accounts={state.accounts}
+                requestMoreTransactions={onRequestMoreTranscations}
+                loading={state.loadingMore}
+                canLoadMore={state.canLoadMore}
+            />
+        </Paper>
+    );
+};
 
 export default withStyles(styles)(TransactionListContainer);

@@ -14,7 +14,7 @@ mockTransactions[2].date = "2019-03-07T12:30";
 const mockCategories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
 const mockAccounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
 
-it("TransactionList renders without crashing", () => {
+it("renders without crashing", () => {
     const div = document.createElement("div");
     ReactDOM.render((
     <TransactionList

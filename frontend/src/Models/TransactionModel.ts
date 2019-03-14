@@ -1,4 +1,4 @@
-export default interface ITransaction {
+export interface ITransaction {
     date: string;
     account: number; // account index
     category: number; // category index

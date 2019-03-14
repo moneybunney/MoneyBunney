@@ -8,7 +8,7 @@ import {
     withStyles,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
-import ITransaction from "../../Models/TransactionModel";
+import { ITransaction } from "../../Models/TransactionModel";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 import TransactionListItemPrice from "./TransactionListItemPrice";
 

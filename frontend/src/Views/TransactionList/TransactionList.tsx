@@ -18,8 +18,8 @@ interface IProps extends WithStyles<typeof styles> {
     accounts: IAccount[];
     categories: ICategory[];
     requestMoreTransactions: () => void;
-    canLoadMore?: boolean;
-    loading?: boolean;
+    canLoadMore: boolean;
+    loading: boolean;
 }
 
 const TransactionList = ({
@@ -27,14 +27,10 @@ const TransactionList = ({
  accounts,
  categories,
  requestMoreTransactions,
- canLoadMore,
- loading,
+ canLoadMore = true,
+ loading = true,
  classes,
 }: IProps) => {
-
-    // loading by default
-    const loadingFinal = loading === undefined ? true : loading;
-
     const triggerChild = React.useRef<HTMLSpanElement>(null);
     React.useEffect(() => {
         window.addEventListener("scroll", checkIfShouldLoadMore);
@@ -57,7 +53,7 @@ const TransactionList = ({
     };
 
     const checkIfShouldLoadMore = () => {
-        if (canLoadMore && !loadingFinal) {
+        if (canLoadMore && !loading) {
             if (isAtBottom()) {
                 requestMoreTransactions();
             }
@@ -73,7 +69,7 @@ const TransactionList = ({
                 categoryText={categories[t.category].text}
                 accountText={accounts[t.account].text}
             />)}
-                <Collapse in={loadingFinal}>
+                <Collapse in={loading}>
                 <TransactionListLoadingItem/>
                 </Collapse>
                 <span ref={triggerChild} />

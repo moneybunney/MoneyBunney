@@ -8,9 +8,9 @@ import {
   WithStyles,
 } from "@material-ui/core";
 import React from "react";
+import { createEmptyTransaction,  ITransaction } from "../../Models/TransactionModel";
 import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
-import ITransaction, { createEmptyTransaction } from "./TransactionModel";
 
 interface IState {
   activeStep: number;

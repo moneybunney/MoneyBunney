@@ -18,9 +18,9 @@ import {
   withStyles,
 } from "@material-ui/core";
 import React, { ChangeEvent, SyntheticEvent } from "react";
+import { ITransaction } from "../../Models/TransactionModel";
 import { IAccount, ICategory } from "./Checkout";
 import TagPicker from "./TagPicker";
-import ITransaction from "./TransactionModel";
 
 const styles = (theme: Theme) => createStyles({
   margin: {

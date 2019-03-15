@@ -55,14 +55,16 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
     setLoading(true);
 
     setTimeout(() => {
-      postLogin({ email, password }).then(response => {
-        if (response.status === 200) {
+      postLogin({ email, password })
+        .then(response => {
           history.replace("/");
-        } else {
+        })
+        .catch(error => {
           setError(true);
-        }
-        setLoading(false);
-      });
+        })
+        .then(() => {
+          setLoading(false);
+        });
     }, 1500);
   };
 

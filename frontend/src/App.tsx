@@ -11,37 +11,17 @@ import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
 
 import LogOutButton from "./Components/LogOutButton";
-import RouteWithAuthentication from "./Components/RouteWithAuthentication";
+import GuestRoute from "./Components/routes/GuestRoute";
+import UserRoute from "./Components/routes/UserRoute";
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <RouteWithAuthentication
-          onlyLoggedIn={true}
-          redirectRoute="/login"
-          exact={true}
-          path="/"
-          Component={LogOutButton}
-        />
-        <RouteWithAuthentication
-          onlyLoggedIn={false}
-          redirectRoute="/"
-          path="/login"
-          Component={Login}
-        />
-        <RouteWithAuthentication
-          onlyLoggedIn={false}
-          redirectRoute="/"
-          path="/register"
-          Component={Register}
-        />
-        <RouteWithAuthentication
-          onlyLoggedIn={true}
-          redirectRoute="/login"
-          path="/checkout"
-          Component={Checkout}
-        />
+        <UserRoute exact={true} path="/" Component={LogOutButton} />
+        <GuestRoute path="/login" Component={Login} />
+        <GuestRoute path="/register" Component={Register} />
+        <UserRoute path="/checkout" Component={Checkout} />
         <Redirect to="/" />
       </Switch>
     </Router>

@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
 import { isAuthenticated } from "../Utilities/AuthenticationCookies";
 
-interface IProps {
+interface IProps extends RouteProps {
   Component: React.ComponentType;
   onlyLoggedIn: boolean;
   redirectRoute: string;
@@ -13,7 +13,7 @@ const RouteWithAuthentication = ({
   onlyLoggedIn,
   redirectRoute,
   ...rest
-}: IProps & RouteProps) => {
+}: IProps) => {
 
   const render = (props: RouteComponentProps<any>) =>
     isAuthenticated() === onlyLoggedIn ? (

@@ -14,7 +14,7 @@ const LogOutButton = ({ history }: RouteComponentProps<any>) => {
   return (
     <Button
       variant="contained"
-      color="primary"
+      color="secondary"
       onClick={onClick}
     >
     Log out

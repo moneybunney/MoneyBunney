@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
+import LogOutButton from "../../Components/LogOutButton";
+
 const drawerWidth = 240;
 const styles = (theme: Theme) =>
   createStyles({
@@ -75,7 +77,10 @@ const styles = (theme: Theme) =>
     display: 'flex',
     justifyContent: 'flex-end',
     padding: '0 8px',
-  }
+  },
+  headerIcon: {
+    marginRight: "25px",
+  },
 });
 
 export interface Props extends WithStyles<typeof styles> {}
@@ -120,11 +125,12 @@ class Header extends React.Component<Props, State> {
              <Typography variant="title" color="inherit" noWrap className={classes.title}>
                MoneyBunney
              </Typography>
-             <IconButton color="inherit">
+             <IconButton className={classes.headerIcon} color="inherit">
                <Badge badgeContent={1} color="secondary">
                  <NotificationsIcon />
                </Badge>
              </IconButton>
+             <LogOutButton />
            </Toolbar>
          </AppBar>
          <Drawer

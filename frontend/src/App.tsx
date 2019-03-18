@@ -12,7 +12,6 @@ import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
 import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
 
-import LogOutButton from "./Components/LogOutButton";
 import GuestRoute from "./Components/routes/GuestRoute";
 import UserRoute from "./Components/routes/UserRoute";
 

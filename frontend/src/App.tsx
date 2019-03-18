@@ -7,19 +7,24 @@ import {
 } from "react-router-dom";
 
 import Checkout from "./Views/Checkout/Checkout";
+import HomePage from "./Views/Home/HomePage";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
-import HomePage from "./Views/Home/HomePage";
+import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
+
+import LogOutButton from "./Components/LogOutButton";
+import GuestRoute from "./Components/routes/GuestRoute";
+import UserRoute from "./Components/routes/UserRoute";
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact={true} path="/" component={Login} />
-        <Route path="/login" component={Login} />
-        <Route path="/home" component={HomePage} />
-        <Route path="/register" component={Register} />
-        <Route path="/checkout" component={Checkout} />
+        <UserRoute exact={true} path="/" Component={HomePage} />
+        <GuestRoute path="/login" Component={Login} />
+        <GuestRoute path="/register" Component={Register} />
+        <UserRoute path="/checkout" Component={Checkout} />
+        <UserRoute path="/list" Component={TransactionListContainer} />
         <Redirect to="/" />
       </Switch>
     </Router>

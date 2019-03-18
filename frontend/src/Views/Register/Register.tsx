@@ -11,7 +11,9 @@ import {
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
+import { postRegister } from "../../Utilities/Api";
 import RegistrationForm from "./RegistrationForm";
 
 const styles = (theme: Theme) =>
@@ -45,7 +47,7 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function Register({ classes }: IProps) {
+function Register({ classes, history }: IProps & RouteComponentProps<any>) {
   const [loading, setLoading] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
 
@@ -54,14 +56,17 @@ function Register({ classes }: IProps) {
     setLoading(true);
 
     setTimeout(() => {
-      // If email is already in use
-      if (email === "email") {
-        setEmailError(true);
-      } else {
-        alert("Registration successful");
-      }
-      setLoading(false);
-    }, 1000);
+      postRegister({ email, password })
+        .then(response => {
+          history.replace("/");
+        })
+        .catch(error => {
+          setEmailError(true);
+        })
+        .then(() => {
+          setLoading(false);
+        });
+    }, 1500);
   };
 
   return (
@@ -87,4 +92,4 @@ function Register({ classes }: IProps) {
   );
 }
 
-export default withStyles(styles)(Register);
+export default withRouter(withStyles(styles)(Register));

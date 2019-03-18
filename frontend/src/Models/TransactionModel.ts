@@ -1,4 +1,4 @@
-export default interface ITransaction {
+export interface ITransaction {
     date: string;
     account: number; // account index
     category: number; // category index
@@ -12,7 +12,7 @@ export const createEmptyTransaction = (): ITransaction => ({
     category: -1,
     date: getNowDate(),
     description: "",
-    price: "",
+    price: String(Math.random() * 100 - 50),
     tags: [],
   });
 
@@ -27,3 +27,13 @@ export const getNowDate = () => {
     const time = hours + ":" + minutes;
     return date + "T" + time;
 };
+
+export interface ICategory {
+    id: number;
+    text: string;
+  }
+
+export interface IAccount {
+    id: number;
+    text: string;
+  }

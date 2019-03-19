@@ -18,11 +18,23 @@ export class TransactionsService {
   }
 
   async remove(id: string): Promise<any>{
-    return await this.transactionModel.findById(id).remove().exec();
+    try{
+      return await this.transactionModel.findById(id).remove().exec();
+    }
+    catch(e){
+      console.log("Bad ID!");
+      return null;
+    }
   }
 
   async findById(id: string): Promise<Transactions> {
+    try{
       return await this.transactionModel.findById(id).exec();
+    }
+    catch(e){
+      console.log("Bad ID!");
+      return null;
+    }
   }
 
   async findAccountTransactions(account: string, date: string, number: number): Promise<Transactions[]>
@@ -37,6 +49,13 @@ export class TransactionsService {
     if (number == undefined)
       number = 10;
     return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+  }
+
+  async findAccountIncome(account: string, date: string, number: number): Promise<Transactions[]>
+  {
+    if (number == undefined)
+      number = 10;
+    return await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
   }
 
   async findIncome(): Promise<Transactions[]>{

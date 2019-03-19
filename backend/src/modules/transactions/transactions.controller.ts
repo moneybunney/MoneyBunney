@@ -56,4 +56,11 @@ export class TransactionsController {
     return this.transactionsService.findAccountExpenses(account, date, number);
   }
 
+   @Get('/income/account/:account/:date/:number?')
+  getAccountIncome(@Param('account') account: string, @Param('date') date: string, @Param('number') number: number)
+  : Promise<Transactions[]>
+  {
+    return this.transactionsService.findAccountIncome(account, date, number);
+  }
+
 }

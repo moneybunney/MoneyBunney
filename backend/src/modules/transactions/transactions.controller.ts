@@ -37,11 +37,6 @@ export class TransactionsController {
   	return this.transactionsService.findExpenses();
   }
 
-  @Get('/latest/:number')
-  getLatest(@Param('number') number: number): Promise<Transactions[]>{
-    return this.transactionsService.findLatest(number);
-  }
-
   @Get(':id')
   getTransaction(@Param('id') id: string): Promise<Transactions> {
     return this.transactionsService.findById(id);
@@ -52,6 +47,13 @@ export class TransactionsController {
   : Promise<Transactions[]>
   {
   	return this.transactionsService.findAccountTransactions(account, date, number);
+  }
+
+  @Get('/expenses/account/:account/:date/:number?')
+  getAccountExpenses(@Param('account') account: string, @Param('date') date: string, @Param('number') number: number)
+  : Promise<Transactions[]>
+  {
+    return this.transactionsService.findAccountExpenses(account, date, number);
   }
 
 }

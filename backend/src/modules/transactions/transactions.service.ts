@@ -32,16 +32,19 @@ export class TransactionsService {
     return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
   }
 
+  async findAccountExpenses(account: string, date: string, number: number): Promise<Transactions[]>
+  {
+    if (number == undefined)
+      number = 10;
+    return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+  }
+
   async findIncome(): Promise<Transactions[]>{
       return await this.transactionModel.find().where('Price').gt(0).exec();
   }
 
   async findExpenses(): Promise<Transactions[]>{
     return await this.transactionModel.find().where('Price').lt(0).exec();
-  }
-
-  async findLatest(nr: number): Promise<Transactions[]>{
-    return await this.transactionModel.find().sort({ _id: -1 }).limit(Number(nr)).exec();
   }
 
 }

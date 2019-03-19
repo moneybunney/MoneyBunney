@@ -11,7 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
     TestModule,
     UserModule,
     AuthModule,
-],
+  ],
   controllers: [AppController],
   providers: [],
 })

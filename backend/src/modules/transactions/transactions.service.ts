@@ -41,21 +41,40 @@ export class TransactionsService {
   {
     if (number == undefined)
       number = 10;
-    return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    try{
+      return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    }
+    catch(e){
+      console.log("Wrong date format!");
+      return [];
+    }
   }
 
   async findAccountExpenses(account: string, date: string, number: number): Promise<Transactions[]>
   {
     if (number == undefined)
       number = 10;
-    return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    try{
+      return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    }
+    catch(e)
+    {
+      console.log("Wrong date format!");
+      return [];
+    }
   }
 
   async findAccountIncome(account: string, date: string, number: number): Promise<Transactions[]>
   {
     if (number == undefined)
       number = 10;
-    return await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    try{
+      return await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+    }
+    catch(e){
+      console.log("Wrong date format!");
+      return [];
+    }
   }
 
   async findIncome(): Promise<Transactions[]>{

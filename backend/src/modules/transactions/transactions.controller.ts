@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, UsePipes } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Transactions } from './interfaces/transactions.interface';
@@ -18,42 +18,39 @@ export class TransactionsController {
     this.transactionsService.create(createTransactionDto);
   }
 
+  @Delete(':id')
+  deleteTransaction(@Param('id') id: string): Promise<any> {
+    return this.transactionsService.remove(id);
+  }
+
   @Get()
   getAllTransactions(): Promise<Transactions[]> {
-    var temp = new Date();
-    console.log(temp);
-    console.log(`GET to /transactions | getAllTransactions`);
     return this.transactionsService.findAll();
   }
 
   @Get('/income')
   getIncome(): Promise<Transactions[]>{
-  	console.log(`GET to /transactions | getIncome`);
   	return this.transactionsService.findIncome();
   }
 
    @Get('/expenses')
   getExpenses(): Promise<Transactions[]>{
-  	console.log(`GET to /transactions | getTransactions`);
   	return this.transactionsService.findExpenses();
   }
 
   @Get('/latest/:number')
   getLatest(@Param('number') number: number): Promise<Transactions[]>{
-    console.log('GET to /transactions | getLatest');
     return this.transactionsService.findLatest(number);
   }
 
   @Get(':id')
   getTransaction(@Param('id') id: string): Promise<Transactions> {
-    console.log('GET to /transactions | getTransaction');
     return this.transactionsService.findById(id);
   }
 
   @Get('(:subpage/)?(account/:account)(/latest/:number)?')
   getAccountTransactions(@Param('account') account: string, @Param('subpage') subpage : string, @Param('number') number: number)
   : Promise<Transactions[]>{
-    console.log(subpage);
   	console.log(`GET to /transactions/account | getAccountTransactions`);
   	return this.transactionsService.findByAccount(account, subpage, number);
   }

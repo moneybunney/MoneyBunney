@@ -17,11 +17,16 @@ export class TransactionsService {
     return await this.transactionModel.find().exec();
   }
 
+  async remove(id: string): Promise<any>{
+    return await this.transactionModel.findById(id).remove().exec();
+  }
+
   async findById(id: string): Promise<Transactions> {
       return await this.transactionModel.findById(id).exec();
   }
 
-  async findByAccount(account: string, type: string, number: number): Promise<Transactions[]>{
+  async findByAccount(account: string, type: string, number: number): Promise<Transactions[]>
+  {
     if (type == "expenses" && number == undefined)
     {
       return await this.transactionModel.find().where('Price').lt(0).where('Account', account).exec();

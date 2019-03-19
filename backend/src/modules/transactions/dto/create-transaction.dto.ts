@@ -1,6 +1,8 @@
-import { IsString, IsNumber, IsDate, IsArray} from 'class-validator';
+import { IsString, IsNumber, IsDate, IsArray, IsDateString} from 'class-validator';
 
 export class CreateTransactionDto {
+
+	@IsDateString()
     readonly Date: object;
 
     @IsString()

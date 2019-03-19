@@ -25,33 +25,11 @@ export class TransactionsService {
       return await this.transactionModel.findById(id).exec();
   }
 
-  async findByAccount(account: string, type: string, number: number): Promise<Transactions[]>
+  async findAccountTransactions(account: string, date: string, number: number): Promise<Transactions[]>
   {
-    if (type == "expenses" && number == undefined)
-    {
-      return await this.transactionModel.find().where('Price').lt(0).where('Account', account).exec();
-    }
-    else if (type == "income" && number == undefined)
-    {
-      return await this.transactionModel.find().where('Price').gt(0).where('Account', account).exec();
-    }
-    else if(type == undefined && number != undefined)
-    {
-      return await this.transactionModel.find().where('Account', account).sort({ _id: -1 }).limit(Number(number)).exec()
-    }
-    else if(type == "expenses" && number != undefined)
-    {
-       return await this.transactionModel.find().where('Price').lt(0).where('Account', account).sort({ _id: -1 }).limit(Number(number)).exec()
-    }
-    else if(type == "income" && number != undefined)
-    {
-       return await this.transactionModel.find().where('Price').gt(0).where('Account', account).sort({ _id: -1 }).limit(Number(number)).exec()
-    }
-    else if (type == undefined && number == undefined)
-    {
-      return await this.transactionModel.find().where('Account', account).exec();
-    }
-    else return [];
+    if (number == undefined)
+      number = 10;
+    return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
   }
 
   async findIncome(): Promise<Transactions[]>{

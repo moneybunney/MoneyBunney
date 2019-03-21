@@ -67,12 +67,10 @@ const Checkout = (props: IProps) => {
   };
 
   const onSubmit = () => {
-    // console.log(transaction);
     setLoading(true);
     if (props.onSubmit) {
       props.onSubmit(transaction);
     }
-    console.log(transaction);
 
     postTransaction(transaction)
     .catch((error) => {

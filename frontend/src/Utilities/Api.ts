@@ -1,5 +1,5 @@
 import { ITransaction } from "../Models/TransactionModel";
-import { post } from "./Http";
+import { get, post } from "./Http";
 
 interface ILoginData {
   email: string;
@@ -36,6 +36,20 @@ export const postTransaction = async (data: ITransaction) => {
   const response = await post("/api/transactions", DTO);
   if (response.status === 201) {
     return response.body;
+  } else {
+    throw new Error("Something went wrong");
+  }
+};
+
+export const getTransactionListChunk = async (startingDate: Date, count: number) => {
+  const params = new Map<string, string>([
+    ["date", startingDate.toISOString()],
+    ["number", String(count)],
+  ]);
+
+  const response = await get("/api/transactions/list", params);
+  if (response.status === 200) {
+    return response.json();
   } else {
     throw new Error("Something went wrong");
   }

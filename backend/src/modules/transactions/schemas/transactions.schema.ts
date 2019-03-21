@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const TransactionsSchema = new mongoose.Schema({
-  Date: Date,
+  Date,
   Account: String,
   Category: String,
   Price: Number,

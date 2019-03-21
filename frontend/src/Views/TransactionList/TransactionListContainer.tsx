@@ -2,6 +2,7 @@ import { createStyles, List, Paper, Theme, WithStyles, withStyles} from "@materi
 import { Satellite } from "@material-ui/icons";
 import React from "react";
 import { createEmptyTransaction, IAccount, ICategory, ITransaction } from "../../Models/TransactionModel";
+import { getTransactionListChunk } from "../../Utilities/Api";
 import TransactionList from "./TransactionList";
 
 const styles = (theme: Theme) => createStyles({
@@ -78,19 +79,11 @@ const TransactionListContainer = ({classes}: IProps) => {
         }
     };
 
-    const initialTransactions = [0, 1, 2].map((i) => {
-            const transaction = createEmptyTransaction();
-            transaction.category = i;
-            return transaction;
-        });
-
-    initialTransactions[2].date = "2019-03-07T12:30";
-
     const categories = ["Beer", "Wine", "Other"].map((item, index): ICategory => ({id: index, text: item }));
     const accounts = ["Cash", "Wallet", "Revolut"].map((item, index): IAccount => ({id: index, text: item }));
 
     const initialState = {
-            transactions: initialTransactions,
+            transactions: [],
             categories,
             accounts,
             loadingMore: false,
@@ -102,6 +95,9 @@ const TransactionListContainer = ({classes}: IProps) => {
 
     const onRequestMoreTranscations = () => {
         dispatch({type: ActionType.LoadStart, payload: []});
+        getTransactionListChunk(new Date(), 5).then((data) => {
+            console.log(data);
+        });
         setTimeout(() => {
             if (state.chunksLoaded >= 6) {
                 // this is intended to be called after the items in db (or page)
@@ -109,7 +105,6 @@ const TransactionListContainer = ({classes}: IProps) => {
                 dispatch({type: ActionType.NoItemsFound, payload: []});
                 return;
             }
-
             const newTransactions: ITransaction[] = [];
             newTransactions.push(...[0, 1, 2, 3, 5].map((i) => {
                 const transaction = createEmptyTransaction();

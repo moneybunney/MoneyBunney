@@ -12,10 +12,6 @@ import { postTransaction } from "../../Utilities/Api";
 import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
 
-interface IState {
-  activeStep: number;
-}
-
 const styles = (theme: Theme) => createStyles({
   layout: {
     width: "auto",
@@ -77,11 +73,15 @@ const Checkout = (props: IProps) => {
       props.onSubmit(transaction);
     }
     console.log(transaction);
-    postTransaction(transaction);
-    setTimeout(() => {
+
+    postTransaction(transaction)
+    .catch((error) => {
+      alert(error);
+    })
+    .then(() => {
       setLoading(false);
       alert("Success!");
-    }, 1000);
+    });
   };
 
   return (

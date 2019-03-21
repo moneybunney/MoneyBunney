@@ -24,7 +24,7 @@ export const postRegister = (data: ILoginData) =>
     }
   });
 
-export const postTransaction = (data: ITransaction) => {
+export const postTransaction = async (data: ITransaction) => {
   const DTO = {
     Date: new Date(data.date).toISOString(),
     Account: data.account.toString(),
@@ -33,11 +33,10 @@ export const postTransaction = (data: ITransaction) => {
     Description: data.description,
     Tags: data.tags,
   };
-  post("/api/transactions", DTO).then((response) => {
-    if (response.status === 201) {
-      return response.body;
-    } else {
-      throw new Error("Something went wrong");
-    }
-  });
+  const response = await post("/api/transactions", DTO);
+  if (response.status === 201) {
+    return response.body;
+  } else {
+    throw new Error("Something went wrong");
+  }
 };

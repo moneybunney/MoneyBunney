@@ -48,6 +48,11 @@ interface IProps extends WithStyles<typeof styles> {
   onSubmit: () => void;
 }
 
+enum TransferType {
+  Income = "Income",
+  Expense = "Expense",
+}
+
 const TransactionForm = ({
   transaction,
   onFieldChange,
@@ -58,9 +63,13 @@ const TransactionForm = ({
   onSubmit,
  }: IProps) => {
 
+  const transactionPrice = Number(transaction.price);
   const [categoryError, setCategoryError] = React.useState(false);
   const [priceError, setPriceError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
+
+  const initialTransferType = (transactionPrice) >= 0 ? TransferType.Expense : TransferType.Income;
+  const [transferType, setTransferType] = React.useState(initialTransferType);
 
   const fieldUpdate = (fieldId: string) => (e: ChangeEvent<HTMLInputElement>): void  => {
     if (fieldId === "date") {
@@ -77,17 +86,26 @@ const TransactionForm = ({
         setDateError(false);
       }
     }
-    onFieldChange(fieldId, e.target.value);
+
     if (fieldId === "price") {
       setPriceError(false);
     }
+
+    onFieldChange(fieldId, e.target.value);
   };
 
   const handleSelect = (fieldId: string) => (e: ChangeEvent<HTMLSelectElement>) => {
-    onFieldChange(fieldId, e.target.value);
+    if (fieldId === "transferType") {
+      // typescript making jokes again
+      const transactionTypeIndex = Number(e.target.value);
+      const newTransactionType = Object.values(TransferType)[transactionTypeIndex];
+      setTransferType(newTransactionType);
+      return;
+    }
     if (fieldId === "category") {
       setCategoryError(false);
      }
+    onFieldChange(fieldId, e.target.value);
   };
 
   const onTagsChange = (tags: string[]) => {
@@ -104,7 +122,8 @@ const TransactionForm = ({
     } else {
       setCategoryError(false);
     }
-    if (transaction.price === "") {
+    if (transaction.price === "" ||
+        Number(transaction.price) <= 0) {
       setPriceError(true);
       error = true;
     } else {
@@ -162,6 +181,7 @@ const TransactionForm = ({
               label="Price"
               fullWidth={true}
               onChange={fieldUpdate("price")}
+              value={transaction.price}
               error={priceError}
               disabled={loading}
               InputProps={{
@@ -170,10 +190,26 @@ const TransactionForm = ({
                 min: "1",
               }}
             />
-            <FormHelperText className={priceError ? "" : classes.hidden}>Please enter a price</FormHelperText>
+            <FormHelperText className={priceError ? "" : classes.hidden}>Please enter a valid amount</FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item={true} xs={6} sm={6}>
+        <Grid item={true} xs={6} sm={3}>
+          <FormControl fullWidth={true}>
+            <InputLabel htmlFor="transferType-helper">Type</InputLabel>
+            <Select
+              fullWidth={true}
+              value={Object.keys(TransferType).indexOf(transferType)}
+              onChange={handleSelect("transferType")}
+              input={<Input name="transferType" id="transferType-helper" />}
+              disabled={loading}
+            >
+              {Object.keys(TransferType).map(
+                (type, index) => (<MenuItem value={index} key={index}>{type}</MenuItem>),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item={true} xs={12} sm={3}>
           <FormControl fullWidth={true}>
             <InputLabel htmlFor="account-helper">Account</InputLabel>
             <Select
@@ -220,7 +256,7 @@ const TransactionForm = ({
         />
       </Collapse>
     </form>
-  </React.Fragment>
+  </React.Fragment >
   );
 };
 

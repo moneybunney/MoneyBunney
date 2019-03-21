@@ -1,6 +1,5 @@
 import {
   createStyles,
-  CssBaseline,
   Paper,
   Theme,
   Typography,
@@ -9,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { createEmptyTransaction,  ITransaction } from "../../Models/TransactionModel";
+import { postTransaction } from "../../Utilities/Api";
 import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
 
@@ -76,6 +76,8 @@ const Checkout = (props: IProps) => {
     if (props.onSubmit) {
       props.onSubmit(transaction);
     }
+    console.log(transaction);
+    postTransaction(transaction);
     setTimeout(() => {
       setLoading(false);
       alert("Success!");

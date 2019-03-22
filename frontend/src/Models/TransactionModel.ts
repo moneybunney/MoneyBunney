@@ -1,4 +1,5 @@
 export interface ITransaction {
+    id: string;
     date: string;
     account: number; // account index
     category: number; // category index
@@ -14,6 +15,7 @@ export const createEmptyTransaction = (): ITransaction => ({
     description: "",
     price: "",
     tags: [],
+    id: "",
   });
 
 export const getNowDate = () => {

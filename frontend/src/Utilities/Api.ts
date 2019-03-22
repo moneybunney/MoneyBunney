@@ -49,7 +49,20 @@ export const getTransactionListChunk = async (startingDate: Date, count: number)
 
   const response = await get("/api/transactions/list", params);
   if (response.status === 200) {
-    return response.json();
+    return response.json().then((data) => {
+      const dtoArray = data as any[];
+      return dtoArray.map((element): ITransaction => {
+        return {
+          date: element.Date,
+          account: element.Account,
+          category: element.Category,
+          price: String(element.Price),
+          description: element.Description,
+          tags: element.Tags,
+          id: element._id,
+        };
+      });
+    });
   } else {
     throw new Error("Something went wrong");
   }

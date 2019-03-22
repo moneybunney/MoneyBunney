@@ -95,24 +95,18 @@ const TransactionListContainer = ({classes}: IProps) => {
 
     const onRequestMoreTranscations = () => {
         dispatch({type: ActionType.LoadStart, payload: []});
-        getTransactionListChunk(new Date(), 5).then((data) => {
-            console.log(data);
-        });
-        setTimeout(() => {
-            if (state.chunksLoaded >= 6) {
-                // this is intended to be called after the items in db (or page)
-                // are exhausted
+        // currently fetching relies on transactions being ordered chronologically:
+        const lastLoadedTransactionDate = state.transactions.length > 0 ?
+            new Date(state.transactions[state.transactions.length - 1].date) :
+            new Date();
+
+        getTransactionListChunk(lastLoadedTransactionDate, 5).then((data) => {
+            if (data.length <= 0) {
                 dispatch({type: ActionType.NoItemsFound, payload: []});
-                return;
+            } else {
+                dispatch({ type: ActionType.ItemsLoaded, payload: data });
             }
-            const newTransactions: ITransaction[] = [];
-            newTransactions.push(...[0, 1, 2, 3, 5].map((i) => {
-                const transaction = createEmptyTransaction();
-                transaction.category = Math.floor(Math.random() * 3);
-                return transaction;
-            }));
-            dispatch({ type: ActionType.ItemsLoaded, payload: newTransactions });
-        }, 1500);
+        });
     };
 
     return (

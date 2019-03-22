@@ -40,7 +40,7 @@ export class TransactionsService {
       number = 10;
     }
     try {
-      return await this.transactionModel.find().sort({Date: -1}).where('Date').lte(date).limit(Number(number)).exec();
+      return await this.transactionModel.find().sort({Date: -1}).where('Date').lt(date).limit(Number(number)).exec();
     } catch (e) {
       console.log('Wrong date format!');
       console.log(e);

@@ -11,7 +11,7 @@ const styles = (theme: Theme) => createStyles({
         // the child list fills the parent
         width: 360,
         marginTop: 32,
-        marginBottom: 128, // to see the loading dummy :)
+        marginBottom: 16,
         marginLeft: theme.spacing.unit * 3,
         marginRight: theme.spacing.unit * 3,
         [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {

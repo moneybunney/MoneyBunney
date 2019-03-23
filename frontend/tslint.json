@@ -1,0 +1,14 @@
+{
+    "extends": ["tslint:latest", "tslint-react"],
+    "linterOptions": {
+      "exclude": [
+        "node_modules/**/*.ts",
+        "**/*.js",
+        "**/*.jsx"
+        ]
+      },
+    "rules": {
+        "jsx-no-multiline-js": false,
+        "object-literal-sort-keys": false
+    }
+}

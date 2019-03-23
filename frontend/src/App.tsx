@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
+import Checkout from "./Views/Checkout/Checkout";
+import Login from "./Views/Login/Login";
+import Register from "./Views/Register/Register";
+import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
+
+import LogOutButton from "./Components/LogOutButton";
+import GuestRoute from "./Components/routes/GuestRoute";
+import UserRoute from "./Components/routes/UserRoute";
+
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <UserRoute exact={true} path="/" Component={LogOutButton} />
+        <GuestRoute path="/login" Component={Login} />
+        <GuestRoute path="/register" Component={Register} />
+        <UserRoute path="/checkout" Component={Checkout} />
+        <UserRoute path="/list" Component={TransactionListContainer} />
+        <Redirect to="/" />
+      </Switch>
+    </Router>
+  );
+};
 
 export default App;

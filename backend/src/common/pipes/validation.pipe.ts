@@ -16,7 +16,7 @@ export class ValidationPipe implements PipeTransform<any> {
     if (errors.length > 0) {
     	const logger = new Logger();
       	logger.log(errors.toString());
-      	throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
+      	throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, errors.toString());
 
     }
     return value;

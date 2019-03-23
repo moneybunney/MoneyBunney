@@ -42,7 +42,7 @@ export class TransactionsService {
     if (number == undefined)
       number = 10;
     try{
-      return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+      return await this.transactionModel.find().where('Account', account).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e){
       console.log("Wrong date format!");
@@ -55,7 +55,7 @@ export class TransactionsService {
     if (number == undefined)
       number = 10;
     try{
-      return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+      return await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e)
     {
@@ -69,7 +69,7 @@ export class TransactionsService {
     if (number == undefined)
       number = 10;
     try{
-      return await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').gte(date).limit(Number(number)).exec();
+      return await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e){
       console.log("Wrong date format!");

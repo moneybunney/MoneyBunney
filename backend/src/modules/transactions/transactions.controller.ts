@@ -22,7 +22,7 @@ import {
 import { Logger } from '../logger/logger.service';
 import { Response } from 'express';
 
-@Controller('transactions')
+@Controller('api/transactions')
 export class TransactionsController {
 
   constructor(

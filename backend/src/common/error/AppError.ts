@@ -51,6 +51,22 @@ export class AppError extends Error {
           userMessage: 'Wrong credentials',
         };
         break;
+      case AppErrorTypeEnum.VALIDATION_FAILED:
+        res = {
+          type: AppErrorTypeEnum.VALIDATION_FAILED,
+          httpStatus: HttpStatus.BAD_REQUEST,
+          errorMessage: 'Validation failed',
+          userMessage: 'Validation failed',
+        };
+        break;
+      case AppErrorTypeEnum.TRANSACTION_NOT_FOUND:
+        res = {
+          type: AppErrorTypeEnum.TRANSACTION_NOT_FOUND,
+          httpStatus: HttpStatus.NOT_FOUND,
+          errorMessage: 'No Transactions found',
+          userMessage: 'No transactions found',
+        };
+        break;
     }
     return res;
   }

@@ -22,8 +22,11 @@ export class UserService implements IUserService {
   public async createUser(user: UserDTO): Promise<User> {
     let existingUser: User;
     existingUser = await this.userModel.findOne({ email: user.email }).exec();
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (existingUser) {
       throw new AppError(AppErrorTypeEnum.USER_EXISTS);
+    } else if (!emailRegex.test(user.email)) {
+      throw new AppError(AppErrorTypeEnum.INVALID_EMAIL);
     } else {
       const createdUser = new this.userModel(user);
       return await createdUser.save();

@@ -43,7 +43,7 @@ export class TransactionsService {
 
   async findAccountTransactions(account: string, date: string, number: number): Promise<Transactions[]>
   {
-    var temp: Transactions[] = [];
+    let temp: Transactions[] = [];
     if (number == undefined)
       number = 10;
     try{
@@ -53,63 +53,42 @@ export class TransactionsService {
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
     }
-    if(temp.length == 0)
-        throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
-    else
-        return temp;
+    return temp;
   }
 
   async findAccountExpenses(account: string, date: string, number: number): Promise<Transactions[]>
   {
-    var temp: Transactions[] = [];
     if (number == undefined)
       number = 10;
     try{
-      temp = await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      return this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e)
     {
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
     }
-    if(temp.length == 0)
-        throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
-    else
-        return temp;
   }
 
   async findAccountIncome(account: string, date: string, number: number): Promise<Transactions[]>
   {
-    var temp: Transactions[] = [];
     if (number == undefined)
       number = 10;
     try{
-      temp = await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      return this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e){
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
     }
-    if(temp.length == 0)
-        throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
-    else
-        return temp;
   }
 
   async findIncome(): Promise<Transactions[]>{
-    var temp: Transactions[] = await this.transactionModel.find().where('Price').gt(0).exec();
-    if(temp.length == 0)
-        throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
-    else
-        return temp;
+    return this.transactionModel.find().where('Price').gt(0).exec();
   }
 
   async findExpenses(): Promise<Transactions[]>{
-    var temp: Transactions[] = await this.transactionModel.find().where('Price').lt(0).exec();
-    if(temp.length == 0)
-        throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
-    else
-        return temp;
+    return this.transactionModel.find().where('Price').lt(0).exec();
   }
 
 }

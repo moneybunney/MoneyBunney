@@ -62,7 +62,7 @@ export class AppError extends Error {
       case AppErrorTypeEnum.TRANSACTION_NOT_FOUND:
         res = {
           type: AppErrorTypeEnum.TRANSACTION_NOT_FOUND,
-          httpStatus: HttpStatus.NOT_FOUND,
+          httpStatus: HttpStatus.BAD_REQUEST,
           errorMessage: 'No Transactions found',
           userMessage: 'No transactions found',
         };

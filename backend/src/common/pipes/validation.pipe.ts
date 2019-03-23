@@ -8,7 +8,7 @@ import { Logger } from '../../modules/logger/logger.service'
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value, { metatype }: ArgumentMetadata) {
-    if (!metatype || !this.toValidate(metatype)) {
+    if (!metatype) {
       return value;
     }
     const object = plainToClass(metatype, value);
@@ -24,6 +24,6 @@ export class ValidationPipe implements PipeTransform<any> {
 
   private toValidate(metatype): boolean {
     const types = [String, Boolean, Number, Array, Object];
-    return !types.find((type) => metatype === type);
+    return types.includes(metatype);
   }
 }

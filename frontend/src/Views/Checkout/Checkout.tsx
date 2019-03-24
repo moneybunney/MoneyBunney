@@ -66,12 +66,12 @@ const Checkout = (props: IProps) => {
     setTransaction(clone);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (transaction: ITransaction) => {
     setLoading(true);
     if (props.onSubmit) {
       props.onSubmit(transaction);
     }
-
+    console.log(transaction);
     postTransaction(transaction)
     .catch((error) => {
       alert(error);

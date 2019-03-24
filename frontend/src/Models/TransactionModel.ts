@@ -3,7 +3,7 @@ export interface ITransaction {
     date: string;
     account: number; // account index
     category: number; // category index
-    price: string;
+    amount: string;
     description: string;
     tags: string[];
 }
@@ -13,7 +13,7 @@ export const createEmptyTransaction = (): ITransaction => ({
     category: -1,
     date: getNowDate(),
     description: "",
-    price: "",
+    amount: "",
     tags: [],
     id: "",
   });

@@ -45,7 +45,7 @@ interface IProps extends WithStyles<typeof styles> {
   categories: ICategory[];
   accounts: IAccount[];
   loading: boolean;
-  onSubmit: () => void;
+  onSubmit: (transaction: ITransaction) => void;
 }
 
 enum TransferType {
@@ -63,7 +63,7 @@ const TransactionForm = ({
   onSubmit,
  }: IProps) => {
 
-  const transactionPrice = Number(transaction.price);
+  const transactionPrice = Number(transaction.amount);
   const [categoryError, setCategoryError] = React.useState(false);
   const [priceError, setPriceError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
@@ -122,8 +122,8 @@ const TransactionForm = ({
     } else {
       setCategoryError(false);
     }
-    if (transaction.price === "" ||
-        Number(transaction.price) <= 0) {
+    if (transaction.amount === "" ||
+        Number(transaction.amount) <= 0) {
       setPriceError(true);
       error = true;
     } else {
@@ -131,7 +131,14 @@ const TransactionForm = ({
     }
 
     if (!error) {
-      onSubmit();
+      const transferAmount = transferType === TransferType.Expense ?
+        - Number(transaction.amount) :
+         Number(transaction.amount);
+      const finalTransaction = {
+        ...transaction,
+        price: String(transferAmount),
+      };
+      onSubmit(finalTransaction);
     }
   };
 
@@ -181,7 +188,7 @@ const TransactionForm = ({
               label="Price"
               fullWidth={true}
               onChange={fieldUpdate("price")}
-              value={transaction.price}
+              value={transaction.amount}
               error={priceError}
               disabled={loading}
               InputProps={{

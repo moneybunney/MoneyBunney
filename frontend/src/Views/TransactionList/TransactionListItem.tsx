@@ -40,7 +40,7 @@ const TransactionListItem = ({transaction, classes, categoryText, accountText}: 
     });
 
     const primaryText = transaction.description ? transaction.description : categoryText;
-    const parsedPrice = parseFloat(transaction.price);
+    const parsedPrice = parseFloat(transaction.amount);
 
     const parsedDate = new Date(transaction.date);
     const today = new Date();

@@ -5,7 +5,6 @@ import { Test } from './interfaces/test.interface';
 
 @Controller('test')
 export class TestController {
-
   constructor(private readonly testService: TestService) {}
 
   // test object is created on post to /test with body like:

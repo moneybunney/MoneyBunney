@@ -1,9 +1,9 @@
 export default interface ICategory {
-    id: number;
-    text: string;
+  id: number;
+  text: string;
 }
 
 export const createCategory = (i: number, t: string): ICategory => ({
-    id: i,
-    text: t,
+  id: i,
+  text: t
 });

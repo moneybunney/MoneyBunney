@@ -1,5 +1,10 @@
 import React from "react";
-import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  RouteProps
+} from "react-router-dom";
 import { isAuthenticated } from "../Utilities/AuthenticationCookies";
 
 interface IProps extends RouteProps {
@@ -14,7 +19,6 @@ const RouteWithAuthentication = ({
   redirectRoute,
   ...rest
 }: IProps) => {
-
   const render = (props: RouteComponentProps<any>) =>
     isAuthenticated() === onlyLoggedIn ? (
       <Component />
@@ -22,7 +26,7 @@ const RouteWithAuthentication = ({
       <Redirect
         to={{
           pathname: redirectRoute,
-          state: { from: props.location },
+          state: { from: props.location }
         }}
       />
     );

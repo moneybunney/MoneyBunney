@@ -6,8 +6,12 @@ import { TransactionsSchema } from './schemas/transactions.schema';
 import { LoggerModule } from '../logger/logger.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Transactions', schema: TransactionsSchema }]),
-  LoggerModule,],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Transactions', schema: TransactionsSchema },
+    ]),
+    LoggerModule,
+  ],
   controllers: [TransactionsController],
   providers: [TransactionsService],
 })

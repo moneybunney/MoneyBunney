@@ -25,7 +25,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -p ./tsconfig.json -c ./tslint.json --force"
+    "lint": "tslint -p ./tsconfig.json -c ./tslint.json --force",
+    "format:tslint": "tslint --fix --project tsconfig.json; prettier --write \"src/**/*.{tsx,ts}\"",
+    "format": "prettier --write \"src/**/*.{tsx,ts}\""
   },
   "browserslist": [
     ">0.2%",

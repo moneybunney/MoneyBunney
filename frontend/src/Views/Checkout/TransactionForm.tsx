@@ -116,7 +116,7 @@ const TransactionForm = ({
     // basic validation:
     let error = false;
     e.preventDefault();
-    if (transaction.category <= 0) {
+    if (transaction.category < 0) {
       setCategoryError(true);
       error = true;
     } else {

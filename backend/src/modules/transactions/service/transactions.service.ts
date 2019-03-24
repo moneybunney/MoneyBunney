@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Transactions } from './interfaces/transactions.interface';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { AppErrorTypeEnum } from '../../common/error/AppErrorTypeEnum';
-import { AppError } from '../../common/error/AppError';
-import { Logger } from '../logger/logger.service';
+import { Transactions } from '../interfaces/transactions.interface';
+import { TransactionDTO } from '../dto/transaction.dto';
+import { AppErrorTypeEnum } from '../../../common/error/AppErrorTypeEnum';
+import { AppError } from '../../../common/error/AppError';
+import { Logger } from '../../logger/logger.service';
 
 @Injectable()
 export class TransactionsService {
@@ -15,7 +15,7 @@ export class TransactionsService {
     private readonly logger: Logger,
   ) {}
 
-  async create(TransactionDto: CreateTransactionDto): Promise<Transactions> {
+  async create(TransactionDto: TransactionDTO): Promise<Transactions> {
     const createdTransaction = new this.transactionModel(TransactionDto);
     return await createdTransaction.save();
   }
@@ -51,7 +51,7 @@ export class TransactionsService {
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {
@@ -76,7 +76,7 @@ export class TransactionsService {
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {
@@ -103,7 +103,7 @@ export class TransactionsService {
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {

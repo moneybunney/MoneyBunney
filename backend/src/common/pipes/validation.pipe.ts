@@ -12,6 +12,9 @@ import { Logger } from '../../modules/logger/logger.service';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
+  constructor(
+    private readonly logger: Logger,
+  ) {}
   async transform(value, { metatype }: ArgumentMetadata) {
     if (!metatype) {
       return value;
@@ -19,8 +22,7 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      const logger = new Logger();
-      logger.log(errors.toString());
+      this.logger.log(errors.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, errors.toString());
     }
     return value;

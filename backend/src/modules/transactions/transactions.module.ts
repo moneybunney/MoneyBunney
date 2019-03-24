@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionsController } from './transactions.controller';
-import { TransactionsService } from './transactions.service';
+import { TransactionsService } from './service/transactions.service';
 import { TransactionsSchema } from './schemas/transactions.schema';
 import { LoggerModule } from '../logger/logger.module';
+import { TransactionQueryService } from './service/transaction-query.service';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { LoggerModule } from '../logger/logger.module';
     LoggerModule,
   ],
   controllers: [TransactionsController],
-  providers: [TransactionsService],
+  providers: [TransactionsService, TransactionQueryService],
 })
 export class TransactionsModule {}

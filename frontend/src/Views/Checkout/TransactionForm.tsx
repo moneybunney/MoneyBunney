@@ -63,12 +63,12 @@ const TransactionForm = ({
   onSubmit,
  }: IProps) => {
 
-  const transactionPrice = Number(transaction.amount);
+  const transactionAmount = Number(transaction.amount);
   const [categoryError, setCategoryError] = React.useState(false);
-  const [priceError, setPriceError] = React.useState(false);
+  const [amountError, setAmountError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
 
-  const initialTransferType = (transactionPrice) >= 0 ? TransferType.Expense : TransferType.Income;
+  const initialTransferType = (transactionAmount) >= 0 ? TransferType.Expense : TransferType.Income;
   const [transferType, setTransferType] = React.useState(initialTransferType);
 
   const fieldUpdate = (fieldId: string) => (e: ChangeEvent<HTMLInputElement>): void  => {
@@ -87,8 +87,8 @@ const TransactionForm = ({
       }
     }
 
-    if (fieldId === "price") {
-      setPriceError(false);
+    if (fieldId === "amount") {
+      setAmountError(false);
     }
 
     onFieldChange(fieldId, e.target.value);
@@ -124,10 +124,10 @@ const TransactionForm = ({
     }
     if (transaction.amount === "" ||
         Number(transaction.amount) <= 0) {
-      setPriceError(true);
+      setAmountError(true);
       error = true;
     } else {
-      setPriceError(false);
+      setAmountError(false);
     }
 
     if (!error) {
@@ -136,7 +136,7 @@ const TransactionForm = ({
          Number(transaction.amount);
       const finalTransaction = {
         ...transaction,
-        price: String(transferAmount),
+        amount: String(transferAmount),
       };
       onSubmit(finalTransaction);
     }
@@ -181,15 +181,15 @@ const TransactionForm = ({
         </FormControl>
         </Grid>
         <Grid item={true} xs={6} sm={6}>
-          <FormControl error={priceError} fullWidth={true}>
+          <FormControl error={amountError} fullWidth={true}>
             <TextField
-              id="price"
-              name="price"
-              label="Price"
+              id="amount"
+              name="amount"
+              label="Amount"
               fullWidth={true}
-              onChange={fieldUpdate("price")}
+              onChange={fieldUpdate("amount")}
               value={transaction.amount}
-              error={priceError}
+              error={amountError}
               disabled={loading}
               InputProps={{
                 startAdornment: <InputAdornment position="start">€</InputAdornment>,
@@ -197,7 +197,7 @@ const TransactionForm = ({
                 min: "1",
               }}
             />
-            <FormHelperText className={priceError ? "" : classes.hidden}>Please enter a valid amount</FormHelperText>
+            <FormHelperText className={amountError ? "" : classes.hidden}>Please enter a valid amount</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item={true} xs={6} sm={3}>

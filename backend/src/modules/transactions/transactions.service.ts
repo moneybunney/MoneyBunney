@@ -72,7 +72,7 @@ export class TransactionsService {
       number = 10;
     }
     try {
-      temp = await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      temp = await this.transactionModel.find().where('Account', account).where('Amount').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
@@ -86,7 +86,7 @@ export class TransactionsService {
       number = 10;
     }
     try {
-      temp = await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      temp = await this.transactionModel.find().where('Account', account).where('Amount').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
@@ -95,11 +95,11 @@ export class TransactionsService {
   }
 
   async findIncome(): Promise<Transactions[]> {
-    return this.transactionModel.find().where('Price').gt(0).exec();
+    return this.transactionModel.find().where('Amount').gt(0).exec();
   }
 
   async findExpenses(): Promise<Transactions[]> {
-    return this.transactionModel.find().where('Price').lt(0).exec();
+    return this.transactionModel.find().where('Amount').lt(0).exec();
   }
 
 }

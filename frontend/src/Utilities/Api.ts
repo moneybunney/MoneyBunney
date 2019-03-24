@@ -29,7 +29,7 @@ export const postTransaction = async (data: ITransaction) => {
     Date: new Date(data.date).toISOString(),
     Account: data.account.toString(),
     Category: data.category.toString(),
-    Price: Number(data.amount),
+    Amount: Number(data.amount),
     Description: data.description,
     Tags: data.tags,
   };
@@ -56,7 +56,7 @@ export const getTransactionListChunk = async (startingDate: Date, count: number)
           date: element.Date,
           account: element.Account,
           category: element.Category,
-          amount: String(element.Price),
+          amount: String(element.Amount),
           description: element.Description,
           tags: element.Tags,
           id: element._id,

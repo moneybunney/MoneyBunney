@@ -51,36 +51,40 @@ export class TransactionsService {
     }
     catch(e){
       this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
+      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
     }
     return temp;
   }
 
   async findAccountExpenses(account: string, date: string, number: number): Promise<Transactions[]>
   {
+    let temp: Transactions[] = [];
     if (number == undefined)
       number = 10;
     try{
-      return this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      temp = await this.transactionModel.find().where('Account', account).where('Price').lt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e)
     {
       this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
+      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
     }
+    return temp;
   }
 
   async findAccountIncome(account: string, date: string, number: number): Promise<Transactions[]>
   {
+    let temp: Transactions[] = [];
     if (number == undefined)
       number = 10;
     try{
-      return this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
+      temp = await this.transactionModel.find().where('Account', account).where('Price').gt(0).sort({Date: 1}).where('Date').lt(date).limit(Number(number)).exec();
     }
     catch(e){
       this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED);
+      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
     }
+    return temp;
   }
 
   async findIncome(): Promise<Transactions[]>{

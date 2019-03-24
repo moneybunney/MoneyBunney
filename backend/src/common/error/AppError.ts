@@ -8,7 +8,7 @@ export class AppError extends Error {
   public errorMessage: string;
   public userMessage: string;
 
-  constructor(errorCode: AppErrorTypeEnum, msg: string = undefined) {
+  constructor(errorCode: AppErrorTypeEnum, msg?: string) {
     super();
     const errorMessageConfig: IErrorMessage = this.getError(errorCode);
     if (!errorMessageConfig) {
@@ -19,7 +19,7 @@ export class AppError extends Error {
     this.name = this.constructor.name;
     this.httpStatus = errorMessageConfig.httpStatus;
     this.errorCode = errorCode;
-    if (msg != undefined)
+    if (msg)
       this.errorMessage = msg;
     else
     this.errorMessage = errorMessageConfig.errorMessage;

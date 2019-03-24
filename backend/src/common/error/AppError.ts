@@ -54,6 +54,14 @@ export class AppError extends Error {
           userMessage: 'Wrong credentials',
         };
         break;
+      case AppErrorTypeEnum.INVALID_EMAIL:
+        res = {
+          type: AppErrorTypeEnum.INVALID_EMAIL,
+          httpStatus: HttpStatus.BAD_REQUEST,
+          errorMessage: 'Invalid email format',
+          userMessage: 'Email is not of valid format',
+        };
+        break;
       case AppErrorTypeEnum.VALIDATION_FAILED:
         res = {
           type: AppErrorTypeEnum.VALIDATION_FAILED,

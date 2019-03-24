@@ -41,8 +41,10 @@ const RegistrationForm = ({
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
 
   const [passwordsMatch, setPasswordsMatch] = React.useState(true);
+  const [validEmail, setValidEmail] = React.useState(true);
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValidEmail(true);
     setEmail(event.target.value);
   };
 
@@ -68,6 +70,16 @@ const RegistrationForm = ({
     }
   };
 
+  const checkIfValidEmail = () => {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    setValidEmail(email === "" || emailRegex.test(email));
+  };
+
+  const emailErrorText = emailError
+    ? "This email is already in use!"
+    : "That is not a valid email adress";
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (passwordConfirmation === password) {
@@ -78,7 +90,7 @@ const RegistrationForm = ({
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
-        error={emailError}
+        error={!validEmail || emailError}
         disabled={loading}
         fieldType="text"
         name="email"
@@ -86,7 +98,8 @@ const RegistrationForm = ({
         onChange={onEmailChange}
         value={email}
         autoFocus={true}
-        errorText="This email is already in use!"
+        errorText={emailErrorText}
+        onBlur={checkIfValidEmail}
         autoComplete="email"
       />
       <FormField
@@ -128,7 +141,7 @@ const RegistrationForm = ({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={loading || !passwordsMatch}
+          disabled={loading || !passwordsMatch || !validEmail}
         >
           Register
         </Button>

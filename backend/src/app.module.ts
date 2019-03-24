@@ -10,6 +10,7 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
   imports: [
     MongooseModule.forRoot('mongodb://localhost/nest'),
     TestModule,
+    TransactionsModule,
     UserModule,
     AuthModule,
     TransactionsModule,

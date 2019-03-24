@@ -8,7 +8,7 @@ export class AppError extends Error {
   public errorMessage: string;
   public userMessage: string;
 
-  constructor(errorCode: AppErrorTypeEnum) {
+  constructor(errorCode: AppErrorTypeEnum, msg?: string) {
     super();
     const errorMessageConfig: IErrorMessage = this.getError(errorCode);
     if (!errorMessageConfig) {
@@ -19,6 +19,9 @@ export class AppError extends Error {
     this.name = this.constructor.name;
     this.httpStatus = errorMessageConfig.httpStatus;
     this.errorCode = errorCode;
+    if (msg)
+      this.errorMessage = msg;
+    else
     this.errorMessage = errorMessageConfig.errorMessage;
     this.userMessage = errorMessageConfig.userMessage;
   }
@@ -57,6 +60,22 @@ export class AppError extends Error {
           httpStatus: HttpStatus.BAD_REQUEST,
           errorMessage: 'Invalid email format',
           userMessage: 'Email is not of valid format',
+        };
+        break;
+      case AppErrorTypeEnum.VALIDATION_FAILED:
+        res = {
+          type: AppErrorTypeEnum.VALIDATION_FAILED,
+          httpStatus: HttpStatus.BAD_REQUEST,
+          errorMessage: 'Validation failed',
+          userMessage: 'Validation failed',
+        };
+        break;
+      case AppErrorTypeEnum.TRANSACTION_NOT_FOUND:
+        res = {
+          type: AppErrorTypeEnum.TRANSACTION_NOT_FOUND,
+          httpStatus: HttpStatus.BAD_REQUEST,
+          errorMessage: 'No Transactions found',
+          userMessage: 'No transactions found',
         };
         break;
     }

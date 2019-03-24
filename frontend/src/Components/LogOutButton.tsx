@@ -4,7 +4,6 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { signOut } from "../Utilities/AuthenticationCookies";
 
 const LogOutButton = ({ history }: RouteComponentProps<any>) => {
-
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     signOut();
@@ -12,12 +11,8 @@ const LogOutButton = ({ history }: RouteComponentProps<any>) => {
   };
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={onClick}
-    >
-    Log out
+    <Button variant="contained" color="primary" onClick={onClick}>
+      Log out
     </Button>
   );
 };

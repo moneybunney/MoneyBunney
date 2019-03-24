@@ -7,7 +7,7 @@ interface ILoginData {
 }
 
 export const postLogin = (data: ILoginData) =>
-  post("/api/user/login", data).then((response) => {
+  post("/api/user/login", data).then(response => {
     if (response.status === 200) {
       return response.body;
     } else {
@@ -16,7 +16,7 @@ export const postLogin = (data: ILoginData) =>
   });
 
 export const postRegister = (data: ILoginData) =>
-  post("/api/user", data).then((response) => {
+  post("/api/user", data).then(response => {
     if (response.status === 201) {
       return response.body;
     } else {
@@ -31,7 +31,7 @@ export const postTransaction = async (data: ITransaction) => {
     Category: data.category.toString(),
     Amount: Number(data.amount),
     Description: data.description,
-    Tags: data.tags,
+    Tags: data.tags
   };
   const response = await post("/api/transactions", DTO);
   if (response.status === 201) {
@@ -41,27 +41,32 @@ export const postTransaction = async (data: ITransaction) => {
   }
 };
 
-export const getTransactionListChunk = async (startingDate: Date, count: number) => {
+export const getTransactionListChunk = async (
+  startingDate: Date,
+  count: number
+) => {
   const params = new Map<string, string>([
     ["date", startingDate.toISOString()],
-    ["number", String(count)],
+    ["number", String(count)]
   ]);
 
   const response = await get("/api/transactions/list", params);
   if (response.status === 200) {
-    return response.json().then((data) => {
+    return response.json().then(data => {
       const dtoArray = data as any[];
-      return dtoArray.map((element): ITransaction => {
-        return {
-          date: element.Date,
-          account: element.Account,
-          category: element.Category,
-          amount: String(element.Amount),
-          description: element.Description,
-          tags: element.Tags,
-          id: element._id,
-        };
-      });
+      return dtoArray.map(
+        (element): ITransaction => {
+          return {
+            date: element.Date,
+            account: element.Account,
+            category: element.Category,
+            amount: String(element.Amount),
+            description: element.Description,
+            tags: element.Tags,
+            id: element._id
+          };
+        }
+      );
     });
   } else {
     throw new Error("Something went wrong");

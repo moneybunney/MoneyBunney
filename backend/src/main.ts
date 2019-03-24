@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';;
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DispatchError } from './common/filters/DispatchError';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';

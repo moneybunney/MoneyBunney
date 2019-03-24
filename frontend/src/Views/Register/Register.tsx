@@ -7,7 +7,7 @@ import {
   Theme,
   Typography,
   WithStyles,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
 import React from "react";
@@ -26,23 +26,23 @@ const styles = (theme: Theme) =>
       [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
         width: 400,
         marginLeft: "auto",
-        marginRight: "auto",
-      },
+        marginRight: "auto"
+      }
     },
     formContainer: {
-      marginTop: theme.spacing.unit * 8,
+      marginTop: theme.spacing.unit * 8
     },
     paper: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-        .spacing.unit * 3}px`,
+        .spacing.unit * 3}px`
     },
     avatar: {
       margin: theme.spacing.unit,
-      backgroundColor: theme.palette.primary.main,
-    },
+      backgroundColor: theme.palette.primary.main
+    }
   });
 
 interface IProps extends WithStyles<typeof styles> {}

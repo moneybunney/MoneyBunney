@@ -4,10 +4,9 @@ import { UserDTO } from '../user/dto/user.dto';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UserService) {}
-    
-    async validateUser(user: UserDTO): Promise<any> {
-        return await this.userService.authenticateUser(user);
-    }
+  constructor(private readonly userService: UserService) {}
 
+  async validateUser(user: UserDTO): Promise<any> {
+    return await this.userService.authenticateUser(user);
+  }
 }

@@ -4,8 +4,7 @@ import { HttpStrategy } from './http.strategy';
 import { UserModule } from '../user/user.module';
 
 @Module({
-    imports: [UserModule],
-    providers: [AuthService, HttpStrategy],
+  imports: [UserModule],
+  providers: [AuthService, HttpStrategy],
 })
-
 export class AuthModule {}

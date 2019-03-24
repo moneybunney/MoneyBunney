@@ -3,7 +3,7 @@ import {
   createStyles,
   Theme,
   WithStyles,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import React from "react";
 
@@ -15,13 +15,13 @@ const styles = (theme: Theme) =>
   createStyles({
     form: {
       width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing.unit,
+      marginTop: theme.spacing.unit
     },
     buttonContainer: {
       marginTop: theme.spacing.unit * 3,
       display: "flex",
-      justifyContent: "space-between",
-    },
+      justifyContent: "space-between"
+    }
   });
 
 interface IProps extends WithStyles<typeof styles> {
@@ -34,15 +34,17 @@ const RegistrationForm = ({
   classes,
   loading,
   emailError,
-  onSubmit,
+  onSubmit
 }: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
 
   const [passwordsMatch, setPasswordsMatch] = React.useState(true);
+  const [validEmail, setValidEmail] = React.useState(true);
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValidEmail(true);
     setEmail(event.target.value);
   };
 
@@ -52,7 +54,7 @@ const RegistrationForm = ({
   };
 
   const onPasswordConfirmationChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setPasswordsMatch(true);
     setPasswordConfirmation(event.target.value);
@@ -68,6 +70,16 @@ const RegistrationForm = ({
     }
   };
 
+  const checkIfValidEmail = () => {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    setValidEmail(email === "" || emailRegex.test(email));
+  };
+
+  const emailErrorText = emailError
+    ? "This email is already in use!"
+    : "That is not a valid email adress";
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (passwordConfirmation === password) {
@@ -78,7 +90,7 @@ const RegistrationForm = ({
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
-        error={emailError}
+        error={!validEmail || emailError}
         disabled={loading}
         fieldType="text"
         name="email"
@@ -86,7 +98,8 @@ const RegistrationForm = ({
         onChange={onEmailChange}
         value={email}
         autoFocus={true}
-        errorText="This email is already in use!"
+        errorText={emailErrorText}
+        onBlur={checkIfValidEmail}
         autoComplete="email"
       />
       <FormField
@@ -128,7 +141,7 @@ const RegistrationForm = ({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={loading || !passwordsMatch}
+          disabled={loading || !passwordsMatch || !validEmail}
         >
           Register
         </Button>

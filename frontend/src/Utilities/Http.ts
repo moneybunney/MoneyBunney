@@ -1,7 +1,12 @@
+const { API_HOST, API_PORT } = process.env;
+
 export const http = (
   input: RequestInfo,
   init?: RequestInit
-): Promise<Response> => fetch(input, init);
+): Promise<Response> => {
+  const uri = `${API_HOST}:${API_PORT}${input}`;
+  return fetch(uri, init);
+};
 
 export const post = (
   input: RequestInfo,

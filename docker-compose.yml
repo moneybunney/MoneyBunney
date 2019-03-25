@@ -15,7 +15,9 @@ services:
     depends_on:
       - "db"
     environment:
-      - DB=mongodb://db:27017/nest
+      - DB_HOST=db
+      - DB_PORT=27017
+      - DB_NAME=moneybunney
 
   frontend:
     build: ./frontend
@@ -23,3 +25,6 @@ services:
       - "3000:3000"
     depends_on:
       - "backend"
+    environment:
+      - API_HOST=backend
+      - API_PORT=8080

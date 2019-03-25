@@ -1,23 +1,25 @@
-version: '3'
+version: "3"
 
 services:
-    db:
-        image: mongo:latest
-        ports:
-            - "27017:27017"
-        volumes:
-            - ./data:/data/db
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
 
-    backend:
-        build: ./backend
-        ports:
-            - "8080:8080"
-        depends_on:
-            - "db"
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "db"
+    environment:
+      - DB=mongodb://db:27017/nest
 
-    frontend:
-        build: ./frontend
-        ports:
-            - "3000:3000"
-        depends_on:
-            - "backend"
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "backend"

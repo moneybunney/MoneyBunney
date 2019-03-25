@@ -1,6 +1,38 @@
-import { DocumentQuery } from 'mongoose';
-import { Document } from 'mongoose';
+import { DocumentQuery, Document } from 'mongoose';
+import { AppError } from 'src/common/error/AppError';
+import { SelectorDTO } from '../../dto/selector.dto';
+import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 
-export interface ISelector<T extends Document> {
-    ApplySelector(currentQuery: DocumentQuery<T[], T, {}>): void;
+export abstract class Selector<T extends Document> {
+    private readonly selectorName: string = 'not-implemented';
+    getName(): string {
+        return this.selectorName;
+    }
+
+    public ApplySelectorDTO = (
+        selectorDTO: SelectorDTO,
+        currentQuery: DocumentQuery<T[], T, {}>,
+        ): DocumentQuery<T[], T, {}> => {
+        this.ValidateSelectorName(selectorDTO);
+        this.ValidateSelectorDTO(selectorDTO);
+        return this.ApplyValidatedSelectorDTO(selectorDTO, currentQuery);
+    }
+
+    protected abstract ApplyValidatedSelectorDTO(
+        selectorDTO: SelectorDTO,
+        currentQuery: DocumentQuery<T[], T, {}>,
+        ): DocumentQuery<T[], T, {}>;
+
+    protected abstract ValidateSelectorDTO(selectorDTO: SelectorDTO): void;
+
+    private ValidateSelectorName(selectorDTO: SelectorDTO): void {
+        if (selectorDTO.SelectorName !== this.getName()) {
+            throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, 'Invalid selector name!');
+        }
+    }
+
+    // utility
+    protected ThrowValidationErr(message: string) {
+        throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, message);
+    }
 }

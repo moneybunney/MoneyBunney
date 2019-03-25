@@ -51,30 +51,21 @@ const styles = (theme: Theme) =>
     }
   });
 
-export interface Props extends WithStyles<typeof styles> {}
+export interface IProps extends WithStyles<typeof styles> {}
 
-class HomePage extends React.Component<Props> {
-  public render() {
-    const { classes } = this.props;
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Header />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <h1>Monthly Sales Data</h1>
-            <Typography component="div" className={classes.chartContainer}>
-              <SimpleLineChart />
-            </Typography>
-          </main>
-        </div>
-      </React.Fragment>
-    );
-  }
-}
-
-(HomePage as React.ComponentClass<Props>).propTypes = {
-  classes: PropTypes.object.isRequired
-} as any;
+const HomePage = ({ classes }: IProps) => {
+  return (
+    <div className={classes.root}>
+      <Header />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <h1>Monthly Sales Data</h1>
+        <Typography component="div" className={classes.chartContainer}>
+          <SimpleLineChart />
+        </Typography>
+      </main>
+    </div>
+  );
+};
 
 export default withStyles(styles)(HomePage);

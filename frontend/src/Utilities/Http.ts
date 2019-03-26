@@ -1,10 +1,13 @@
-const { API_HOST, API_PORT } = process.env;
+const {
+  REACT_APP_API_HOST: API_HOST,
+  REACT_APP_API_PORT: API_PORT
+} = process.env;
 
 export const http = (
   input: RequestInfo,
   init?: RequestInit
 ): Promise<Response> => {
-  const uri = `${API_HOST}:${API_PORT}${input}`;
+  const uri = `http://${API_HOST}:${API_PORT}${input}`;
   return fetch(uri, init);
 };
 

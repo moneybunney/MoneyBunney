@@ -8,3 +8,12 @@ export interface Transactions extends Document {
   readonly Description: string;
   readonly Tags: string[];
 }
+
+export class TransactionsUtils {
+  static GetSortableFields(): string[] {
+    return [
+      'Date',
+      'Price',
+    ];
+  }
+}

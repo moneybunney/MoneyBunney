@@ -5,6 +5,7 @@ import { AppError } from 'src/common/error/AppError';
 import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { Document } from 'mongoose';
 import { Injectable } from '@nestjs/common';
+import { SortSelector } from './sort.selector';
 
 export class SelectorFactory<T extends Document> {
 
@@ -12,6 +13,7 @@ export class SelectorFactory<T extends Document> {
         const usedSelectors = [
             () => new AnySelector<T>(),
             () => new IdSelector<T>(),
+            () => new SortSelector<T>(),
         ];
 
         usedSelectors.forEach((s) => this.addSelector(s));

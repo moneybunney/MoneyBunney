@@ -1,7 +1,7 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../dto/selector.dto';
-import { ValidataionUtilities } from 'src/common/utility/validation.utilities';
+import { ValidataionUtils } from 'src/common/utility/validation.utils';
 
 export class IdSelector<T extends Document> extends Selector<T> {
     public getName(): string {
@@ -15,15 +15,14 @@ export class IdSelector<T extends Document> extends Selector<T> {
         return currentQuery.where('_id', selectorDTO.Value);
     }
     ValidateSelectorDTO = (selectorDTO: SelectorDTO): void  => {
-        if (!(selectorDTO.Value instanceof String ||
-              typeof selectorDTO.Value === 'string')
+        if (!ValidataionUtils.isString(selectorDTO.Value)
             ) {
             this.ThrowValidationErr('Invalid selector value given');
         }
 
-        const keyTrue = Boolean(selectorDTO.Key);
-        const keyIsString = ValidataionUtilities.isString(selectorDTO.Key);
-        if (keyTrue && // the key can be assumed here
+        const keyTruthly = Boolean(selectorDTO.Key);
+        const keyIsString = ValidataionUtils.isString(selectorDTO.Key);
+        if (keyTruthly && // the key can be assumed here
             (keyIsString && selectorDTO.Key === '_id')
             ) {
             this.ThrowValidationErr('Invalid key given');

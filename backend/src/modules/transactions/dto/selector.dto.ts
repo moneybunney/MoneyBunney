@@ -1,8 +1,8 @@
 export class SelectorDTO {
 
-    readonly SelectorName: string;
+    readonly Name: string;
 
-    readonly KeyName?: any;
+    readonly Key?: any;
 
     readonly Value?: any;
 }

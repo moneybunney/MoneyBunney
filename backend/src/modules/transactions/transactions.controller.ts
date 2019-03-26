@@ -9,6 +9,7 @@ import {
   Res,
   UsePipes,
   HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { TransactionsService } from './service/transactions.service';
 import { TransactionDTO } from './dto/transaction.dto';
@@ -81,8 +82,8 @@ export class TransactionsController {
  */
   @Get('/query')
   @ApiOperation({ title: 'Find transaction by ID' })
-  @ApiResponse({ status: 200, description: 'Transaction found.' })
-  @ApiResponse({ status: 404, description: 'Transaction not found.' })
+  @ApiResponse({ status: 200, description: 'Transaction response' })
+  @ApiResponse({ status: 500, description: 'Validation error' })
   public async getTransactionByQuery(@Body() query: QueryDTO, @Res() res: Response) {
     this.logger.log('Get to /api/transactions/query');
     const transactions = await this.queryService.query(query);

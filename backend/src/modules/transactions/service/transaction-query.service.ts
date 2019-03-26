@@ -10,15 +10,17 @@ import { Selector } from './selectors/selector';
 import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { TransactionDTO } from '../dto/transaction.dto';
 import { AppError } from 'src/common/error/AppError';
+import { SelectorFactory } from './selectors/selector-repository';
 
 @Injectable()
 export class TransactionQueryService {
+  private readonly selectorFactory: SelectorFactory<Transactions>;
   constructor(
     @InjectModel('Transactions')
     private readonly transactionModel: Model<Transactions>,
     private readonly logger: Logger,
   ) {
-
+    this.selectorFactory = new SelectorFactory<Transactions>();
   }
 
   async query(queryRequest: QueryDTO): Promise<TransactionDTO[]> {
@@ -28,17 +30,14 @@ export class TransactionQueryService {
       return [];
     }
     queryRequest.selectors.forEach((selectorDTO) => {
-      const selectorImpl = this.resolveSelector(selectorDTO.SelectorName);
+      const selectorImpl = this.resolveSelector(selectorDTO.Name);
       selectorImpl.ApplySelectorDTO(selectorDTO, currentQuery);
     });
     return currentQuery.exec();
   }
 
   resolveSelector = (name: string): Selector<Transactions> => {
-    switch (name) {
-      case 'any':
-        return new AnySelector<Transactions>();
-    }
+    return this.selectorFactory.CreateSelector(name);
   }
 
 }

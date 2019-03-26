@@ -7,7 +7,7 @@ describe('IdSelector', () => {
   let transactionsQueryMock: DocumentQuery<Transactions[], Transactions, {}>;
   it('should do nothing with the query', async () => {
     const selectorDTO: SelectorDTO = {
-      SelectorName: 'id',
+      Name: 'id',
       Value: '132',
     };
     const selector = new IdSelector<Transactions>();

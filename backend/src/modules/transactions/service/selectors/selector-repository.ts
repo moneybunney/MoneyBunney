@@ -4,8 +4,9 @@ import { IdSelector } from './id.selector';
 import { AppError } from 'src/common/error/AppError';
 import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { Document } from 'mongoose';
+import { Injectable } from '@nestjs/common';
 
-export class SelectorRepository<T extends Document> {
+export class SelectorFactory<T extends Document> {
 
     constructor() {
         const usedSelectors = [

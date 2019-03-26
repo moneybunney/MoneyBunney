@@ -7,7 +7,7 @@ describe('AnySelector', () => {
   let transactionsQueryMock: DocumentQuery<Transactions[], Transactions, {}>;
   it('should do nothing with the query', async () => {
     const selectorDTO: SelectorDTO = {
-      SelectorName: 'any',
+      Name: 'any',
     };
     const selector = new AnySelector<Transactions>();
     transactionsQueryMock = jest.fn() as any;

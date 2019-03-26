@@ -22,6 +22,7 @@
     "format:tslint": "tslint --fix --project tsconfig.json; prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
+    "@nest-middlewares/cors": "^5.1.1",
     "@nestjs/common": "^5.4.0",
     "@nestjs/core": "^5.4.0",
     "@nestjs/graphql": "^5.5.3",

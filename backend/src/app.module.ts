@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { CorsMiddleware } from '@nest-middlewares/cors';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestModule } from './modules/test/test.module';
@@ -34,4 +35,18 @@ const constructUri = async (configService: ConfigService) => {
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    const allowedOrigins = ['http://localhost:3000'];
+
+    CorsMiddleware.configure({
+      credentials: true,
+      origin: allowedOrigins,
+    });
+
+    consumer.apply(CorsMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}

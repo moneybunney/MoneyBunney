@@ -8,7 +8,13 @@ export const http = (
   init?: RequestInit
 ): Promise<Response> => {
   const uri = `http://${API_HOST}:${API_PORT}${input}`;
-  return fetch(uri, init);
+
+  const options: RequestInit = {
+    credentials: "include",
+    ...init
+  };
+
+  return fetch(uri, options);
 };
 
 export const post = (
@@ -21,11 +27,9 @@ export const post = (
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    ...init
   };
-
-  // If there are overrides of options
-  Object.assign(options, init);
 
   return http(input, options);
 };

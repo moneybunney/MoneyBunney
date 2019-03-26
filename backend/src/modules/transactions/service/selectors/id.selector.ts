@@ -1,8 +1,6 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../dto/selector.dto';
-import { AppError } from 'src/common/error/AppError';
-import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 
 export class IdSelector<T extends Document> extends Selector<T> {
     private static readonly selectorName = 'id';

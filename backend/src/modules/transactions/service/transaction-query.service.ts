@@ -24,19 +24,14 @@ export class TransactionQueryService {
   async query(queryRequest: QueryDTO): Promise<TransactionDTO[]> {
     const currentQuery = this.transactionModel.find();
     this.logger.log(queryRequest as any);
-    try {
-      if (!queryRequest || !queryRequest.selectors || queryRequest.selectors.length === 0) {
-        return [];
-      }
-      queryRequest.selectors.forEach((selectorDTO) => {
-        const selectorImpl = this.resolveSelector(selectorDTO.SelectorName);
-        selectorImpl.ApplySelectorDTO(selectorDTO, currentQuery);
-      });
-      return currentQuery.exec();
-    } catch (e) {
-      this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
+    if (!queryRequest || !queryRequest.selectors || queryRequest.selectors.length === 0) {
+      return [];
     }
+    queryRequest.selectors.forEach((selectorDTO) => {
+      const selectorImpl = this.resolveSelector(selectorDTO.SelectorName);
+      selectorImpl.ApplySelectorDTO(selectorDTO, currentQuery);
+    });
+    return currentQuery.exec();
   }
 
   resolveSelector = (name: string): Selector<Transactions> => {

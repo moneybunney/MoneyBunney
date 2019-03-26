@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "start": "DB=mongodb://localhost:27017/nest nodemon",
+    "start": "nodemon",
     "start:once": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
@@ -31,6 +31,7 @@
     "apollo-server-express": "^2.4.2",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
+    "dotenv": "^7.0.0",
     "express-session": "^1.15.6",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",

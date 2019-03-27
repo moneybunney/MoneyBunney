@@ -1,10 +1,8 @@
 import { Selector } from './selectors/selector';
 import { AnySelector } from './selectors/any.selector';
 import { IdSelector } from './selectors/id.selector';
-import { AppError } from 'src/common/error/AppError';
-import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { Document } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { SortSelector } from './selectors/sort.selector';
 import { WhereSelector } from './selectors/where.selector';
 import { LimitSelector } from './selectors/limit.selector';
@@ -31,8 +29,7 @@ export class SelectorFactory<T extends Document> {
     constructors: SelectorConstructorMap<T> = {};
     CreateSelector = (name: string): Selector<T> => {
         if (this.constructors[name] === undefined) {
-            throw new AppError(AppErrorTypeEnum.INVALID_SELECTOR_NAME,
-                'Selector with name: ' + name + ' was not recognized!');
+            throw new BadRequestException('Selector with name: ' + name + ' was not recognized!');
         } else {
             return this.constructors[name]();
         }

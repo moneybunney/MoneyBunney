@@ -50,7 +50,7 @@ export class TransactionsController {
   @Delete()
   @ApiOperation({ title: 'Remove transaction from database' })
   @ApiResponse({ status: 200, description: 'Transaction removed.' })
-  @ApiResponse({ status: 404, description: 'Transaction not found.' })
+  @ApiResponse({ status: 200, description: 'Transaction not found.' })
   public async deleteTransaction(
     @Query('id') id: string,
     @Res() res: Response,

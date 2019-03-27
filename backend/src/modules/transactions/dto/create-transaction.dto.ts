@@ -3,8 +3,8 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class CreateTransactionDto {
 
-	@ApiModelProperty()
-	@IsDateString()
+    @ApiModelProperty()
+    @IsDateString()
     readonly Date: object;
 
     @ApiModelProperty()

@@ -30,6 +30,10 @@ export class TransactionsService {
     }
   }
 
+  async removeAll(): Promise<any> {
+      return await this.transactionModel.remove({}).exec();
+  }
+
   async findById(id: string): Promise<Transactions> {
     try {
       return await this.transactionModel.findById(id).exec();
@@ -53,12 +57,9 @@ export class TransactionsService {
     return temp;
   }
 
-  async findTransactions(date: string, number: number): Promise<Transactions[]> {
-    if (number === undefined) {
-      number = 10;
-    }
+  async findTransactions(date: string, amount = 10): Promise<Transactions[]> {
     try {
-      return await this.transactionModel.find().sort({Date: -1}).where('Date').lt(date).limit(Number(number)).exec();
+      return await this.transactionModel.find().sort({Date: -1}).where('Date').lt(date).limit(Number(amount)).exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());

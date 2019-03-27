@@ -3,6 +3,14 @@ const {
   REACT_APP_API_PORT: API_PORT
 } = process.env;
 
+if (API_HOST === undefined || API_PORT === undefined) {
+  alert(
+    "You are missing some environment variables. Have you copied the " +
+      ".env.example file into .env? Have you perhaps missed some necessary " +
+      "environment variables in the file?"
+  );
+}
+
 export const http = (
   input: RequestInfo,
   init?: RequestInit

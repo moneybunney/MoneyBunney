@@ -33,7 +33,7 @@ export class TransactionsController {
   @ApiOperation({ title: 'Create Transaction' })
   @ApiResponse({ status: 201, description: 'Transaction successfully received.'})
   @ApiResponse({ status: 400, description: 'Bad request.'})
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe(this.logger))
   async create(@Body() createTransactionDto: CreateTransactionDto, @Res() res: Response) {
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);

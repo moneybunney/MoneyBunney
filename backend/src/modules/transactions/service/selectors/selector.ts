@@ -1,8 +1,6 @@
 import { DocumentQuery, Document } from 'mongoose';
-import { AppError } from 'src/common/error/AppError';
 import { SelectorDTO } from '../../dto/selector.dto';
-import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
-import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 export abstract class Selector<T extends Document> {
     public abstract GetName(): string;

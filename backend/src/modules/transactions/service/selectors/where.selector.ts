@@ -1,9 +1,8 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../dto/selector.dto';
-import { ValidataionUtils } from 'src/common/utility/validation.utils';
 import { TransactionsUtils } from '../../interfaces/transactions.interface';
-import { IsString, IsDefined, ValidateNested, validate, validateSync } from 'class-validator';
+import { IsString, IsDefined, ValidateNested, validateSync } from 'class-validator';
 import { plainToClass, Type } from 'class-transformer';
 import { BadRequestException } from '@nestjs/common';
 
@@ -33,8 +32,7 @@ export class WhereSelector<T extends Document> extends Selector<T> {
         const classObject = plainToClass(WhereSelectorDTO, selectorDTO);
         const errors = validateSync(classObject);
         if (errors.length > 0) {
-            console.log(errors);
-            throw new BadRequestException('Validation failed!', String(errors));
+            throw new BadRequestException('Validation failed!', JSON.stringify(errors));
         }
 
         if (this.Operators[classObject.Value.Relationship] === undefined) {

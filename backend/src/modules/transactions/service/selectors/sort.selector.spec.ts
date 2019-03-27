@@ -43,7 +43,7 @@ describe('SortSelector', () => {
         const selectorDTO: SelectorDTO = {
             Name: 'sort',
             Key: 'Date',
-            Value: '1',
+            Value: -100,
         };
         const selector = new SortSelector<Transactions>();
         expect(() => selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock)).toThrow();

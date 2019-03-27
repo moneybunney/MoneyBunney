@@ -1,8 +1,10 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../dto/selector.dto';
-import { ValidataionUtils } from 'src/common/utility/validation.utils';
 import { TransactionsUtils } from '../../interfaces/transactions.interface';
+import { IsString, IsNumber, validateSync } from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import { BadRequestException } from '@nestjs/common';
 
 export class SortSelector<T extends Document> extends Selector<T> {
 
@@ -21,24 +23,30 @@ export class SortSelector<T extends Document> extends Selector<T> {
     }
 
     ValidateSelectorDTO = (selectorDTO: SelectorDTO): void  => {
-        const keyTruthly = Boolean(selectorDTO.Key);
-        const keyIsString = ValidataionUtils.isString(selectorDTO.Key);
-        if (   !keyTruthly
-            || !keyIsString
-            || (TransactionsUtils.GetSortableFields().indexOf(selectorDTO.Key) < 0)
-            ) {
+        const classObject = plainToClass(SortSelectorDTO, selectorDTO);
+        const errors = validateSync(classObject);
+        if (errors.length > 0) {
+            throw new BadRequestException('Validation failed!', JSON.stringify(errors));
+        }
+
+        if (TransactionsUtils.GetSortableFields().indexOf(selectorDTO.Key) < 0) {
             this.ThrowValidationErr('Invalid key given!');
         }
-        const valueTruthly = Boolean(selectorDTO.Value);
-        const valueInteger = Boolean(selectorDTO.Value instanceof Number || typeof selectorDTO.Value === 'number');
-        if (   !valueTruthly
-            || !valueInteger
-            ) {
-            this.ThrowValidationErr('Invalid selector value given (A number is required)');
-        }
-        const sortOrder = selectorDTO.Value as number;
+
+        const sortOrder = classObject.Value;
         if (!(sortOrder === -1 || sortOrder === 1)) {
             this.ThrowValidationErr('Invalid value (sort order) given!');
         }
     }
+}
+
+class SortSelectorDTO {
+    @IsString()
+    Name: string;
+
+    @IsString()
+    readonly Key: string;
+
+    @IsNumber()
+    Value: number;
 }

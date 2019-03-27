@@ -7,6 +7,7 @@ import { Document } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { SortSelector } from './selectors/sort.selector';
 import { WhereSelector } from './selectors/where.selector';
+import { LimitSelector } from './selectors/limit.selector';
 
 export class SelectorFactory<T extends Document> {
 
@@ -16,6 +17,7 @@ export class SelectorFactory<T extends Document> {
             () => new IdSelector<T>(),
             () => new SortSelector<T>(),
             () => new WhereSelector<T>(),
+            () => new LimitSelector<T>(),
         ];
 
         usedSelectors.forEach((s) => this.addSelector(s));

@@ -14,7 +14,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return \"Index of MonneyBunney\"', () => {
+    it('should return "Index of MonneyBunney"', () => {
       expect(appController.getApp()).toBe('Index of MonneyBunney');
     });
   });

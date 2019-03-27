@@ -3,7 +3,7 @@ import {
   createStyles,
   Theme,
   WithStyles,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import React from "react";
 
@@ -15,13 +15,13 @@ const styles = (theme: Theme) =>
   createStyles({
     form: {
       width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing.unit,
+      marginTop: theme.spacing.unit
     },
     buttonContainer: {
       marginTop: theme.spacing.unit * 3,
       display: "flex",
-      justifyContent: "space-between",
-    },
+      justifyContent: "space-between"
+    }
   });
 
 interface IProps extends WithStyles<typeof styles> {
@@ -34,7 +34,7 @@ const RegistrationForm = ({
   classes,
   loading,
   emailError,
-  onSubmit,
+  onSubmit
 }: IProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -54,7 +54,7 @@ const RegistrationForm = ({
   };
 
   const onPasswordConfirmationChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setPasswordsMatch(true);
     setPasswordConfirmation(event.target.value);

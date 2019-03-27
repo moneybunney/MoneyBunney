@@ -1,9 +1,14 @@
-import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+import {
+  PipeTransform,
+  Injectable,
+  ArgumentMetadata,
+  BadRequestException,
+} from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { AppErrorTypeEnum } from '../error/AppErrorTypeEnum';
 import { AppError } from '../error/AppError';
-import { Logger } from '../../modules/logger/logger.service'
+import { Logger } from '../../modules/logger/logger.service';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -14,10 +19,9 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-    	const logger = new Logger();
-      	logger.log(errors.toString());
-      	throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, errors.toString());
-
+      const logger = new Logger();
+      logger.log(errors.toString());
+      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, errors.toString());
     }
     return value;
   }

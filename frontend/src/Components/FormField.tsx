@@ -2,7 +2,7 @@ import {
   FormControl,
   FormHelperText,
   Input,
-  InputLabel,
+  InputLabel
 } from "@material-ui/core";
 import React from "react";
 
@@ -34,7 +34,7 @@ const FormField = ({
   autoFocus,
   onBlur,
   errorText,
-  autoComplete,
+  autoComplete
 }: IProps) => {
   return (
     <FormControl

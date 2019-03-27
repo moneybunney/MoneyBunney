@@ -19,10 +19,11 @@ export class AppError extends Error {
     this.name = this.constructor.name;
     this.httpStatus = errorMessageConfig.httpStatus;
     this.errorCode = errorCode;
-    if (msg)
+    if (msg) {
       this.errorMessage = msg;
-    else
-    this.errorMessage = errorMessageConfig.errorMessage;
+    } else {
+      this.errorMessage = errorMessageConfig.errorMessage;
+    }
     this.userMessage = errorMessageConfig.userMessage;
   }
 

@@ -115,4 +115,21 @@ describe('WhereSelector', () => {
         expect(() => selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock))
             .toThrow();
     });
+
+    it('should error with malformed value', async () => {
+        transactionsQueryMock = {
+            sort: jest.fn(() => transactionsQueryMock),
+        } as any;
+        const selectorDTO: SelectorDTO = {
+        Name: 'where',
+        Key: 'Price',
+        Value: {
+            Value: { test: 'I love unit tests!'},
+        },
+        };
+
+        const selector = new WhereSelector<Transactions>();
+        expect(() => selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock))
+            .toThrow();
+    });
 });

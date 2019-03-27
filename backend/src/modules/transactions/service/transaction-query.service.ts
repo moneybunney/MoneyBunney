@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transactions } from '../interfaces/transactions.interface';
 import { Logger } from '../../logger/logger.service';
@@ -33,10 +33,16 @@ export class TransactionQueryService {
       const selectorImpl = this.resolveSelector(selectorDTO.Name);
       selectorImpl.ApplySelectorDTO(selectorDTO, currentQuery);
     });
-    return currentQuery.exec();
+    return currentQuery.exec().catch((e) => {
+      if (typeof e.message === 'string') {
+        throw new BadRequestException(e.message);
+      } else {
+        throw new BadRequestException(JSON.stringify(e));
+      }
+    });
   }
 
-  resolveSelector = (name: string): Selector<Transactions> => {
+resolveSelector = (name: string): Selector<Transactions> => {
     return this.selectorFactory.CreateSelector(name);
   }
 

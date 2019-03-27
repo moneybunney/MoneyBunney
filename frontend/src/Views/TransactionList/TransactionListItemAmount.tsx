@@ -14,10 +14,10 @@ const styles = (theme: Theme) =>
       fontWeight: 500,
       margin: 16
     },
-    spending: {
+    expense: {
       color: "#f6787f"
     },
-    gain: {
+    income: {
       color: "#68bcbe"
     }
   });
@@ -33,7 +33,7 @@ const TransactionListItemAmount = ({ amount: amount, classes }: IProps) => {
   return (
     <ListItemSecondaryAction>
       <Typography className={classes.amountText}>
-        <span className={spending ? classes.spending : classes.gain}>
+        <span className={spending ? classes.expense : classes.income}>
           {amountText}
         </span>
       </Typography>

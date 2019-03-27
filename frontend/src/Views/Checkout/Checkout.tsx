@@ -82,7 +82,7 @@ const Checkout = (props: IProps) => {
     }
     postTransaction(currentTransaction)
       .catch(error => {
-        alert(error);
+        console.log(error);
       })
       .then(() => {
         setLoading(false);

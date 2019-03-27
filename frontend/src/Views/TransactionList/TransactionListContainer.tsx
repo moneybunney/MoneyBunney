@@ -110,6 +110,7 @@ const TransactionListContainer = ({ classes }: IProps) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const onRequestMoreTranscations = () => {
+    console.log("Requested load more!");
     dispatch({ type: ActionType.LoadStart, payload: [] });
     // currently fetching relies on transactions being ordered chronologically:
     const lastLoadedTransactionDate =

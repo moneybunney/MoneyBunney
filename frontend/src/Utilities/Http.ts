@@ -13,16 +13,23 @@ if (API_HOST === undefined || API_PORT === undefined) {
 
 export const http = (
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
+  querryParams?: Map<string, string>
 ): Promise<Response> => {
   const uri = `http://${API_HOST}:${API_PORT}${input}`;
+  const url = new URL(uri);
+
+  if (querryParams) {
+    querryParams.forEach((val, key) => {
+      url.searchParams.append(key, val);
+    });
+  }
 
   const options: RequestInit = {
     credentials: "include",
     ...init
   };
-
-  return fetch(uri, options);
+  return fetch(url.href, options);
 };
 
 export const post = (
@@ -43,19 +50,12 @@ export const post = (
 };
 
 export const get = (
-  inputUrl: string,
+  input: RequestInfo,
   params: Map<string, string>,
   init?: RequestInit
 ): Promise<Response> => {
   const options: RequestInit = {
     method: "GET"
   };
-  console.log("Constructing url from:" + "localhost" + inputUrl);
-  const url = new URL("http://localhost:3000" + inputUrl);
-  // If there are overrides of options
-  Object.assign(options, init);
-  params.forEach((val, key) => {
-    url.searchParams.append(key, val);
-  });
-  return http(url.href, options);
+  return http(input, options, params);
 };

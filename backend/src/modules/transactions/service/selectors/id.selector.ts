@@ -4,7 +4,8 @@ import { SelectorDTO } from '../../dto/selector.dto';
 import { ValidataionUtils } from 'src/common/utility/validation.utils';
 
 export class IdSelector<T extends Document> extends Selector<T> {
-    public getName(): string {
+
+    public GetName(): string {
         return 'id';
     }
 
@@ -14,6 +15,7 @@ export class IdSelector<T extends Document> extends Selector<T> {
         ): DocumentQuery<T[], T, {}> => {
         return currentQuery.where('_id', selectorDTO.Value);
     }
+
     ValidateSelectorDTO = (selectorDTO: SelectorDTO): void  => {
         if (!ValidataionUtils.isString(selectorDTO.Value)
             ) {

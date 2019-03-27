@@ -5,7 +5,7 @@ import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { BadRequestException, HttpStatus } from '@nestjs/common';
 
 export abstract class Selector<T extends Document> {
-    public abstract getName(): string;
+    public abstract GetName(): string;
 
     public ApplySelectorDTO = (
         selectorDTO: SelectorDTO,
@@ -24,11 +24,11 @@ export abstract class Selector<T extends Document> {
     protected abstract ValidateSelectorDTO(selectorDTO: SelectorDTO): void;
 
     private ValidateSelectorName(selectorDTO: SelectorDTO): void {
-        if (selectorDTO.Name !== this.getName()) {
+        if (selectorDTO.Name !== this.GetName()) {
             throw new BadRequestException(
                 'Invalid selector name:' +
                 selectorDTO.Name + '!==' +
-                this.getName());
+                this.GetName());
         }
     }
 

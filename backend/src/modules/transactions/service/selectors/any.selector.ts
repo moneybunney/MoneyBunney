@@ -3,7 +3,8 @@ import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../dto/selector.dto';
 
 export class AnySelector<T extends Document> extends Selector<T> {
-    public getName(): string {
+
+    public GetName(): string {
         return 'any';
     }
 

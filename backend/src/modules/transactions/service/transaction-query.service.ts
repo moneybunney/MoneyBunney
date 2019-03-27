@@ -10,7 +10,7 @@ import { Selector } from './selectors/selector';
 import { AppErrorTypeEnum } from 'src/common/error/AppErrorTypeEnum';
 import { TransactionDTO } from '../dto/transaction.dto';
 import { AppError } from 'src/common/error/AppError';
-import { SelectorFactory } from './selectors/selector-repository';
+import { SelectorFactory } from './selector-repository';
 
 @Injectable()
 export class TransactionQueryService {

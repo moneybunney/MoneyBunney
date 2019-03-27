@@ -5,7 +5,8 @@ import { ValidataionUtils } from 'src/common/utility/validation.utils';
 import { TransactionsUtils } from '../../interfaces/transactions.interface';
 
 export class SortSelector<T extends Document> extends Selector<T> {
-    public getName(): string {
+
+    public GetName(): string {
         return 'sort';
     }
 
@@ -18,12 +19,13 @@ export class SortSelector<T extends Document> extends Selector<T> {
         sortObj[selectorDTO.Key] = selectorDTO.Value as number;
         return currentQuery.sort(sortObj);
     }
+
     ValidateSelectorDTO = (selectorDTO: SelectorDTO): void  => {
         const keyTruthly = Boolean(selectorDTO.Key);
         const keyIsString = ValidataionUtils.isString(selectorDTO.Key);
         if (   !keyTruthly
             || !keyIsString
-            || !(TransactionsUtils.GetSortableFields().indexOf(selectorDTO.Key) > -1)
+            || (TransactionsUtils.GetSortableFields().indexOf(selectorDTO.Key) < 0)
             ) {
             this.ThrowValidationErr('Invalid key given!');
         }

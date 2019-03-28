@@ -9,8 +9,12 @@ import PageHeader from "./PageHeader";
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      display: "flex"
-    }
+      display: "flex",
+    },
+    contentWrapper: {
+      paddingTop: "80px",
+      flex: 1,
+    },
   });
 
 export interface IProps extends WithStyles<typeof styles> {
@@ -22,7 +26,7 @@ const NavigationWrapper = ({ classes, children }: IProps) => {
     <div className={classes.root}>
       <PageHeader text="Dashboard" />
       <NavigationSidebar />
-      {children}
+      <div className={classes.contentWrapper}>{children}</div>
     </div>
   );
 };

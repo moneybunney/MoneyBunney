@@ -7,14 +7,14 @@ import {
 } from "react-router-dom";
 
 import Checkout from "./Views/Checkout/Checkout";
-import Dasbhoard from "./Views/Home/Dashboard";
+import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
 import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
 
+import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
 import GuestRoute from "./Components/routes/GuestRoute";
 import UserRoute from "./Components/routes/UserRoute";
-import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
 
 const HomeRoutes = () => {
   return (
@@ -22,8 +22,8 @@ const HomeRoutes = () => {
       <Switch>
         <Route path="/transactions" component={TransactionListContainer} />
         <Route path="/checkout" component={Checkout} />
-        <Route exact={true} path="/" component={Dasbhoard} />
-        <Redirect to="/" />
+        <Route path="/dashboard" component={Dashboard} />
+        <Redirect to="/dashboard" />
       </Switch>
     </NavigationWrapper>
   );
@@ -36,7 +36,6 @@ const App = () => {
         <GuestRoute path="/login" Component={Login} />
         <GuestRoute path="/register" Component={Register} />
         <UserRoute path="/" Component={HomeRoutes} />
-        <Redirect to="/" />
       </Switch>
     </Router>
   );

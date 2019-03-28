@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
 
 export interface IProps extends WithStyles<typeof styles> {}
 
-const Dasbhoard = ({ classes }: IProps) => {
+const Dashboard = ({ classes }: IProps) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
@@ -38,4 +38,4 @@ const Dasbhoard = ({ classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(Dasbhoard);
+export default withStyles(styles)(Dashboard);

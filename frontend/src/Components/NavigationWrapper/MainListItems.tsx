@@ -9,16 +9,16 @@ import NavigationListItem from "./NavigationListItem";
 
 export const MainListItems = () => (
   <React.Fragment>
-    <NavigationListItem text="Dashboard">
+    <NavigationListItem text="Dashboard" route="/dashboard">
       <Dashboard />
     </NavigationListItem>
-    <NavigationListItem text="Balance">
+    <NavigationListItem text="Balance" route="/balance">
       <AccountBalance />
     </NavigationListItem>
-    <NavigationListItem text="Reports">
+    <NavigationListItem text="Reports" route="/reports">
       <BarChart />
     </NavigationListItem>
-    <NavigationListItem text="Transactions">
+    <NavigationListItem text="Transactions" route="/transactions">
       <Layers />
     </NavigationListItem>
   </React.Fragment>

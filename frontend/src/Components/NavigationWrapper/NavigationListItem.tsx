@@ -1,16 +1,33 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import React, { ReactNode } from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-interface IProps {
+interface IProps extends RouteComponentProps<any> {
   text: string;
   children: any;
+  route: string;
 }
 
-const NavigationListItem = ({ text, children }: IProps) => (
-  <ListItem button={true}>
-    <ListItemIcon>{children}</ListItemIcon>
-    <ListItemText primary={text} />
-  </ListItem>
-);
+const NavigationListItem = ({
+  text,
+  children,
+  route,
+  history,
+  location
+}: IProps) => {
+  const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    event.preventDefault();
+    history.replace(route);
+  };
 
-export default NavigationListItem;
+  const itemSelected = location.pathname === route;
+
+  return (
+    <ListItem button={true} onClick={onClick} selected={itemSelected}>
+      <ListItemIcon>{children}</ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItem>
+  );
+};
+
+export default withRouter(NavigationListItem);

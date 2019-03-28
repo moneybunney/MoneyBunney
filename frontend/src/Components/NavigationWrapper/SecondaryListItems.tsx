@@ -4,10 +4,10 @@ import NavigationListItem from "./NavigationListItem";
 
 export const SecondaryListItems = () => (
   <React.Fragment>
-    <NavigationListItem text="Account" route="/">
+    <NavigationListItem text="Account" route="/account">
       <AccountCircle />
     </NavigationListItem>
-    <NavigationListItem text="Settings" route="/">
+    <NavigationListItem text="Settings" route="/settings">
       <Settings />
     </NavigationListItem>
   </React.Fragment>

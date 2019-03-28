@@ -13,14 +13,14 @@ const NavigationListItem = ({
   children,
   route,
   history,
-  location
+  location,
 }: IProps) => {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     history.replace(route);
   };
 
-  const itemSelected = location.pathname === route;
+  const itemSelected = location.pathname.startsWith(route);
 
   return (
     <ListItem button={true} onClick={onClick} selected={itemSelected}>

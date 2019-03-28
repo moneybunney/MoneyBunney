@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import Checkout from "./Views/Checkout/Checkout";
@@ -20,8 +20,12 @@ const HomeRoutes = () => {
   return (
     <NavigationWrapper>
       <Switch>
-        <Route path="/transactions" component={TransactionListContainer} />
-        <Route path="/checkout" component={Checkout} />
+        <Route
+          exact={true}
+          path="/transactions"
+          component={TransactionListContainer}
+        />
+        <Route path="/transactions/create" component={Checkout} />
         <Route path="/dashboard" component={Dashboard} />
         <Redirect to="/dashboard" />
       </Switch>

@@ -11,9 +11,12 @@ const styles = (theme: Theme) =>
     root: {
       display: "flex",
     },
-    contentWrapper: {
-      paddingTop: "80px",
-      flex: 1,
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      height: "100vh",
+      overflow: "auto",
+      padding: theme.spacing.unit * 3,
     },
   });
 
@@ -26,7 +29,10 @@ const NavigationWrapper = ({ classes, children }: IProps) => {
     <div className={classes.root}>
       <PageHeader text="Dashboard" />
       <NavigationSidebar />
-      <div className={classes.contentWrapper}>{children}</div>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        {children}
+      </main>
     </div>
   );
 };

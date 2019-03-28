@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationWrapper from "../../Components/NavigationWrapper/NavigationWrapper";
 import SimpleLineChart from "./SimpleLineChart";
 
 import {
@@ -9,6 +8,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -26,18 +26,16 @@ const styles = (theme: Theme) =>
 
 export interface IProps extends WithStyles<typeof styles> {}
 
-const HomePage = ({ classes }: IProps) => {
+const Dasbhoard = ({ classes }: IProps) => {
   return (
-    <NavigationWrapper>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <h1>Monthly Sales Data</h1>
-        <Typography component="div" className={classes.chartContainer}>
-          <SimpleLineChart />
-        </Typography>
-      </main>
-    </NavigationWrapper>
+    <main className={classes.content}>
+      <div className={classes.appBarSpacer} />
+      <h1>Monthly Sales Data</h1>
+      <Typography component="div" className={classes.chartContainer}>
+        <SimpleLineChart />
+      </Typography>
+    </main>
   );
 };
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(Dasbhoard);

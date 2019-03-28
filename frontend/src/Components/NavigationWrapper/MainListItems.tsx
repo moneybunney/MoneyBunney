@@ -1,8 +1,9 @@
 import {
-  AccountBalance,
+  AccountBalanceWallet,
   BarChart,
   Dashboard,
-  Layers
+  ShoppingBasket,
+  SwapHoriz
 } from "@material-ui/icons";
 import React from "react";
 import NavigationListItem from "./NavigationListItem";
@@ -12,14 +13,17 @@ export const MainListItems = () => (
     <NavigationListItem text="Dashboard" route="/dashboard">
       <Dashboard />
     </NavigationListItem>
-    <NavigationListItem text="Balance" route="/balance">
-      <AccountBalance />
+    <NavigationListItem text="Transactions" route="/transactions">
+      <SwapHoriz />
+    </NavigationListItem>
+    <NavigationListItem text="Accounts" route="/accounts">
+      <AccountBalanceWallet />
     </NavigationListItem>
     <NavigationListItem text="Reports" route="/reports">
       <BarChart />
     </NavigationListItem>
-    <NavigationListItem text="Transactions" route="/transactions">
-      <Layers />
+    <NavigationListItem text="Budget" route="/budget">
+      <ShoppingBasket />
     </NavigationListItem>
   </React.Fragment>
 );

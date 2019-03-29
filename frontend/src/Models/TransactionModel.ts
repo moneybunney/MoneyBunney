@@ -1,8 +1,9 @@
 export interface ITransaction {
+  id: string;
   date: string;
   account: number; // account index
   category: number; // category index
-  price: string;
+  amount: number;
   description: string;
   tags: string[];
 }
@@ -12,8 +13,9 @@ export const createEmptyTransaction = (): ITransaction => ({
   category: -1,
   date: getNowDate(),
   description: "",
-  price: String(Math.random() * 100 - 50),
-  tags: []
+  amount: NaN, // to keep the initial data field empty
+  tags: [],
+  id: ""
 });
 
 export const getNowDate = () => {

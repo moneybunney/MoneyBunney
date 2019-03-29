@@ -1,6 +1,5 @@
 import {
   createStyles,
-  CssBaseline,
   Paper,
   Theme,
   Typography,
@@ -12,12 +11,9 @@ import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
+import { postTransaction } from "../../Utilities/Api";
 import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
-
-interface IState {
-  activeStep: number;
-}
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -79,16 +75,19 @@ const Checkout = (props: IProps) => {
     setTransaction(clone);
   };
 
-  const onSubmit = () => {
-    // console.log(transaction);
+  const onSubmit = (currentTransaction: ITransaction) => {
     setLoading(true);
     if (props.onSubmit) {
-      props.onSubmit(transaction);
+      props.onSubmit(currentTransaction);
     }
-    setTimeout(() => {
-      setLoading(false);
-      alert("Success!");
-    }, 1000);
+    postTransaction(currentTransaction)
+      .catch(error => {
+        console.log(error);
+      })
+      .then(() => {
+        setLoading(false);
+        alert("Success!");
+      });
   };
 
   return (

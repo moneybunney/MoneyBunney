@@ -3,9 +3,9 @@ import { CorsMiddleware } from '@nest-middlewares/cors';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestModule } from './modules/test/test.module';
-import { TransactionsModule } from './modules/transactions/transactions.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 
@@ -22,6 +22,7 @@ import { ConfigService } from './modules/config/config.service';
     TransactionsModule,
     UserModule,
     AuthModule,
+    TransactionsModule,
     ConfigModule,
   ],
   controllers: [AppController],

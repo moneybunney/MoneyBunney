@@ -36,6 +36,10 @@ export class TransactionsService {
     }
   }
 
+  async removeAll(): Promise<any> {
+      return await this.transactionModel.remove({}).exec();
+  }
+
   async findById(id: string): Promise<Transactions> {
     try {
       return await this.transactionModel.findById(id).exec();
@@ -51,7 +55,7 @@ export class TransactionsService {
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {
@@ -70,20 +74,39 @@ export class TransactionsService {
     return temp;
   }
 
+  async findTransactions(
+    date: string,
+    amount = 10,
+  ): Promise<Transactions[]> {
+    try {
+      return await this.transactionModel
+        .find()
+        .sort({ Date: -1 })
+        .where('Date')
+        .lt(date)
+        .limit(Number(amount))
+        .exec();
+    } catch (e) {
+      this.logger.log(e.toString());
+      throw new AppError(AppErrorTypeEnum.VALIDATION_FAILED, e.toString());
+      return [];
+    }
+  }
+
   async findAccountExpenses(
     account: string,
     date: string,
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {
       temp = await this.transactionModel
         .find()
         .where('Account', account)
-        .where('Price')
+        .where('Amount')
         .lt(0)
         .sort({ Date: 1 })
         .where('Date')
@@ -103,14 +126,14 @@ export class TransactionsService {
     number: number,
   ): Promise<Transactions[]> {
     let temp: Transactions[] = [];
-    if (number == undefined) {
+    if (number === undefined) {
       number = 10;
     }
     try {
       temp = await this.transactionModel
         .find()
         .where('Account', account)
-        .where('Price')
+        .where('Amount')
         .gt(0)
         .sort({ Date: 1 })
         .where('Date')
@@ -127,7 +150,7 @@ export class TransactionsService {
   async findIncome(): Promise<Transactions[]> {
     return this.transactionModel
       .find()
-      .where('Price')
+      .where('Amount')
       .gt(0)
       .exec();
   }
@@ -135,7 +158,7 @@ export class TransactionsService {
   async findExpenses(): Promise<Transactions[]> {
     return this.transactionModel
       .find()
-      .where('Price')
+      .where('Amount')
       .lt(0)
       .exec();
   }

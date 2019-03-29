@@ -14,7 +14,7 @@ import TransactionListContainer from "./TransactionListContainer";
 const styles = (theme: Theme) =>
   createStyles({
     fab: {
-      position: "absolute",
+      position: "fixed",
       bottom: theme.spacing.unit * 10,
       right: theme.spacing.unit * 10,
     },

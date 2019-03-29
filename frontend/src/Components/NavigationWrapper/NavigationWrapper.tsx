@@ -15,7 +15,6 @@ const styles = (theme: Theme) =>
     content: {
       flexGrow: 1,
       height: "100vh",
-      overflow: "auto",
       padding: theme.spacing.unit * 3,
     },
   });

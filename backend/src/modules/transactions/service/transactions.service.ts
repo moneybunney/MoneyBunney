@@ -53,7 +53,6 @@ export class TransactionsService {
     } catch (e) {
       this.logger.log(e.toString());
       throw new BadRequestException('Validation failure:' + e.toString());
-      return [];
     }
   }
 }

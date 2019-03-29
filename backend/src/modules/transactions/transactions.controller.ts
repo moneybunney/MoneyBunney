@@ -4,21 +4,19 @@ import {
   Post,
   Delete,
   Body,
-  Param,
   Query,
   Res,
   UsePipes,
   HttpStatus,
-  HttpException,
 } from '@nestjs/common';
 import { TransactionsService } from './service/transactions.service';
 import { TransactionDTO } from './dto/transaction.dto';
 import { Transactions } from './interfaces/transactions.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
 import { Response } from 'express';
-import { QueryDTO } from './dto/query.dto';
+import { QueryDTO } from '../../../../shared/query.dto';
 import { TransactionQueryService } from './service/transaction-query.service';
 
 @Controller('api/transactions')
@@ -60,7 +58,7 @@ export class TransactionsController {
     return res.status(HttpStatus.OK).send();
   }
 
-  @Get('/query')
+  @Post('/query')
   @ApiOperation({ title: 'Find transaction by ID' })
   @ApiResponse({ status: 200, description: 'Transaction response' })
   @ApiResponse({ status: 500, description: 'Validation error' })
@@ -68,7 +66,7 @@ export class TransactionsController {
     @Body() query: QueryDTO,
     @Res() res: Response,
   ) {
-    this.logger.log('Get to /api/transactions/query');
+    this.logger.log('POST to /api/transactions/query');
     const transactions = await this.queryService.query(query);
     return res.status(HttpStatus.OK).send(transactions);
   }

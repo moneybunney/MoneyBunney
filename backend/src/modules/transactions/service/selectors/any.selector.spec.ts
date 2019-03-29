@@ -1,7 +1,7 @@
 import { AnySelector } from './any.selector';
 import { DocumentQuery } from 'mongoose';
 import { Transactions } from '../../interfaces/transactions.interface';
-import { SelectorDTO } from '../../dto/selector.dto';
+import { SelectorDTO } from '../../../../../../shared/selector.dto';
 
 describe('AnySelector', () => {
   let transactionsQueryMock: DocumentQuery<Transactions[], Transactions, {}>;

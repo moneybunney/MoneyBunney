@@ -8,9 +8,12 @@ import {
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class TransactionDTO {
+  /**
+   * Date string of ISOString fromat
+   */
   @ApiModelProperty()
   @IsDateString()
-  readonly Date: object;
+  readonly Date: string;
 
   @ApiModelProperty()
   @IsString()

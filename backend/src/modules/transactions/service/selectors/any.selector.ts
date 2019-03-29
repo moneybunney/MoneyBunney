@@ -1,20 +1,19 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
-import { SelectorDTO } from '../../dto/selector.dto';
+import { SelectorDTO } from '../../../../../../shared/selector.dto';
 
 export class AnySelector<T extends Document> extends Selector<T> {
+  public GetName(): string {
+    return 'any';
+  }
 
-    public GetName(): string {
-        return 'any';
-    }
+  protected ApplyValidatedSelectorDTO = (
+    selectorDTO: SelectorDTO,
+    currentQuery: DocumentQuery<T[], T, {}>,
+  ): DocumentQuery<T[], T, {}> => {
+    return currentQuery;
+  };
 
-    protected ApplyValidatedSelectorDTO = (
-        selectorDTO: SelectorDTO,
-        currentQuery: DocumentQuery<T[], T, {}>,
-        ): DocumentQuery<T[], T, {}> => {
-        return currentQuery;
-    }
-
-    // tslint:disable-next-line:no-empty
-    protected ValidateSelectorDTO = (): void => {};
+  // tslint:disable-next-line:no-empty
+  protected ValidateSelectorDTO = (): void => {};
 }

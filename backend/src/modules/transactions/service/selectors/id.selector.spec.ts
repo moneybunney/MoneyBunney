@@ -1,11 +1,11 @@
 import { DocumentQuery } from 'mongoose';
 import { Transactions } from '../../interfaces/transactions.interface';
-import { SelectorDTO } from '../../dto/selector.dto';
+import { SelectorDTO } from '../../../../../../shared/selector.dto';
 import { IdSelector } from './id.selector';
 
 describe('IdSelector', () => {
   let transactionsQueryMock: DocumentQuery<Transactions[], Transactions, {}>;
-  it('should call \'where\' with the DTO values (id)', async () => {
+  it("should call 'where' with the DTO values (id)", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'id',
       Value: '132',
@@ -15,7 +15,10 @@ describe('IdSelector', () => {
       where: jest.fn(() => transactionsQueryMock),
     } as any;
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
-    expect(transactionsQueryMock.where).toBeCalledWith('_id', selectorDTO.Value);
+    expect(transactionsQueryMock.where).toBeCalledWith(
+      '_id',
+      selectorDTO.Value,
+    );
     expect(ret).toEqual(transactionsQueryMock);
   });
 
@@ -28,7 +31,8 @@ describe('IdSelector', () => {
     transactionsQueryMock = {
       where: jest.fn(() => transactionsQueryMock),
     } as any;
-    expect(() => {selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock); })
-      .toThrow();
+    expect(() => {
+      selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
+    }).toThrow();
   });
 });

@@ -3,28 +3,39 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import Checkout from "./Views/Checkout/Checkout";
-import HomePage from "./Views/Home/HomePage";
+import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
-import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
+import TransactionView from "./Views/TransactionList/TransactionView";
 
+import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
 import GuestRoute from "./Components/routes/GuestRoute";
 import UserRoute from "./Components/routes/UserRoute";
+
+const HomeRoutes = () => {
+  return (
+    <NavigationWrapper>
+      <Switch>
+        <Route exact={true} path="/transactions" component={TransactionView} />
+        <Route path="/transactions/create" component={Checkout} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Redirect to="/dashboard" />
+      </Switch>
+    </NavigationWrapper>
+  );
+};
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <UserRoute exact={true} path="/" Component={HomePage} />
         <GuestRoute path="/login" Component={Login} />
         <GuestRoute path="/register" Component={Register} />
-        <UserRoute path="/checkout" Component={Checkout} />
-        <UserRoute path="/list" Component={TransactionListContainer} />
-        <Redirect to="/" />
+        <UserRoute path="/" Component={HomeRoutes} />
       </Switch>
     </Router>
   );

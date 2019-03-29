@@ -1,7 +1,6 @@
 import { Selector } from './selector';
 import { Document, DocumentQuery } from 'mongoose';
 import { SelectorDTO } from '../../../../../../shared/selector.dto';
-import { ValidataionUtils } from 'src/common/utility/validation.utils';
 import { IsString, IsMongoId, validateSync } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { BadRequestException } from '@nestjs/common';
@@ -28,7 +27,8 @@ export class IdSelector<T extends Document> extends Selector<T> {
       );
     }
     const keyTruthly = Boolean(selectorDTO.Key);
-    const keyIsString = ValidataionUtils.isString(selectorDTO.Key);
+    const keyIsString =
+      selectorDTO.Key instanceof String || typeof selectorDTO.Key === 'string';
     if (
       keyTruthly && // the key can be assumed here
       (keyIsString && selectorDTO.Key === '_id')

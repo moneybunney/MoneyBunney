@@ -64,9 +64,26 @@ export class TransactionsController {
   @ApiOperation({ title: 'Find transaction by ID' })
   @ApiResponse({ status: 200, description: 'Transaction response' })
   @ApiResponse({ status: 500, description: 'Validation error' })
-  public async getTransactionByQuery(@Body() query: QueryDTO, @Res() res: Response) {
+  public async getTransactionByQuery(
+    @Body() query: QueryDTO,
+    @Res() res: Response,
+  ) {
     this.logger.log('Get to /api/transactions/query');
     const transactions = await this.queryService.query(query);
     return res.status(HttpStatus.OK).send(transactions);
+  }
+
+  @Get('/list')
+  @ApiOperation({
+    title:
+      'Find a requested number of transactions starting from the given date',
+  })
+  @ApiResponse({ status: 200, description: 'Transactions  response' })
+  @ApiResponse({ status: 500, description: 'Server error.' })
+  getTransactions(
+    @Query('date') date: string,
+    @Query('number') amount: number,
+  ): Promise<Transactions[]> {
+    return this.transactionsService.findTransactions(date, amount);
   }
 }

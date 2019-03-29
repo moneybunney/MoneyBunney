@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transactions } from '../interfaces/transactions.interface';
 import { TransactionDTO } from '../dto/transaction.dto';
@@ -28,7 +28,7 @@ export class TransactionsService {
         .exec();
     } catch (e) {
       this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
+      throw new BadRequestException('Requested transaction was not found!');
     }
   }
 
@@ -37,7 +37,23 @@ export class TransactionsService {
       return await this.transactionModel.findById(id).exec();
     } catch (e) {
       this.logger.log(e.toString());
-      throw new AppError(AppErrorTypeEnum.TRANSACTION_NOT_FOUND);
+      throw new BadRequestException('Requested transaction was not found!');
+    }
+  }
+
+  async findTransactions(date: string, amount = 10): Promise<Transactions[]> {
+    try {
+      return await this.transactionModel
+        .find()
+        .sort({ Date: -1 })
+        .where('Date')
+        .lt(date)
+        .limit(Number(amount))
+        .exec();
+    } catch (e) {
+      this.logger.log(e.toString());
+      throw new BadRequestException('Validation failure:' + e.toString());
+      return [];
     }
   }
 }

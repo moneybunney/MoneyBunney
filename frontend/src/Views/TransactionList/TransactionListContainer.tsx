@@ -14,6 +14,7 @@ import {
   ICategory,
   ITransaction
 } from "../../Models/TransactionModel";
+import { getTransactionListChunk } from "../../Utilities/Api";
 import TransactionList from "./TransactionList";
 
 const styles = (theme: Theme) =>
@@ -23,7 +24,7 @@ const styles = (theme: Theme) =>
       // the child list fills the parent
       width: 360,
       marginTop: 32,
-      marginBottom: 128, // to see the loading dummy :)
+      marginBottom: 16,
       marginLeft: theme.spacing.unit * 3,
       marginRight: theme.spacing.unit * 3,
       [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {
@@ -90,14 +91,6 @@ const TransactionListContainer = ({ classes }: IProps) => {
     }
   };
 
-  const initialTransactions = [0, 1, 2].map(i => {
-    const transaction = createEmptyTransaction();
-    transaction.category = i;
-    return transaction;
-  });
-
-  initialTransactions[2].date = "2019-03-07T12:30";
-
   const categories = ["Beer", "Wine", "Other"].map(
     (item, index): ICategory => ({ id: index, text: item })
   );
@@ -106,7 +99,7 @@ const TransactionListContainer = ({ classes }: IProps) => {
   );
 
   const initialState = {
-    transactions: initialTransactions,
+    transactions: [],
     categories,
     accounts,
     loadingMore: false,
@@ -117,25 +110,21 @@ const TransactionListContainer = ({ classes }: IProps) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const onRequestMoreTranscations = () => {
+    console.log("Requested load more!");
     dispatch({ type: ActionType.LoadStart, payload: [] });
-    setTimeout(() => {
-      if (state.chunksLoaded >= 6) {
-        // this is intended to be called after the items in db (or page)
-        // are exhausted
-        dispatch({ type: ActionType.NoItemsFound, payload: [] });
-        return;
-      }
+    // currently fetching relies on transactions being ordered chronologically:
+    const lastLoadedTransactionDate =
+      state.transactions.length > 0
+        ? new Date(state.transactions[state.transactions.length - 1].date)
+        : new Date();
 
-      const newTransactions: ITransaction[] = [];
-      newTransactions.push(
-        ...[0, 1, 2, 3, 5].map(i => {
-          const transaction = createEmptyTransaction();
-          transaction.category = Math.floor(Math.random() * 3);
-          return transaction;
-        })
-      );
-      dispatch({ type: ActionType.ItemsLoaded, payload: newTransactions });
-    }, 1500);
+    getTransactionListChunk(lastLoadedTransactionDate, 5).then(data => {
+      if (data.length <= 0) {
+        dispatch({ type: ActionType.NoItemsFound, payload: [] });
+      } else {
+        dispatch({ type: ActionType.ItemsLoaded, payload: data });
+      }
+    });
   };
 
   return (

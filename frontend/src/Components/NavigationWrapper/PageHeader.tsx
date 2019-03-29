@@ -2,14 +2,12 @@ import React from "react";
 
 import {
   AppBar,
-  Badge,
   createStyles,
-  IconButton,
   Theme,
   Toolbar,
   Typography,
   withStyles,
-  WithStyles
+  WithStyles,
 } from "@material-ui/core";
 
 import { Notifications } from "@material-ui/icons";
@@ -20,14 +18,11 @@ const styles = (theme: Theme) =>
   createStyles({
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth
+      marginLeft: drawerWidth,
     },
     title: {
-      flexGrow: 1
+      flexGrow: 1,
     },
-    headerIcon: {
-      marginRight: "25px"
-    }
   });
 
 export interface IProps extends WithStyles<typeof styles> {
@@ -45,11 +40,6 @@ const PageHeader = ({ classes, text }: IProps) => (
       >
         {text}
       </Typography>
-      <IconButton className={classes.headerIcon} color="inherit">
-        <Badge badgeContent={1} color="secondary">
-          <Notifications />
-        </Badge>
-      </IconButton>
       <LogOutButton />
     </Toolbar>
   </AppBar>

@@ -88,7 +88,7 @@ export const getTransactionListChunk = async (
             date: element.Date,
             account: element.Account,
             category: element.Category,
-            amount: String(element.Amount),
+            amount: element.Amount,
             description: element.Description,
             tags: element.Tags,
             id: element._id

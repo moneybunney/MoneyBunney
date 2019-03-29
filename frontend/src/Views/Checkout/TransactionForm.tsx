@@ -129,7 +129,7 @@ const TransactionForm = ({
     } else {
       setCategoryError(false);
     }
-    if (transaction.amount === "" || Number(transaction.amount) <= 0) {
+    if (Number(transaction.amount) <= 0) {
       setAmountError(true);
       error = true;
     } else {
@@ -143,7 +143,7 @@ const TransactionForm = ({
           : Number(transaction.amount);
       const finalTransaction = {
         ...transaction,
-        amount: String(transferAmount)
+        amount: transferAmount
       };
       onSubmit(finalTransaction);
     }

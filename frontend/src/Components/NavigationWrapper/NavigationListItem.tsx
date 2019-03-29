@@ -1,10 +1,10 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import React from "react";
+import React, { ReactElement } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 interface IProps extends RouteComponentProps<any> {
   text: string;
-  children: any;
+  children: ReactElement;
   route: string;
 }
 

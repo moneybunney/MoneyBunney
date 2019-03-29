@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core";
 
@@ -21,7 +21,7 @@ const styles = (theme: Theme) =>
   });
 
 export interface IProps extends WithStyles<typeof styles> {
-  children?: any;
+  children?: ReactElement;
 }
 
 const NavigationWrapper = ({ classes, children }: IProps) => {

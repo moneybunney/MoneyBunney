@@ -81,7 +81,6 @@ export class TransactionQuery {
 
   public execute = async () => {
     const queryDTO = this.getQueryDTO();
-    console.log(JSON.stringify(queryDTO));
     const response = await getPost(
       "/api/transactions/query",
       undefined,

@@ -13,16 +13,23 @@ if (API_HOST === undefined || API_PORT === undefined) {
 
 export const http = (
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
+  querryParams?: Map<string, string>
 ): Promise<Response> => {
   const uri = `http://${API_HOST}:${API_PORT}${input}`;
+  const url = new URL(uri);
+
+  if (querryParams) {
+    querryParams.forEach((val, key) => {
+      url.searchParams.append(key, val);
+    });
+  }
 
   const options: RequestInit = {
     credentials: "include",
     ...init
   };
-
-  return fetch(uri, options);
+  return fetch(url.href, options);
 };
 
 export const post = (
@@ -40,4 +47,15 @@ export const post = (
   };
 
   return http(input, options);
+};
+
+export const get = (
+  input: RequestInfo,
+  params: Map<string, string>,
+  init?: RequestInit
+): Promise<Response> => {
+  const options: RequestInit = {
+    method: "GET"
+  };
+  return http(input, options, params);
 };

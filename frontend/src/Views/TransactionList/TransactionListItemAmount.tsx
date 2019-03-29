@@ -10,35 +10,35 @@ import React from "react";
 
 const styles = (theme: Theme) =>
   createStyles({
-    priceText: {
+    amountText: {
       fontWeight: 500,
       margin: 16
     },
-    spending: {
+    expense: {
       color: "#f6787f"
     },
-    gain: {
+    income: {
       color: "#68bcbe"
     }
   });
 
 interface IProps extends WithStyles<typeof styles> {
-  price: number;
+  amount: number;
 }
 
-const TransactionListItem = ({ price, classes }: IProps) => {
-  const spending = price < 0;
-  const priceText =
-    (spending ? "-" : "+") + " " + Math.abs(price).toFixed(2) + "€";
+const TransactionListItemAmount = ({ amount: amount, classes }: IProps) => {
+  const spending = amount < 0;
+  const amountText =
+    (spending ? "-" : "+") + " " + Math.abs(amount).toFixed(2) + "€";
   return (
     <ListItemSecondaryAction>
-      <Typography className={classes.priceText}>
-        <span className={spending ? classes.spending : classes.gain}>
-          {priceText}
+      <Typography className={classes.amountText}>
+        <span className={spending ? classes.expense : classes.income}>
+          {amountText}
         </span>
       </Typography>
     </ListItemSecondaryAction>
   );
 };
 
-export default withStyles(styles)(TransactionListItem);
+export default withStyles(styles)(TransactionListItemAmount);

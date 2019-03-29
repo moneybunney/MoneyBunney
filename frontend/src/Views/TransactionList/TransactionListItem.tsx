@@ -9,8 +9,8 @@ import {
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { ITransaction } from "../../Models/TransactionModel";
+import TransactionListItemPrice from "./TransactionListItemAmount";
 import TransactionListItemIcon from "./TransactionListItemIcon";
-import TransactionListItemPrice from "./TransactionListItemPrice";
 
 const styles = (theme: Theme) => createStyles({});
 
@@ -46,7 +46,7 @@ const TransactionListItem = ({
   const primaryText = transaction.description
     ? transaction.description
     : categoryText;
-  const parsedPrice = parseFloat(transaction.price);
+  const parsedAmount = transaction.amount;
 
   const parsedDate = new Date(transaction.date);
   const today = new Date();
@@ -60,7 +60,7 @@ const TransactionListItem = ({
       <ListItem button={true}>
         <TransactionListItemIcon iconId={transaction.category} />
         <ListItemText primary={primaryText} secondary={dateString} />
-        <TransactionListItemPrice price={parsedPrice} />
+        <TransactionListItemPrice amount={parsedAmount} />
       </ListItem>
     </Collapse>
   );

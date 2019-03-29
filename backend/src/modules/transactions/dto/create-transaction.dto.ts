@@ -22,7 +22,7 @@ export class CreateTransactionDto {
 
   @ApiModelProperty()
   @IsNumber()
-  readonly Price: number;
+  readonly Amount: number;
 
   @ApiModelProperty()
   @IsString()

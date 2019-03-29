@@ -129,7 +129,7 @@ const TransactionForm = ({
     } else {
       setCategoryError(false);
     }
-    if (Number(transaction.amount) <= 0) {
+    if (isNaN(transaction.amount) || transaction.amount <= 0) {
       setAmountError(true);
       error = true;
     } else {

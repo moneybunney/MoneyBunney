@@ -21,7 +21,7 @@ const styles = (theme: Theme) =>
   });
 
 export interface IProps extends WithStyles<typeof styles> {
-  children?: ReactElement;
+  children?: ReactElement | ReactElement[];
 }
 
 const NavigationWrapper = ({ classes, children }: IProps) => {

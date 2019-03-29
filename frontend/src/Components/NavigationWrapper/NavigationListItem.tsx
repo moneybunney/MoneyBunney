@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 
 interface IProps extends RouteComponentProps<any> {
   text: string;
-  children: ReactElement | ReactElement[];
+  children: ReactElement;
   route: string;
 }
 
@@ -24,13 +24,7 @@ const NavigationListItem = ({
 
   return (
     <ListItem button={true} onClick={onClick} selected={itemSelected}>
-      <ListItemIcon>
-        {Array.isArray(children) ? (
-          <React.Fragment>children</React.Fragment>
-        ) : (
-          children
-        )}
-      </ListItemIcon>
+      <ListItemIcon>{children}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItem>
   );

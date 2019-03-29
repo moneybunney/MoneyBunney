@@ -7,6 +7,7 @@ import { QueryDTO } from '../../../../../shared/query.dto';
 import { Selector } from './selectors/selector';
 import { TransactionDTO } from '../dto/transaction.dto';
 import { SelectorFactory } from './selector-repository';
+import { isTemplateElement } from '@babel/types';
 
 @Injectable()
 export class TransactionQueryService {
@@ -21,6 +22,7 @@ export class TransactionQueryService {
 
   async query(queryRequest: QueryDTO): Promise<TransactionDTO[]> {
     const currentQuery = this.transactionModel.find();
+    this.logger.log('Query object received:');
     this.logger.log(queryRequest as any);
     if (
       !queryRequest ||

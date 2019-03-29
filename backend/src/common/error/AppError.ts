@@ -80,12 +80,12 @@ export class AppError extends Error {
         };
         break;
       case AppErrorTypeEnum.INVALID_SELECTOR_NAME:
-      res = {
-        type: AppErrorTypeEnum.INVALID_SELECTOR_NAME,
-        httpStatus: HttpStatus.BAD_REQUEST,
-        errorMessage: 'Invalid selector name given',
-        userMessage: 'Invalid selector name given',
-      };
+        res = {
+          type: AppErrorTypeEnum.INVALID_SELECTOR_NAME,
+          httpStatus: HttpStatus.BAD_REQUEST,
+          errorMessage: 'Invalid selector name given',
+          userMessage: 'Invalid selector name given',
+        };
     }
     return res;
   }

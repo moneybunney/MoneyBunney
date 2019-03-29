@@ -12,9 +12,7 @@ import { Logger } from '../../modules/logger/logger.service';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
-  constructor(
-    private readonly logger: Logger,
-  ) {}
+  constructor(private readonly logger: Logger) {}
   async transform(value, { metatype }: ArgumentMetadata) {
     if (!metatype) {
       return value;

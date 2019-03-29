@@ -26,11 +26,11 @@ export class IdSelector<T extends Document> extends Selector<T> {
         JSON.stringify(errors),
       );
     }
-    const keyTruthly = Boolean(selectorDTO.Key);
+    const keyTruthy = Boolean(selectorDTO.Key);
     const keyIsString =
       selectorDTO.Key instanceof String || typeof selectorDTO.Key === 'string';
     if (
-      keyTruthly && // the key can be assumed here
+      keyTruthy && // the key can be assumed here
       (keyIsString && selectorDTO.Key === '_id')
     ) {
       this.ThrowValidationErr('Invalid key given');

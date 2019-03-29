@@ -1,5 +1,5 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import React, { ReactNode } from "react";
+import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 interface IProps extends RouteComponentProps<any> {

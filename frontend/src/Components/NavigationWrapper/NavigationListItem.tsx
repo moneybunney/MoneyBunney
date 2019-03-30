@@ -13,7 +13,7 @@ const NavigationListItem = ({
   children,
   route,
   history,
-  location,
+  location
 }: IProps) => {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();

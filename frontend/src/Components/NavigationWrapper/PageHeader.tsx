@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography,
   withStyles,
-  WithStyles,
+  WithStyles
 } from "@material-ui/core";
 
 import { Notifications } from "@material-ui/icons";
@@ -18,11 +18,11 @@ const styles = (theme: Theme) =>
   createStyles({
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      marginLeft: drawerWidth
     },
     title: {
-      flexGrow: 1,
-    },
+      flexGrow: 1
+    }
   });
 
 export interface IProps extends WithStyles<typeof styles> {

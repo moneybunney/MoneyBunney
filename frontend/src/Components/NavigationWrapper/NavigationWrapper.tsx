@@ -9,14 +9,14 @@ import PageHeader from "./PageHeader";
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
+      display: "flex"
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
       height: "100vh",
-      padding: theme.spacing.unit * 3,
-    },
+      padding: theme.spacing.unit * 3
+    }
   });
 
 export interface IProps extends WithStyles<typeof styles> {

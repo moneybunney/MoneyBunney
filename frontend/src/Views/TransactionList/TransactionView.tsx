@@ -3,7 +3,7 @@ import {
   Fab,
   Theme,
   withStyles,
-  WithStyles,
+  WithStyles
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import React from "react";
@@ -16,8 +16,8 @@ const styles = (theme: Theme) =>
     fab: {
       position: "fixed",
       bottom: theme.spacing.unit * 10,
-      right: theme.spacing.unit * 10,
-    },
+      right: theme.spacing.unit * 10
+    }
   });
 
 interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {}

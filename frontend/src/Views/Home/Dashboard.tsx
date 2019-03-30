@@ -6,15 +6,15 @@ import {
   Theme,
   Typography,
   withStyles,
-  WithStyles,
+  WithStyles
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const styles = (theme: Theme) =>
   createStyles({
     chartContainer: {
-      marginLeft: -22,
-    },
+      marginLeft: -22
+    }
   });
 
 export interface IProps extends WithStyles<typeof styles> {}

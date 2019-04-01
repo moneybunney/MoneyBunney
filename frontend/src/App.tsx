@@ -6,6 +6,7 @@ import {
   Switch
 } from "react-router-dom";
 
+import Accounts from "./Views/Accounts/Accounts";
 import Checkout from "./Views/Checkout/Checkout";
 import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
@@ -23,6 +24,7 @@ const HomeRoutes = () => {
         <Route exact={true} path="/transactions" component={TransactionView} />
         <Route path="/transactions/create" component={Checkout} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/accounts" component={Accounts} />
         <Redirect to="/dashboard" />
       </Switch>
     </NavigationWrapper>

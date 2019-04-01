@@ -1,32 +1,27 @@
-import {
-  createStyles,
-  ListItemSecondaryAction,
-  Theme,
-  Typography,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { ListItemSecondaryAction, Theme, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    amountText: {
-      fontWeight: 500,
-      margin: 16
-    },
-    expense: {
-      color: "#f6787f"
-    },
-    income: {
-      color: "#68bcbe"
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  amountText: {
+    fontWeight: 500,
+    margin: 16
+  },
+  expense: {
+    color: "#f6787f"
+  },
+  income: {
+    color: "#68bcbe"
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   amount: number;
 }
 
-const TransactionListItemAmount = ({ amount: amount, classes }: IProps) => {
+const TransactionListItemAmount = ({ amount: amount }: IProps) => {
+  const classes = useStyles();
+
   const spending = amount < 0;
   const amountText =
     (spending ? "-" : "+") + " " + Math.abs(amount).toFixed(2) + "€";
@@ -41,4 +36,4 @@ const TransactionListItemAmount = ({ amount: amount, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(TransactionListItemAmount);
+export default TransactionListItemAmount;

@@ -1,45 +1,37 @@
-import {
-  createStyles,
-  Paper,
-  Theme,
-  Typography,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Paper, Theme, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
 import { postTransaction } from "../../Utilities/Api";
-import withRoot from "../../withRoot";
 import TransactionForm from "./TransactionForm";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    layout: {
-      width: "auto",
-      marginRight: theme.spacing.unit * 2,
-      marginLeft: theme.spacing.unit * 2,
-      [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-        width: 600,
-        marginLeft: "auto",
-        marginRight: "auto"
-      }
-    },
-    paper: {
-      marginBottom: theme.spacing.unit * 3,
-      marginTop: theme.spacing.unit * 3,
-      padding: theme.spacing.unit * 2,
-      [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-        marginBottom: theme.spacing.unit * 6,
-        marginTop: theme.spacing.unit * 6,
-        padding: theme.spacing.unit * 3
-      }
+const useStyles = makeStyles((theme: Theme) => ({
+  layout: {
+    width: "auto",
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      width: 600,
+      marginLeft: "auto",
+      marginRight: "auto"
     }
-  });
+  },
+  paper: {
+    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginBottom: theme.spacing.unit * 6,
+      marginTop: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3
+    }
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   onSubmit?: (transaction: ITransaction) => void;
 }
 
@@ -67,7 +59,7 @@ const Checkout = (props: IProps) => {
   );
 
   const [loading, setLoading] = React.useState(false);
-  const classes = props.classes;
+  const classes = useStyles();
 
   const onFieldChange = (field: string, value: any) => {
     const clone = { ...transaction } as any;
@@ -114,4 +106,4 @@ const Checkout = (props: IProps) => {
   );
 };
 
-export default withRoot(withStyles(styles)(Checkout));
+export default Checkout;

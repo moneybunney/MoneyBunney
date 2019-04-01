@@ -1,12 +1,6 @@
-import {
-  createStyles,
-  List,
-  Paper,
-  Theme,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { List, Paper, Theme } from "@material-ui/core";
 import { Satellite } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import {
   createEmptyTransaction,
@@ -17,24 +11,21 @@ import {
 import { getTransactionListChunk } from "../../Utilities/Api";
 import TransactionList from "./TransactionList";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    paper: {
-      display: "block",
-      // the child list fills the parent
-      width: 360,
-      marginTop: 32,
-      marginBottom: 16,
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {
-        marginLeft: "auto",
-        marginRight: "auto"
-      }
+const useStyles = makeStyles((theme: Theme) => ({
+  paper: {
+    display: "block",
+    // the child list fills the parent
+    width: 360,
+    marginTop: 32,
+    marginBottom: 16,
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {
+      marginLeft: "auto",
+      marginRight: "auto"
     }
-  });
-
-interface IProps extends WithStyles<typeof styles> {}
+  }
+}));
 
 enum ActionType {
   LoadStart = 1,
@@ -59,7 +50,7 @@ interface IState {
 
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
-const TransactionListContainer = ({ classes }: IProps) => {
+const TransactionListContainer = () => {
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
       case ActionType.LoadStart:
@@ -127,6 +118,8 @@ const TransactionListContainer = ({ classes }: IProps) => {
     });
   };
 
+  const classes = useStyles();
+
   return (
     <Paper className={classes.paper}>
       <TransactionList
@@ -141,4 +134,4 @@ const TransactionListContainer = ({ classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(TransactionListContainer);
+export default TransactionListContainer;

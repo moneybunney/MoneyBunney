@@ -1,8 +1,7 @@
-import {
-  createMuiTheme,
-  CssBaseline,
-  MuiThemeProvider
-} from "@material-ui/core";
+import { createMuiTheme, CssBaseline } from "@material-ui/core";
+
+import { ThemeProvider } from "@material-ui/styles";
+
 import * as React from "react";
 
 // A theme with custom primary and secondary color.
@@ -27,20 +26,20 @@ const theme = createMuiTheme({
   }
 });
 
-function withRoot(Component: React.ComponentType) {
+function withMaterialUiRoot(Component: React.ComponentType) {
   function WithRoot(props: object) {
-    // MuiThemeProvider makes the theme available down the React tree
+    // ThemeProvider makes the theme available down the React tree
     // thanks to React context.
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         {/* Reboot kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...props} />
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 
   return WithRoot;
 }
 
-export default withRoot;
+export default withMaterialUiRoot;

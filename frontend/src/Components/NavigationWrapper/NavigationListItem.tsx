@@ -1,20 +1,16 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
-interface IProps extends RouteComponentProps<any> {
+interface IProps {
   text: string;
   children: ReactElement;
   route: string;
 }
 
-const NavigationListItem = ({
-  text,
-  children,
-  route,
-  history,
-  location
-}: IProps) => {
+const NavigationListItem = ({ text, children, route }: IProps) => {
+  const { history, location } = useReactRouter();
+
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     history.replace(route);
@@ -30,4 +26,4 @@ const NavigationListItem = ({
   );
 };
 
-export default withRouter(NavigationListItem);
+export default NavigationListItem;

@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import BalanceAmountText from "../../Components/BalanceAmountText";
-import { IAccount } from "../../Models/TransactionModel";
+import { IAccount } from "../../Models/AccountModel";
 
 const styles = (theme: Theme) => createStyles({});
 
@@ -22,14 +22,17 @@ interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 const AccountListItem = ({ account, classes, history }: IProps) => {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
-    history.replace(`/transactions?account=${account.text}`);
+    history.replace(`/transactions?account=${account.name}`);
   };
 
   return (
     <ListItem button={true} onClick={onClick}>
-      <ListItemText primary={account.text} />
+      <ListItemText primary={account.name} />
       <ListItemSecondaryAction>
-        <BalanceAmountText amount={100} difference={false} />
+        <BalanceAmountText
+          amount={account.startingBalance}
+          difference={false}
+        />
       </ListItemSecondaryAction>
     </ListItem>
   );

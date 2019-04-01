@@ -9,7 +9,7 @@ import {
   WithStyles
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { IAccount } from "../../Models/TransactionModel";
+import { IAccount } from "../../Models/AccountModel";
 import AccountList from "./AccountList";
 
 const styles = (theme: Theme) =>
@@ -31,8 +31,8 @@ const styles = (theme: Theme) =>
 export interface IProps extends WithStyles<typeof styles> {}
 
 const accounts: IAccount[] = [
-  { id: 1, text: "Cash" },
-  { id: 2, text: "Revolut" }
+  { id: 1, name: "Cash", startingBalance: 53.86 },
+  { id: 2, name: "Revolut", startingBalance: 2131.42 }
 ];
 
 const Accounts = ({ classes }: IProps) => {

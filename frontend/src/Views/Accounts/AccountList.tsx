@@ -8,7 +8,7 @@ import Paper, {
 } from "@material-ui/core";
 import React from "react";
 
-import { IAccount } from "../../Models/TransactionModel";
+import { IAccount } from "../../Models/AccountModel";
 import AccountListItem from "./AccountListItem";
 
 const styles = (theme: Theme) =>

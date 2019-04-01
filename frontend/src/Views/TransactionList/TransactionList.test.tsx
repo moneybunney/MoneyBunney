@@ -19,7 +19,7 @@ const mockCategories = ["Beer", "Wine", "Other"].map(
   (item, index): ICategory => ({ id: index, text: item })
 );
 const mockAccounts = ["Cash", "Wallet", "Revolut"].map(
-  (item, index): IAccount => ({ id: index, text: item })
+  (item, index): IAccount => ({ id: index, name: item })
 );
 
 it("renders without crashing", () => {

@@ -80,7 +80,7 @@ const TransactionList = ({
           key={"transaction_" + i}
           transaction={t}
           categoryText={categories[t.category].text}
-          accountText={accounts[t.account].text}
+          accountText={accounts[t.account].name}
         />
       ))}
       <Collapse in={loading}>

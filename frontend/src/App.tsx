@@ -16,6 +16,8 @@ import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper"
 import GuestRoute from "./Components/routes/GuestRoute";
 import UserRoute from "./Components/routes/UserRoute";
 
+import withMaterialUiRoot from "./withMaterialUiRoot";
+
 const HomeRoutes = () => {
   return (
     <NavigationWrapper>
@@ -41,4 +43,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withMaterialUiRoot(App);

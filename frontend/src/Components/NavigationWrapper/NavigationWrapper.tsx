@@ -1,29 +1,31 @@
 import React, { ReactElement } from "react";
 
-import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
 import LogOutButton from "../LogOutButton";
 import NavigationSidebar from "./NavigationSidebar";
 import PageHeader from "./PageHeader";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex"
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      height: "100vh",
-      padding: theme.spacing.unit * 3
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: "flex"
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    padding: theme.spacing.unit * 3
+  }
+}));
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps {
   children?: ReactElement;
 }
 
-const NavigationWrapper = ({ classes, children }: IProps) => {
+const NavigationWrapper = ({ children }: IProps) => {
+  const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <PageHeader text="Dashboard" />
@@ -36,4 +38,4 @@ const NavigationWrapper = ({ classes, children }: IProps) => {
   );
 };
 
-export default withStyles(styles)(NavigationWrapper);
+export default NavigationWrapper;

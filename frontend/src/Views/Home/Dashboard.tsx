@@ -1,25 +1,18 @@
 import React from "react";
 import SimpleLineChart from "./SimpleLineChart";
 
-import {
-  createStyles,
-  Theme,
-  Typography,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Theme, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    chartContainer: {
-      marginLeft: -22
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  chartContainer: {
+    marginLeft: -22
+  }
+}));
 
-export interface IProps extends WithStyles<typeof styles> {}
-
-const Dashboard = ({ classes }: IProps) => {
+const Dashboard = () => {
+  const classes = useStyles();
   return (
     <React.Fragment>
       <h1>Monthly Sales Data</h1>
@@ -30,4 +23,4 @@ const Dashboard = ({ classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(Dashboard);
+export default Dashboard;

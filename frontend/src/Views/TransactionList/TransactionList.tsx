@@ -1,12 +1,5 @@
-import {
-  Collapse,
-  createStyles,
-  List,
-  Paper,
-  Theme,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { Collapse, List, Paper, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import {
   IAccount,
@@ -16,17 +9,16 @@ import {
 import TransactionListItem from "./TransactionListItem";
 import TransactionListLoadingItem from "./TransactionListLoadingItem";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    listRoot: {
-      width: "100%",
-      backgroundColor: theme.palette.background.paper,
-      paddingTop: 0,
-      paddingBottom: 0
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  listRoot: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    paddingTop: 0,
+    paddingBottom: 0
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   transactions: ITransaction[];
   accounts: IAccount[];
   categories: ICategory[];
@@ -41,8 +33,7 @@ const TransactionList = ({
   categories,
   requestMoreTransactions,
   canLoadMore = true,
-  loading = true,
-  classes
+  loading = true
 }: IProps) => {
   const triggerChild = React.useRef<HTMLSpanElement>(null);
   React.useEffect(() => {
@@ -73,6 +64,8 @@ const TransactionList = ({
     }
   };
 
+  const classes = useStyles();
+
   return (
     <List className={classes.listRoot}>
       {transactions.map((t, i) => (
@@ -91,4 +84,4 @@ const TransactionList = ({
   );
 };
 
-export default withStyles(styles)(TransactionList);
+export default TransactionList;

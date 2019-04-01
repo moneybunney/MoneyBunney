@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import { postLogin } from "../../Utilities/Api";
 import LoginForm from "./LoginForm";
@@ -47,9 +47,11 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
+function SignIn({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+
+  const { history } = useReactRouter();
 
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
@@ -93,4 +95,4 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   );
 }
 
-export default withRouter(withStyles(styles)(SignIn));
+export default withStyles(styles)(SignIn);

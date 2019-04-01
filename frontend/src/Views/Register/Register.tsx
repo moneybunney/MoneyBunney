@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import { postRegister } from "../../Utilities/Api";
 import RegistrationForm from "./RegistrationForm";
@@ -47,9 +47,11 @@ const styles = (theme: Theme) =>
 
 interface IProps extends WithStyles<typeof styles> {}
 
-function Register({ classes, history }: IProps & RouteComponentProps<any>) {
+function Register({ classes }: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
+
+  const { history } = useReactRouter();
 
   const onSubmit = (email: string, password: string) => {
     setEmailError(false);
@@ -92,4 +94,4 @@ function Register({ classes, history }: IProps & RouteComponentProps<any>) {
   );
 }
 
-export default withRouter(withStyles(styles)(Register));
+export default withStyles(styles)(Register);

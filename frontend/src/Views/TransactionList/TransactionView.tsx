@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import TransactionListContainer from "./TransactionListContainer";
 
@@ -20,9 +20,10 @@ const styles = (theme: Theme) =>
     }
   });
 
-interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {}
+interface IProps extends WithStyles<typeof styles> {}
 
-const TransactionView = ({ history, classes }: IProps) => {
+const TransactionView = ({ classes }: IProps) => {
+  const { history } = useReactRouter();
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     history.replace("/transactions/create");

@@ -10,16 +10,10 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import BalanceAmountText from "../../Components/BalanceAmountText";
 import { IAccount } from "../../Models/TransactionModel";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    balanceText: {
-      fontWeight: 500,
-      margin: 16,
-      color: "#68bcbe"
-    }
-  });
+const styles = (theme: Theme) => createStyles({});
 
 interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
   account: IAccount;
@@ -35,7 +29,7 @@ const AccountListItem = ({ account, classes, history }: IProps) => {
     <ListItem button={true} onClick={onClick}>
       <ListItemText primary={account.text} />
       <ListItemSecondaryAction>
-        <Typography className={classes.balanceText}>100</Typography>
+        <BalanceAmountText amount={100} difference={false} />
       </ListItemSecondaryAction>
     </ListItem>
   );

@@ -7,6 +7,9 @@ import {
 } from "../../Models/TransactionModel";
 import TransactionList from "./TransactionList";
 
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+
 const mockTransactions = [0, 1, 2].map(i => {
   const transaction = createEmptyTransaction();
   transaction.category = i;
@@ -22,20 +25,28 @@ const mockAccounts = ["Cash", "Wallet", "Revolut"].map(
   (item, index): IAccount => ({ id: index, text: item })
 );
 
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+});
+
 it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
-    <TransactionList
-      transactions={mockTransactions}
-      categories={mockCategories}
-      accounts={mockAccounts}
-      // tslint:disable-next-line:jsx-no-lambda
-      requestMoreTransactions={() => {
-        return;
-      }}
-      canLoadMore={true}
-      loading={true}
-    />,
+    <ThemeProvider theme={theme}>
+      <TransactionList
+        transactions={mockTransactions}
+        categories={mockCategories}
+        accounts={mockAccounts}
+        // tslint:disable-next-line:jsx-no-lambda
+        requestMoreTransactions={() => {
+          return;
+        }}
+        canLoadMore={true}
+        loading={true}
+      />
+    </ThemeProvider>,
     div
   );
 });

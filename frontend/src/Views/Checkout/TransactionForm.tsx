@@ -67,7 +67,9 @@ const TransactionForm = ({
   const [dateError, setDateError] = React.useState(false);
 
   const initialTransferType =
-    transactionAmount >= 0 ? TransferType.Expense : TransferType.Income;
+    isNaN(transactionAmount) || transactionAmount >= 0
+      ? TransferType.Expense
+      : TransferType.Income;
   const [transferType, setTransferType] = React.useState(initialTransferType);
 
   const fieldUpdate = (fieldId: string) => (

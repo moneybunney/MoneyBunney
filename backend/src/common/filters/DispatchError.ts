@@ -5,8 +5,10 @@ import {
   HttpStatus,
   UnauthorizedException,
   NotFoundException,
+  HttpException,
 } from '@nestjs/common';
 import { AppError } from '../error/AppError';
+import { restElement } from '@babel/types';
 
 @Catch()
 export class DispatchError implements ExceptionFilter {
@@ -30,6 +32,8 @@ export class DispatchError implements ExceptionFilter {
     } else if (exception instanceof NotFoundException) {
       console.log(exception.message);
       return res.status(HttpStatus.NOT_FOUND).json(exception.message);
+    } else if (exception instanceof HttpException) {
+      return res.status(exception.getStatus()).json(exception.getResponse());
     } else {
       console.error(exception.message);
       console.error(exception.stack);

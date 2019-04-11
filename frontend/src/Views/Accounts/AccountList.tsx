@@ -1,9 +1,9 @@
 import {
+  CircularProgress,
+  Collapse,
   Divider,
   List,
-  Theme,
-  Collapse,
-  CircularProgress
+  Theme
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
@@ -29,16 +29,14 @@ const AccountList = ({ accounts, loading }: IProps) => {
   const classes = useStyles();
   return (
     <List className={classes.listRoot}>
-      <Collapse in={!loading}>
+      <Collapse collapsedHeight="40px" in={!loading}>
+        {loading && <CircularProgress size={40} />}
         {accounts.map((account, i) => (
           <React.Fragment>
             <AccountListItem key={"account_" + i} account={account} />
             <Divider />
           </React.Fragment>
         ))}
-      </Collapse>
-      <Collapse in={loading}>
-        <CircularProgress size={40} />
       </Collapse>
     </List>
   );

@@ -5,9 +5,9 @@ import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
+import { IAccount } from "../../Models/AccountModel";
 import { getAccounts } from "../../Utilities/Api";
 import AccountList from "./AccountList";
-import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {

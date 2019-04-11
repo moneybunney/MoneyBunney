@@ -1,4 +1,10 @@
-import { Divider, List, Theme } from "@material-ui/core";
+import {
+  Divider,
+  List,
+  Theme,
+  Collapse,
+  CircularProgress
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
@@ -16,18 +22,24 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export interface IProps {
   accounts: IAccount[];
+  loading: boolean;
 }
 
-const AccountList = ({ accounts }: IProps) => {
+const AccountList = ({ accounts, loading }: IProps) => {
   const classes = useStyles();
   return (
     <List className={classes.listRoot}>
-      {accounts.map((account, i) => (
-        <React.Fragment>
-          <AccountListItem key={"account_" + i} account={account} />
-          <Divider />
-        </React.Fragment>
-      ))}
+      <Collapse in={!loading}>
+        {accounts.map((account, i) => (
+          <React.Fragment>
+            <AccountListItem key={"account_" + i} account={account} />
+            <Divider />
+          </React.Fragment>
+        ))}
+      </Collapse>
+      <Collapse in={loading}>
+        <CircularProgress size={40} />
+      </Collapse>
     </List>
   );
 };

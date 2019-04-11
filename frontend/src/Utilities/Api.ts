@@ -1,3 +1,4 @@
+import { IAccount } from "../Models/AccountModel";
 import { ITransaction } from "../Models/TransactionModel";
 import { get, post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
@@ -58,4 +59,13 @@ export const createAccount = async (
   initialBalance: number
 ) => {
   return "RESPONSE";
+};
+
+export const getAccounts = async () => {
+  const accounts: IAccount[] = [
+    { id: 1, name: "Cash", initialBalance: 53.86 },
+    { id: 2, name: "Revolut", initialBalance: 2131.42 }
+  ];
+
+  return accounts;
 };

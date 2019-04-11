@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Fab, Paper, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
-import { IAccount } from "../../Models/AccountModel";
+import { getAccounts } from "../../Utilities/Api";
 import AccountList from "./AccountList";
+import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -29,14 +30,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const accounts: IAccount[] = [
-  { id: 1, name: "Cash", startingBalance: 53.86 },
-  { id: 2, name: "Revolut", startingBalance: 2131.42 }
-];
-
 const Accounts = () => {
   const { history } = useReactRouter();
   const classes = useStyles();
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setAccounts(await getAccounts());
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
@@ -45,7 +52,7 @@ const Accounts = () => {
 
   return (
     <Paper className={classes.paper}>
-      <AccountList accounts={accounts} />
+      <AccountList accounts={accounts} loading={loading} />
       <Fab
         onClick={onClick}
         color="primary"

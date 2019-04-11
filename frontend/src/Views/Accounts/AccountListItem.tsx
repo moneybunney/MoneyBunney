@@ -29,10 +29,7 @@ const AccountListItem = ({ account }: IProps) => {
     <ListItem button={true} onClick={onClick}>
       <ListItemText primary={account.name} />
       <ListItemSecondaryAction>
-        <BalanceAmountText
-          amount={account.startingBalance}
-          difference={false}
-        />
+        <BalanceAmountText amount={account.initialBalance} difference={false} />
       </ListItemSecondaryAction>
     </ListItem>
   );

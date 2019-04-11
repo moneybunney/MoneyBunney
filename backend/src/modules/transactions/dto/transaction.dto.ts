@@ -7,10 +7,13 @@ import {
 } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class CreateTransactionDto {
+export class TransactionDTO {
+  /**
+   * Date string of ISOString fromat
+   */
   @ApiModelProperty()
   @IsDateString()
-  readonly Date: object;
+  readonly Date: string;
 
   @ApiModelProperty()
   @IsString()

@@ -1,20 +1,13 @@
-import {
-  Collapse,
-  createStyles,
-  ListItem,
-  ListItemText,
-  Theme,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { Collapse, ListItem, ListItemText, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
 import { ITransaction } from "../../Models/TransactionModel";
 import TransactionListItemPrice from "./TransactionListItemAmount";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 
-const styles = (theme: Theme) => createStyles({});
+const useStyles = makeStyles((theme: Theme) => ({}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   transaction: ITransaction;
   categoryText: string;
   accountText: string;
@@ -33,10 +26,10 @@ const toDisplayDate = (d: Date) => {
 
 const TransactionListItem = ({
   transaction,
-  classes,
   categoryText,
   accountText
 }: IProps) => {
+  const classes = useStyles();
   const [shown, setShown] = React.useState(false);
 
   useEffect(() => {
@@ -66,4 +59,4 @@ const TransactionListItem = ({
   );
 };
 
-export default withStyles(styles)(TransactionListItem);
+export default TransactionListItem;

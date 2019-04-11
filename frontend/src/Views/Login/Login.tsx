@@ -1,55 +1,53 @@
 import {
   Avatar,
-  createStyles,
-  CssBaseline,
   LinearProgress,
   Paper,
   Theme,
-  Typography,
-  WithStyles,
-  withStyles
+  Typography
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+
 import { LockOutlined } from "@material-ui/icons";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import { postLogin } from "../../Utilities/Api";
 import LoginForm from "./LoginForm";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    main: {
-      width: "auto",
-      display: "block", // Fix IE 11 issue.
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-        width: 400,
-        marginLeft: "auto",
-        marginRight: "auto"
-      }
-    },
-    formContainer: {
-      marginTop: theme.spacing.unit * 8
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-        .spacing.unit * 3}px`
-    },
-    avatar: {
-      margin: theme.spacing.unit,
-      backgroundColor: theme.palette.secondary.main
+const useStyles = makeStyles((theme: Theme) => ({
+  main: {
+    width: "auto",
+    display: "block", // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: "auto",
+      marginRight: "auto"
     }
-  });
+  },
+  formContainer: {
+    marginTop: theme.spacing.unit * 8
+  },
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`
+  },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {}
-
-function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
+function SignIn() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+
+  const { history } = useReactRouter();
+  const classes = useStyles();
 
   const onSubmit = (email: string, password: string) => {
     setLoading(true);
@@ -70,8 +68,6 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
 
   return (
     <main className={classes.main}>
-      <CssBaseline />
-
       <div className={classes.formContainer}>
         {loading && <LinearProgress />}
         <Paper className={classes.paper}>
@@ -93,4 +89,4 @@ function SignIn({ classes, history }: IProps & RouteComponentProps<any>) {
   );
 }
 
-export default withRouter(withStyles(styles)(SignIn));
+export default SignIn;

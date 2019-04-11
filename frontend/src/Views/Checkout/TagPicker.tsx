@@ -1,48 +1,44 @@
-import {
-  createStyles,
-  Grid,
-  TextField,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Grid, TextField, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import * as React from "react";
 import ChipArray from "./ChipArray";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    chips: {
-      display: "flex",
-      flexWrap: "wrap",
-      marginTop: theme.spacing.unit
-    },
-    chip: {
-      margin: theme.spacing.unit / 4
-    },
-    addTagCell: {
-      position: "relative"
-    },
-    addTagIcon: {
-      position: "absolute",
-      bottom: theme.spacing.unit
-    },
-    addTagIconDisabled: {
-      opacity: 50,
-      position: "absolute",
-      bottom: theme.spacing.unit
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  chips: {
+    display: "flex",
+    flexWrap: "wrap",
+    marginTop: theme.spacing.unit
+  },
+  chip: {
+    margin: theme.spacing.unit / 4
+  },
+  addTagCell: {
+    position: "relative"
+  },
+  addTagIcon: {
+    position: "absolute",
+    bottom: theme.spacing.unit
+  },
+  addTagIconDisabled: {
+    opacity: 50,
+    position: "absolute",
+    bottom: theme.spacing.unit
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   onChange: (tags: string[]) => void;
   tags: string[];
   disabled: boolean;
 }
 
-const TagPicker = ({ tags, classes, onChange, disabled }: IProps) => {
+const TagPicker = ({ tags, onChange, disabled }: IProps) => {
   const [inputTag, setInputTag] = React.useState("");
   const [tagError, setTagError] = React.useState(false);
+
+  const classes = useStyles();
+
   const removeTag = (tag: string) => {
     const tmp = tags.filter(item => item !== tag);
     onChange(tmp);
@@ -105,4 +101,4 @@ const TagPicker = ({ tags, classes, onChange, disabled }: IProps) => {
   );
 };
 
-export default withStyles(styles)(TagPicker);
+export default TagPicker;

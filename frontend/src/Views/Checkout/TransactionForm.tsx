@@ -1,7 +1,6 @@
 import {
   Button,
   Collapse,
-  createStyles,
   FormControl,
   FormHelperText,
   Grid,
@@ -13,34 +12,32 @@ import {
   Select,
   TextField,
   Theme,
-  Typography,
-  WithStyles,
-  withStyles
+  Typography
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React, { ChangeEvent, SyntheticEvent } from "react";
 import { ITransaction } from "../../Models/TransactionModel";
 import { IAccount, ICategory } from "./Checkout";
 import TagPicker from "./TagPicker";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    margin: {
-      margin: theme.spacing.unit
-    },
-    button: {
-      marginTop: theme.spacing.unit * 3,
-      marginLeft: theme.spacing.unit
-    },
-    progress: {
-      width: "100%",
-      marginTop: theme.spacing.unit * 4
-    },
-    hidden: {
-      opacity: 0
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  margin: {
+    margin: theme.spacing.unit
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit
+  },
+  progress: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 4
+  },
+  hidden: {
+    opacity: 0
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   onFieldChange: (field: string, value: any) => void;
   transaction: ITransaction;
   categories: ICategory[];
@@ -57,19 +54,22 @@ enum TransferType {
 const TransactionForm = ({
   transaction,
   onFieldChange,
-  classes,
   categories,
   accounts,
   loading,
   onSubmit
 }: IProps) => {
+  const classes = useStyles();
+
   const transactionAmount = Number(transaction.amount);
   const [categoryError, setCategoryError] = React.useState(false);
   const [amountError, setAmountError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
 
   const initialTransferType =
-    transactionAmount >= 0 ? TransferType.Expense : TransferType.Income;
+    isNaN(transactionAmount) || transactionAmount >= 0
+      ? TransferType.Expense
+      : TransferType.Income;
   const [transferType, setTransferType] = React.useState(initialTransferType);
 
   const fieldUpdate = (fieldId: string) => (
@@ -290,4 +290,4 @@ const TransactionForm = ({
   );
 };
 
-export default withStyles(styles)(TransactionForm);
+export default TransactionForm;

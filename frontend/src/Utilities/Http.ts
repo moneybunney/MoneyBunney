@@ -51,11 +51,28 @@ export const post = (
 
 export const get = (
   input: RequestInfo,
-  params: Map<string, string>,
+  params?: Map<string, string>,
   init?: RequestInit
 ): Promise<Response> => {
   const options: RequestInit = {
     method: "GET"
+  };
+  return http(input, options, params);
+};
+
+// Let's pretend this is a GET request :)
+export const getPost = (
+  input: RequestInfo,
+  params?: Map<string, string>,
+  body?: object,
+  init?: RequestInit
+): Promise<Response> => {
+  const options: RequestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: body ? JSON.stringify(body) : ""
   };
   return http(input, options, params);
 };

@@ -5,4 +5,5 @@ export const enum AppErrorTypeEnum {
   INVALID_EMAIL,
   VALIDATION_FAILED,
   TRANSACTION_NOT_FOUND,
+  INVALID_SELECTOR_NAME,
 }

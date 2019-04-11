@@ -1,28 +1,23 @@
-import {
-  createStyles,
-  Fab,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Fab, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import TransactionListContainer from "./TransactionListContainer";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    fab: {
-      position: "fixed",
-      bottom: theme.spacing.unit * 10,
-      right: theme.spacing.unit * 10
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  fab: {
+    position: "fixed",
+    bottom: theme.spacing.unit * 10,
+    right: theme.spacing.unit * 10
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {}
+const TransactionView = () => {
+  const { history } = useReactRouter();
+  const classes = useStyles();
 
-const TransactionView = ({ history, classes }: IProps) => {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     history.replace("/transactions/create");
@@ -43,4 +38,4 @@ const TransactionView = ({ history, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(TransactionView);
+export default TransactionView;

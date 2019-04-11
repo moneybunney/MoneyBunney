@@ -1,31 +1,24 @@
-import {
-  createStyles,
-  Divider,
-  Drawer,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Divider, Drawer, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import MainListItems from "./MainListItems";
 import SecondaryListItems from "./SecondaryListItems";
 
 const drawerWidth = 240;
-const styles = (theme: Theme) =>
-  createStyles({
-    drawerPaper: {
-      width: drawerWidth
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0
-    },
-    toolbar: theme.mixins.toolbar
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  drawerPaper: {
+    width: drawerWidth
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  toolbar: theme.mixins.toolbar
+}));
 
-export interface IProps extends WithStyles<typeof styles> {}
+const NavigationSidebar = () => {
+  const classes = useStyles();
 
-const NavigationSidebar = ({ classes }: IProps) => {
   return (
     <React.Fragment>
       <Drawer
@@ -43,4 +36,4 @@ const NavigationSidebar = ({ classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(NavigationSidebar);
+export default NavigationSidebar;

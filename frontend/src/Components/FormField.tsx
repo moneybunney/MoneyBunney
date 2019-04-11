@@ -6,12 +6,12 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
-type FieldType = "text" | "password";
+type FieldType = "text" | "password" | "number";
 type AutoCompleteType = "email" | "current-password";
 
 interface IProps {
-  error: boolean;
-  disabled: boolean;
+  error?: boolean;
+  disabled?: boolean;
   fieldType: FieldType;
   name: string;
   text: string;
@@ -21,6 +21,7 @@ interface IProps {
   onBlur?: () => void;
   errorText?: string;
   autoComplete?: AutoCompleteType;
+  startAdornment?: React.ReactNode;
 }
 
 const FormField = ({
@@ -34,7 +35,8 @@ const FormField = ({
   autoFocus,
   onBlur,
   errorText,
-  autoComplete
+  autoComplete,
+  startAdornment
 }: IProps) => {
   return (
     <FormControl
@@ -55,6 +57,7 @@ const FormField = ({
         value={value}
         onBlur={onBlur}
         autoFocus={autoFocus}
+        startAdornment={startAdornment}
       />
       {errorText && error && <FormHelperText>{errorText}</FormHelperText>}
     </FormControl>

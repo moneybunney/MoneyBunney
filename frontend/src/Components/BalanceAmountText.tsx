@@ -1,32 +1,28 @@
-import {
-  createStyles,
-  Theme,
-  Typography,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { Theme, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    amountText: {
-      fontWeight: 500,
-      margin: 16
-    },
-    negative: {
-      color: "#f6787f"
-    },
-    positive: {
-      color: "#68bcbe"
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  amountText: {
+    fontWeight: 500,
+    margin: 16
+  },
+  negative: {
+    color: "#f6787f"
+  },
+  positive: {
+    color: "#68bcbe"
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   amount: number;
   difference: boolean;
 }
 
-const BalanceAmountText = ({ amount, difference, classes }: IProps) => {
+const BalanceAmountText = ({ amount, difference }: IProps) => {
+  const classes = useStyles();
+
   const negative = amount < 0;
   let amountText = `${Math.abs(amount).toFixed(2)}€`;
 
@@ -44,4 +40,4 @@ const BalanceAmountText = ({ amount, difference, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(BalanceAmountText);
+export default BalanceAmountText;

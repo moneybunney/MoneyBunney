@@ -1,25 +1,25 @@
 import {
-  createStyles,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-  Theme,
-  Typography,
-  WithStyles,
-  withStyles
+  Theme
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
 import BalanceAmountText from "../../Components/BalanceAmountText";
 import { IAccount } from "../../Models/AccountModel";
 
-const styles = (theme: Theme) => createStyles({});
+const useStyles = makeStyles((theme: Theme) => ({}));
 
-interface IProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
+interface IProps {
   account: IAccount;
 }
 
-const AccountListItem = ({ account, classes, history }: IProps) => {
+const AccountListItem = ({ account }: IProps) => {
+  const classes = useStyles();
+  const { history } = useReactRouter();
+
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     history.replace(`/transactions?account=${account.name}`);
@@ -38,4 +38,4 @@ const AccountListItem = ({ account, classes, history }: IProps) => {
   );
 };
 
-export default withRouter(withStyles(styles)(AccountListItem));
+export default AccountListItem;

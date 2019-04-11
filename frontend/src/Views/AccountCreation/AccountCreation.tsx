@@ -1,7 +1,9 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
-import React from "react";
-
 import { makeStyles } from "@material-ui/styles";
+import React from "react";
+import useReactRouter from "use-react-router";
+
+import { createAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,9 +31,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const AccountCreation = () => {
   const classes = useStyles();
+  const { history } = useReactRouter();
 
-  const onSubmit = (accountName: string, initialBalance: number) => {
-    alert(`${accountName} ${initialBalance}`);
+  const onSubmit = async (accountName: string, initialBalance: number) => {
+    await createAccount(accountName, initialBalance);
+    alert(`SUCCESFULY CREATED ACCOUNT ${accountName} ${initialBalance}`);
+    history.replace("/accounts");
   };
 
   return (

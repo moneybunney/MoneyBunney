@@ -52,3 +52,10 @@ export const getTransactionListChunk = async (
     .limit(count)
     .execute();
 };
+
+export const createAccount = async (
+  accountName: string,
+  initialBalance: number
+) => {
+  return "RESPONSE";
+};

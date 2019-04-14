@@ -10,6 +10,7 @@ import Checkout from "./Views/Checkout/Checkout";
 import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
+import Reports from "./Views/Reports/Reports";
 import TransactionView from "./Views/TransactionList/TransactionView";
 
 import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
@@ -25,6 +26,7 @@ const HomeRoutes = () => {
         <Route exact={true} path="/transactions" component={TransactionView} />
         <Route path="/transactions/create" component={Checkout} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/reports" component={Reports} />
         <Redirect to="/dashboard" />
       </Switch>
     </NavigationWrapper>

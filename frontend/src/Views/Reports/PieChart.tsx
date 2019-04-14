@@ -46,13 +46,13 @@ const renderCustomizedLabel = ({
   }
 };
 
-export default function BarChart() {
+export default function BasicPieChart() {
   return (
-    <PieChart width={400} height={400}>
+    <PieChart width={300} height={300}>
       <Pie
         data={data}
-        cx={200}
-        cy={200}
+        cx={150}
+        cy={150}
         labelLine={false}
         label={renderCustomizedLabel}
         outerRadius={80}

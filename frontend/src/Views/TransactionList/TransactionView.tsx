@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
+import { TransactionsCreateLocation } from "../../routes";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,7 +21,7 @@ const TransactionView = () => {
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
-    history.replace("/transactions/create");
+    history.replace(TransactionsCreateLocation);
   };
 
   return (

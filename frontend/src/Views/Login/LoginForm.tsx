@@ -5,6 +5,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 import FormField from "../../Components/FormField";
+import { RegisterLocation } from "../../routes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -83,7 +84,7 @@ const LoginForm = ({ loading, error, onSubmit, setError }: IProps) => {
               color="primary"
               disabled={loading}
               onClick={() => {
-                history.replace("/register");
+                history.replace(RegisterLocation);
               }}
             >
               Register

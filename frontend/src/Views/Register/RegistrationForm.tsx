@@ -5,6 +5,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 import FormField from "../../Components/FormField";
+import { LoginLocation } from "../../routes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -121,7 +122,7 @@ const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
               color="primary"
               disabled={loading}
               onClick={() => {
-                history.replace("/login");
+                history.replace(LoginLocation);
               }}
             >
               Log in instead

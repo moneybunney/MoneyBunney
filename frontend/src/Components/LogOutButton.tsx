@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import useReactRouter from "use-react-router";
+import { LoginLocation } from "../routes";
 import { signOut } from "../Utilities/AuthenticationCookies";
 
 const LogOutButton = () => {
@@ -9,7 +10,7 @@ const LogOutButton = () => {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     signOut();
-    history.replace("/login");
+    history.replace(LoginLocation);
   };
 
   return (

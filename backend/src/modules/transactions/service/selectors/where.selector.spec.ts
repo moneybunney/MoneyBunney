@@ -18,7 +18,7 @@ describe('WhereSelector', () => {
   it("should call 'where' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Relationship: 'eq',
         Value: '10',
@@ -37,7 +37,7 @@ describe('WhereSelector', () => {
   it("should call 'lt' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Relationship: 'lt',
         Value: '10',
@@ -56,7 +56,7 @@ describe('WhereSelector', () => {
   it("should call 'gte' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Relationship: 'gte',
         Value: '10',
@@ -75,7 +75,7 @@ describe('WhereSelector', () => {
   it('should error with wrong operator ', async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Relationship: 'gtr',
         Value: '10',
@@ -112,7 +112,7 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Value: '10',
       },
@@ -130,7 +130,7 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
+      Key: 'Amount',
       Value: {
         Value: { test: 'I love unit tests!' },
       },

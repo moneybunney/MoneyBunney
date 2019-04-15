@@ -11,10 +11,14 @@ export interface Transactions extends Document {
 
 export class TransactionsUtils {
   static GetSortableFields(): string[] {
-    return ['Date', 'Price'];
+    return ['Date', 'Amount'];
   }
 
   static GetEquatableFields(): string[] {
-    return ['Date', 'Account', 'Price', 'Description', 'Tags'];
+    return ['Date', 'Account', 'Amount', 'Description', 'Tags'];
+  }
+
+  static GetDistinctableFields(): string[] {
+    return ['Date', 'Account', 'Category', 'Tags'];
   }
 }

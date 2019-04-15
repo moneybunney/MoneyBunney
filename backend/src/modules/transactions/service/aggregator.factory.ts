@@ -2,11 +2,13 @@ import { Document } from 'mongoose';
 import { BadRequestException } from '@nestjs/common';
 import { ListAggregator } from './aggregators/list.aggregator';
 import { Aggregator } from './aggregators/aggregator';
+import { SumAggregator } from './aggregators/sum.aggregator';
 
 export class AggregatorFactory {
   constructor() {
     const usedAggregators: Array<() => Aggregator> = [
       () => new ListAggregator(),
+      () => new SumAggregator(),
     ];
 
     usedAggregators.forEach(a => this.addAggregator(a));
@@ -20,6 +22,7 @@ export class AggregatorFactory {
   constructors: AggregatorConstructorMap = {};
   CreateAggregator = (name: string): Aggregator => {
     if (this.constructors[name] === undefined) {
+      console.log('Creating a list aggregator, because one was not specified');
       // tslint:disable-next-line:no-string-literal
       return this.constructors['list']();
     } else {

@@ -45,8 +45,7 @@ export class WhereSelector<T extends Document> extends Selector<T> {
     const errors = validateSync(classObject);
     if (errors.length > 0) {
       throw new BadRequestException(
-        'Validation failed!',
-        JSON.stringify(errors),
+        'Validation failed: ' + JSON.stringify(errors),
       );
     }
 

@@ -23,10 +23,19 @@ export class TransactionQueryService {
   }
 
   async query(queryRequest: QueryDTO): Promise<any> {
-    const aggregator = this.resolveAggregator(queryRequest.aggregator.Name);
+    let aggregatorName;
+    if (
+      queryRequest &&
+      queryRequest.aggregator &&
+      queryRequest.aggregator.Name
+    ) {
+      aggregatorName = queryRequest.aggregator.Name;
+    }
+    const aggregator = this.resolveAggregator(aggregatorName);
     return aggregator.ApplyAggregatorDTO(
       () => this.getQueryWithAppliedSelectors(queryRequest),
       queryRequest.aggregator,
+      this.transactionModel,
     );
   }
 
@@ -35,7 +44,7 @@ export class TransactionQueryService {
   ): DocumentQuery<Transactions[], Transactions, any> {
     const currentQuery = this.transactionModel.find();
     this.logger.log('Query object received:');
-    this.logger.log(queryRequest as any);
+    this.logger.log(JSON.stringify(queryRequest));
     if (
       !queryRequest ||
       !queryRequest.selectors ||

@@ -1,5 +1,5 @@
 import { Aggregator } from './aggregator';
-import { DocumentQuery } from 'mongoose';
+import { DocumentQuery, Model } from 'mongoose';
 import { AggregatorDTO } from '../../../../../../shared/aggregator.dto';
 import { Transactions } from '../../interfaces/transactions.interface';
 import { BadRequestException } from '@nestjs/common';
@@ -16,6 +16,7 @@ export class ListAggregator extends Aggregator {
   protected async ApplyValidatedAggregatorDTO(
     postSelectorQuery: () => DocumentQuery<Transactions[], Transactions, {}>,
     aggregatorDTO: AggregatorDTO,
+    transactionsModel: Model<Transactions>,
   ): Promise<any> {
     try {
       return postSelectorQuery().exec();

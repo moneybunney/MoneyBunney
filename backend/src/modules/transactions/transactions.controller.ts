@@ -10,6 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { TransactionsService } from './service/transactions.service';
+import { CategoryService } from './service/category.service';
 import { TransactionDTO } from './dto/transaction.dto';
 import { Transactions } from './interfaces/transactions.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
@@ -23,6 +24,7 @@ import { TransactionQueryService } from './service/transaction-query.service';
 export class TransactionsController {
   constructor(
     private readonly transactionsService: TransactionsService,
+    private readonly categoryService: CategoryService,
     private readonly queryService: TransactionQueryService,
     private readonly logger: Logger,
   ) {}

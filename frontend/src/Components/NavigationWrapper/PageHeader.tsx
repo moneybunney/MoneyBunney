@@ -12,7 +12,7 @@ import {
   ReportsLocation,
   SettingsLocation,
   TransactionsLocation
-} from "../../routes";
+} from "../../routes.constants";
 import LogOutButton from "../LogOutButton";
 
 const drawerWidth = 240;

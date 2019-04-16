@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
-import { TransactionsCreateLocation } from "../../routes";
+import { TransactionsCreateLocation } from "../../routes.constants";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({

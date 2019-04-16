@@ -12,7 +12,7 @@ import {
   RegisterLocation,
   TransactionsCreateLocation,
   TransactionsLocation
-} from "./routes";
+} from "./routes.constants";
 
 import Checkout from "./Views/Checkout/Checkout";
 import Dashboard from "./Views/Home/Dashboard";

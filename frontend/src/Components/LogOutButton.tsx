@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import useReactRouter from "use-react-router";
-import { LoginLocation } from "../routes";
+import { LoginLocation } from "../routes.constants";
 import { signOut } from "../Utilities/AuthenticationCookies";
 
 const LogOutButton = () => {

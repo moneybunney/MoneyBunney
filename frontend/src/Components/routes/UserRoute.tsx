@@ -1,7 +1,7 @@
 import React from "react";
 
 import { RouteProps } from "react-router-dom";
-import { LoginLocation } from "../../routes";
+import { LoginLocation } from "../../routes.constants";
 import RouteWithAuthentication from "../RouteWithAuthentication";
 
 interface IProps extends RouteProps {

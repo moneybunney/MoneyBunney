@@ -12,7 +12,7 @@ import {
   DashboardLocation,
   ReportsLocation,
   TransactionsLocation
-} from "../../routes";
+} from "../../routes.constants";
 import NavigationListItem from "./NavigationListItem";
 
 export const MainListItems = () => (

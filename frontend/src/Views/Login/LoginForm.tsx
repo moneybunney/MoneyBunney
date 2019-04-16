@@ -5,7 +5,7 @@ import React from "react";
 import useReactRouter from "use-react-router";
 
 import FormField from "../../Components/FormField";
-import { RegisterLocation } from "../../routes";
+import { RegisterLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {

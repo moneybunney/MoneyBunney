@@ -1,6 +1,7 @@
 import React from "react";
 
 import { RouteProps } from "react-router-dom";
+import { LoginLocation } from "../../routes.constants";
 import RouteWithAuthentication from "../RouteWithAuthentication";
 
 interface IProps extends RouteProps {
@@ -10,7 +11,7 @@ interface IProps extends RouteProps {
 const UserRoute = ({ Component, ...rest }: IProps) => (
   <RouteWithAuthentication
     onlyLoggedIn={true}
-    redirectRoute="/login"
+    redirectRoute={LoginLocation}
     Component={Component}
     {...rest}
   />

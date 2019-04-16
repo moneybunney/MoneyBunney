@@ -2,9 +2,10 @@ import { Button, Checkbox, FormControlLabel, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-import { Route } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import FormField from "../../Components/FormField";
+import { RegisterLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -46,6 +47,11 @@ const LoginForm = ({ loading, error, onSubmit, setError }: IProps) => {
     onSubmit(email, password);
   };
 
+  const { history } = useReactRouter();
+  const registerButtonOnClick = () => {
+    history.replace(RegisterLocation);
+  };
+
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
@@ -77,19 +83,13 @@ const LoginForm = ({ loading, error, onSubmit, setError }: IProps) => {
         label="Remember me"
       />
       <div className={classes.buttonContainer}>
-        <Route
-          render={({ history }) => (
-            <Button
-              color="primary"
-              disabled={loading}
-              onClick={() => {
-                history.replace("/register");
-              }}
-            >
-              Register
-            </Button>
-          )}
-        />
+        <Button
+          color="primary"
+          disabled={loading}
+          onClick={registerButtonOnClick}
+        >
+          Register
+        </Button>
         <Button
           type="submit"
           variant="contained"

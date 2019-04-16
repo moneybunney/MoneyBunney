@@ -37,5 +37,5 @@ export interface ICategory {
 
 export interface IAccount {
   id: number;
-  text: string;
+  name: string;
 }

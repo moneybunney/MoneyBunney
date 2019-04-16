@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 import {
+  AccountsCreateLocation,
+  AccountsLocation,
   DashboardLocation,
   LoginLocation,
   RegisterLocation,
@@ -14,6 +16,8 @@ import {
   TransactionsLocation
 } from "./routes.constants";
 
+import AccountCreation from "./Views/AccountCreation/AccountCreation";
+import Accounts from "./Views/Accounts/Accounts";
 import Checkout from "./Views/Checkout/Checkout";
 import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
@@ -35,6 +39,8 @@ const HomeRoutes = () => {
           path={TransactionsLocation}
           component={TransactionView}
         />
+        <Route exact={true} path={AccountsLocation} component={Accounts} />
+        <Route path={AccountsCreateLocation} component={AccountCreation} />
         <Route path={TransactionsCreateLocation} component={Checkout} />
         <Route path={DashboardLocation} component={Dashboard} />
         <Redirect to={DashboardLocation} />

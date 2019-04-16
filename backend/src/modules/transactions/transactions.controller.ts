@@ -5,6 +5,7 @@ import {
   Delete,
   Body,
   Query,
+  Param,
   Res,
   UsePipes,
   HttpStatus,
@@ -12,7 +13,9 @@ import {
 import { TransactionsService } from './service/transactions.service';
 import { CategoryService } from './service/category.service';
 import { TransactionDTO } from './dto/transaction.dto';
+import { CategoryDto } from './dto/category.dto';
 import { Transactions } from './interfaces/transactions.interface';
+import { Categories } from './interfaces/category.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
@@ -45,6 +48,39 @@ export class TransactionsController {
     this.logger.log(createTransactionDto.Account);
     this.transactionsService.create(createTransactionDto);
     return res.status(HttpStatus.CREATED).send();
+  }
+
+  @Post('/categories')
+  @ApiOperation({ title: 'Create Category' })
+  @ApiResponse({
+    status: 201,
+    description: 'Category successfully received.',
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @UsePipes(new ValidationPipe(new Logger()))
+  async createCategory(
+    @Body() createCategoryDto: CategoryDto,
+    @Res() res: Response,
+  ) {
+    this.logger.log('Category received:');
+    this.logger.log(createCategoryDto.Name);
+    this.categoryService.create(createCategoryDto);
+    return res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get('/categories')
+  @ApiOperation({ title: 'Get all categories' })
+  @ApiResponse({ status: 200, description: 'Categories  response' })
+  @ApiResponse({ status: 500, description: 'Server error.' })
+  getCategories(): Promise<Categories[]> {
+    this.logger.log(`GET to /transactions/categories | getCategories`);
+    return this.categoryService.findAll();
+  }
+
+  @Get('/categories/:id')
+  getTest(@Param('id') id: string): Promise<Categories> {
+    this.logger.log('GET to /transactions/categories | getCategory');
+    return this.categoryService.find(id);
   }
 
   @Delete()

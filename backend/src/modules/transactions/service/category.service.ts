@@ -23,4 +23,8 @@ export class CategoryService {
   async findAll(): Promise<Categories[]> {
     return await this.categoryModel.find().exec();
   }
+
+  async find(id: string): Promise<Categories> {
+    return await this.categoryModel.findById(id).exec();
+  }
 }

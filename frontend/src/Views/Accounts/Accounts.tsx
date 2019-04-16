@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
 import { IAccount } from "../../Models/AccountModel";
+import { AccountsCreateLocation } from "../../routes.constants";
 import { getAccounts } from "../../Utilities/Api";
 import AccountList from "./AccountList";
 
@@ -47,7 +48,7 @@ const Accounts = () => {
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
-    history.replace("/accounts/create");
+    history.replace(AccountsCreateLocation);
   };
 
   return (

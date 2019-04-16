@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
+import { AccountsLocation } from "../../routes.constants";
 import { createAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
 
@@ -36,7 +37,7 @@ const AccountCreation = () => {
   const onSubmit = async (accountName: string, initialBalance: number) => {
     await createAccount(accountName, initialBalance);
     alert(`SUCCESFULY CREATED ACCOUNT ${accountName} ${initialBalance}`);
-    history.replace("/accounts");
+    history.replace(AccountsLocation);
   };
 
   return (

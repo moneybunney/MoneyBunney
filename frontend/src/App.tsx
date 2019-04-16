@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 import {
+  AccountsCreateLocation,
+  AccountsLocation,
   DashboardLocation,
   LoginLocation,
   RegisterLocation,
@@ -37,8 +39,8 @@ const HomeRoutes = () => {
           path={TransactionsLocation}
           component={TransactionView}
         />
-        <Route exact={true} path="/accounts" component={Accounts} />
-        <Route path="/accounts/create" component={AccountCreation} />
+        <Route exact={true} path={AccountsLocation} component={Accounts} />
+        <Route path={AccountsCreateLocation} component={AccountCreation} />
         <Route path={TransactionsCreateLocation} component={Checkout} />
         <Route path={DashboardLocation} component={Dashboard} />
         <Redirect to={DashboardLocation} />

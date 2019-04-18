@@ -8,6 +8,7 @@ import {
 import { BadRequestException } from '@nestjs/common';
 import { IsString, validateSync, IsNumber } from 'class-validator';
 import { plainToClass } from 'class-transformer';
+import { any } from 'joi';
 
 /**
  * This is the balance over a key aggregator
@@ -35,9 +36,18 @@ export class BalanceAggregator extends Aggregator {
           balance = balance + elem.Amount;
           if (index >= count - payload.take || payload.take === 0) {
             // only keep the required amount of elements in-memory
-            const key = elem[payload.key];
-            const o = {};
-            o[key] = balance;
+
+            const keyObj = elem[payload.key];
+            let key: any;
+            if (keyObj instanceof Date) {
+              // we use the iso format for dates
+              key = keyObj.toISOString();
+            } else {
+              key = keyObj;
+            }
+
+            const o = { key, balance };
+
             response.push(o);
           }
           index++;

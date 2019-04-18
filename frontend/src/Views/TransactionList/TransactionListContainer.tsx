@@ -86,7 +86,7 @@ const TransactionListContainer = () => {
     (item, index): ICategory => ({ id: index, text: item })
   );
   const accounts = ["Cash", "Wallet", "Revolut"].map(
-    (item, index): IAccount => ({ id: index, text: item })
+    (item, index): IAccount => ({ id: index, name: item })
   );
 
   const initialState = {

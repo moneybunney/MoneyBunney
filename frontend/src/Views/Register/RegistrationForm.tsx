@@ -2,9 +2,10 @@ import { Button, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-import { Route } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import FormField from "../../Components/FormField";
+import { LoginLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -78,6 +79,11 @@ const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
     }
   };
 
+  const { history } = useReactRouter();
+  const loginInsteadButtonOnClick = () => {
+    history.replace(LoginLocation);
+  };
+
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
@@ -115,19 +121,13 @@ const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
         errorText="Passwords do not match"
       />
       <div className={classes.buttonContainer}>
-        <Route
-          render={({ history }) => (
-            <Button
-              color="primary"
-              disabled={loading}
-              onClick={() => {
-                history.replace("/login");
-              }}
-            >
-              Log in instead
-            </Button>
-          )}
-        />
+        <Button
+          color="primary"
+          disabled={loading}
+          onClick={loginInsteadButtonOnClick}
+        >
+          Log in instead
+        </Button>
         <Button
           type="submit"
           variant="contained"

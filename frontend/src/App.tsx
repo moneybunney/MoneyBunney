@@ -6,6 +6,19 @@ import {
   Switch
 } from "react-router-dom";
 
+import {
+  AccountsCreateLocation,
+  AccountsLocation,
+  DashboardLocation,
+  LoginLocation,
+  RegisterLocation,
+  ReportsLocation,
+  TransactionsCreateLocation,
+  TransactionsLocation
+} from "./routes.constants";
+
+import AccountCreation from "./Views/AccountCreation/AccountCreation";
+import Accounts from "./Views/Accounts/Accounts";
 import Checkout from "./Views/Checkout/Checkout";
 import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
@@ -23,11 +36,17 @@ const HomeRoutes = () => {
   return (
     <NavigationWrapper>
       <Switch>
-        <Route exact={true} path="/transactions" component={TransactionView} />
-        <Route path="/transactions/create" component={Checkout} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/reports" component={Reports} />
-        <Redirect to="/dashboard" />
+        <Route
+          exact={true}
+          path={TransactionsLocation}
+          component={TransactionView}
+        />
+        <Route exact={true} path={AccountsLocation} component={Accounts} />
+        <Route path={AccountsCreateLocation} component={AccountCreation} />
+        <Route path={TransactionsCreateLocation} component={Checkout} />
+        <Route path={DashboardLocation} component={Dashboard} />
+        <Route path={ReportsLocation} component={Reports} />
+        <Redirect to={DashboardLocation} />
       </Switch>
     </NavigationWrapper>
   );
@@ -37,8 +56,8 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <GuestRoute path="/login" Component={Login} />
-        <GuestRoute path="/register" Component={Register} />
+        <GuestRoute path={LoginLocation} Component={Login} />
+        <GuestRoute path={RegisterLocation} Component={Register} />
         <UserRoute path="/" Component={HomeRoutes} />
       </Switch>
     </Router>

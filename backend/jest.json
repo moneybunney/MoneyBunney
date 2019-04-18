@@ -1,13 +1,6 @@
 {
-  "moduleFileExtensions": [
-    "js",
-    "json",
-    "ts"
-  ],
-  "moduleDirectories": [
-    "node_modules",
-    "./"
-  ],
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleDirectories": ["node_modules", "./"],
   "rootDir": ".",
   "testRegex": "\\.spec\\.ts$",
   "transform": {

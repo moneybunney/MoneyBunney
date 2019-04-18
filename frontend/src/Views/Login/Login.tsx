@@ -7,12 +7,14 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import { LockOutlined } from "@material-ui/icons";
 import React from "react";
 import useReactRouter from "use-react-router";
 
 import { postLogin } from "../../Utilities/Api";
 import LoginForm from "./LoginForm";
+
+// @ts-ignore
+import Logo from "./logo.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   main: {
@@ -37,8 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       .spacing.unit * 3}px`
   },
   avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main
+    margin: theme.spacing.unit
   }
 }));
 
@@ -71,9 +72,7 @@ function SignIn() {
       <div className={classes.formContainer}>
         {loading && <LinearProgress />}
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
+          <Avatar className={classes.avatar} src={Logo} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>

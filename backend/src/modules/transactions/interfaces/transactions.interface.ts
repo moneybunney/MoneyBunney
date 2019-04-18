@@ -10,6 +10,9 @@ export interface Transactions extends Document {
 }
 
 export class TransactionsUtils {
+  // these are used in the transaction query service, to
+  // disallow access to database-private fields such as _id
+  // in the query language
   static GetSortableFields(): string[] {
     return ['Date', 'Amount'];
   }

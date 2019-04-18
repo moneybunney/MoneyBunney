@@ -42,7 +42,7 @@ export class SumAggregator extends Aggregator {
               reject(e);
             }
           });
-          const retVal = Promise.all(queries)
+          Promise.all(queries)
             .then(resolutions => {
               resolutions.forEach((elements, index) => {
                 const key = uniqueValues[index];

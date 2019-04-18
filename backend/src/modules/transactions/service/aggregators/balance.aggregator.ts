@@ -1,6 +1,7 @@
 import { Aggregator } from './aggregator';
 import { DocumentQuery, Model } from 'mongoose';
 import { AggregatorDTO } from '../../../../../../shared/aggregator.dto';
+import { BalanceResponseObjectDTO } from '../../../../../../shared/aggregator-responses/balance-response.dto';
 import {
   Transactions,
   TransactionsUtils,

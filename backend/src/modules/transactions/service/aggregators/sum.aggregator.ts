@@ -1,6 +1,7 @@
 import { Aggregator } from './aggregator';
 import { DocumentQuery, Model } from 'mongoose';
 import { AggregatorDTO } from '../../../../../../shared/aggregator.dto';
+import { SumResponseObjectDTO } from '../../../../../../shared/aggregator-responses/sum-response.dto';
 import {
   Transactions,
   TransactionsUtils,
@@ -50,7 +51,8 @@ export class SumAggregator extends Aggregator {
                 elements.forEach(e => {
                   sum += e.Amount;
                 });
-                response.push({ key, sum });
+                const o: SumResponseObjectDTO = { key, sum };
+                response.push(o);
               });
               resolve(response);
             })

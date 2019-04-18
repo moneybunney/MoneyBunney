@@ -1,4 +1,4 @@
 export interface BalanceResponseObjectDTO {
-  readonly key: string;
-  readonly balance: number;
+  readonly Key: string;
+  readonly Balance: number;
 }

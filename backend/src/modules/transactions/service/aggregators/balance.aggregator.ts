@@ -46,8 +46,7 @@ export class BalanceAggregator extends Aggregator {
               key = keyObj;
             }
 
-            const o = { key, balance };
-
+            const o: BalanceResponseObjectDTO = { Key: key, Balance: balance };
             response.push(o);
           }
           index++;

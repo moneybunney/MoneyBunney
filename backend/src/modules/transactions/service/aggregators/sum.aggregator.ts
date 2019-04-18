@@ -51,7 +51,7 @@ export class SumAggregator extends Aggregator {
                 elements.forEach(e => {
                   sum += e.Amount;
                 });
-                const o: SumResponseObjectDTO = { key, sum };
+                const o: SumResponseObjectDTO = { Key: key, Sum: sum };
                 response.push(o);
               });
               resolve(response);

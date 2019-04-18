@@ -1,4 +1,4 @@
 export interface SumResponseObjectDTO {
-  readonly key: string;
-  readonly sum: number;
+  readonly Key: string;
+  readonly Sum: number;
 }

@@ -79,11 +79,20 @@ taking into account a distic column. For example:
 returns a map of categories, where each value is a sum of all the `Amount` fields of transactions with `Amount` greater than `0`. In other words, income sum by category:
 
 ```json
-{
-  "0": 110,
-  "1": 1200,
-  "2": 600
-}
+[
+  {
+    "key": "2",
+    "sum": 600
+  },
+  {
+    "key": "0",
+    "sum": 110
+  },
+  {
+    "key": "1",
+    "sum": 1200
+  }
+]
 ```
 
 The `balance` aggregator tracks balance over a specified key:

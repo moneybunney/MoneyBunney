@@ -30,7 +30,7 @@ export class SumAggregator extends Aggregator {
           if (err) {
             reject(err);
           }
-          const response = new SumAggregatorResponseDTO();
+          const response = [];
           const queries = [];
           uniqueValues.forEach(k => {
             try {
@@ -50,7 +50,7 @@ export class SumAggregator extends Aggregator {
                 elements.forEach(e => {
                   sum += e.Amount;
                 });
-                response[key] = sum;
+                response.push({ key, sum });
               });
               resolve(response);
             })
@@ -89,8 +89,4 @@ export class SumAggregator extends Aggregator {
 class SumAggregatorPayloadDTO {
   @IsString()
   readonly distinctColumn: string;
-}
-
-class SumAggregatorResponseDTO {
-  [uniqueKey: string]: number;
 }

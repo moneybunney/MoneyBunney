@@ -1,6 +1,5 @@
-import { async } from "q";
-import { BalanceResponseObjectDTO } from "../../../../shared/aggregator-responses/balance-response.dto";
-import { SumResponseObjectDTO } from "../../../../shared/aggregator-responses/sum-response.dto";
+import { BalanceResponseObjectDTO } from "../../../../shared/aggregator-responses/balance.response.dto";
+import { SumResponseObjectDTO } from "../../../../shared/aggregator-responses/sum.response.dto";
 import { AggregatorDTO } from "../../../../shared/aggregator.dto";
 import { QueryDTO } from "../../../../shared/query.dto";
 import { SelectorDTO } from "../../../../shared/selector.dto";

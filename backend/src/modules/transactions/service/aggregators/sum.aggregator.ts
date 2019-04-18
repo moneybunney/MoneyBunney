@@ -1,7 +1,7 @@
 import { Aggregator } from './aggregator';
 import { DocumentQuery, Model } from 'mongoose';
 import { AggregatorDTO } from '../../../../../../shared/aggregator.dto';
-import { SumResponseObjectDTO } from '../../../../../../shared/aggregator-responses/sum-response.dto';
+import { SumResponseObjectDTO } from '../../../../../../shared/aggregator-responses/sum.response.dto';
 import {
   Transactions,
   TransactionsUtils,

@@ -148,7 +148,7 @@ export class TransactionQuery {
       case "sum":
         return this.parseSumResponse(response);
       case "balance":
-        return this.parseSumResponse(response);
+        return this.parseBalanceResponse(response);
     }
   };
 

@@ -74,7 +74,7 @@ export class TransactionQuery {
   public getQueryDTO = (): QueryDTO => {
     const makeQueryDTO = (): QueryDTO => ({
       selectors: this.selectors,
-      aggregator: "not-implemented"
+      aggregator: { Name: "list" }
     });
     return makeQueryDTO();
   };

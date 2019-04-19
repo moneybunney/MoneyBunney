@@ -1,12 +1,6 @@
 import React from "react";
 import { Cell, Legend, Pie, PieChart, PieLabelRenderProps } from "recharts";
-
-const data = [
-  { name: "Mars Bar", value: 100 },
-  { name: "Iron Bar", value: 200 },
-  { name: "Candy Bar", value: 50 },
-  { name: "Some Bar", value: 20 }
-];
+import { IChart } from "./Reports";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -46,7 +40,11 @@ const renderCustomizedLabel = ({
   }
 };
 
-export default function BasicPieChart() {
+export interface IProps {
+  data: IChart[];
+}
+
+const BasicPieChart = ({ data }: IProps) => {
   return (
     <PieChart width={300} height={300}>
       <Pie
@@ -66,4 +64,6 @@ export default function BasicPieChart() {
       <Legend />
     </PieChart>
   );
-}
+};
+
+export default BasicPieChart;

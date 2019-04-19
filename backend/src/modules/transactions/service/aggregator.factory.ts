@@ -3,12 +3,14 @@ import { BadRequestException } from '@nestjs/common';
 import { ListAggregator } from './aggregators/list.aggregator';
 import { Aggregator } from './aggregators/aggregator';
 import { SumAggregator } from './aggregators/sum.aggregator';
+import { BalanceAggregator } from './aggregators/balance.aggregator';
 
 export class AggregatorFactory {
   constructor() {
     const usedAggregators: Array<() => Aggregator> = [
       () => new ListAggregator(),
       () => new SumAggregator(),
+      () => new BalanceAggregator(),
     ];
 
     usedAggregators.forEach(a => this.addAggregator(a));

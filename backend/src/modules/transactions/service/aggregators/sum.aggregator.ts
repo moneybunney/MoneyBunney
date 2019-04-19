@@ -1,6 +1,7 @@
 import { Aggregator } from './aggregator';
 import { DocumentQuery, Model } from 'mongoose';
 import { AggregatorDTO } from '../../../../../../shared/aggregator.dto';
+import { SumResponseObjectDTO } from '../../../../../../shared/aggregator-responses/sum.response.dto';
 import {
   Transactions,
   TransactionsUtils,
@@ -30,7 +31,7 @@ export class SumAggregator extends Aggregator {
           if (err) {
             reject(err);
           }
-          const response = new SumAggregatorResponseDTO();
+          const response = [];
           const queries = [];
           uniqueValues.forEach(k => {
             try {
@@ -42,7 +43,7 @@ export class SumAggregator extends Aggregator {
               reject(e);
             }
           });
-          const retVal = Promise.all(queries)
+          Promise.all(queries)
             .then(resolutions => {
               resolutions.forEach((elements, index) => {
                 const key = uniqueValues[index];
@@ -50,7 +51,8 @@ export class SumAggregator extends Aggregator {
                 elements.forEach(e => {
                   sum += e.Amount;
                 });
-                response[key] = sum;
+                const o: SumResponseObjectDTO = { Key: key, Sum: sum };
+                response.push(o);
               });
               resolve(response);
             })
@@ -89,8 +91,4 @@ export class SumAggregator extends Aggregator {
 class SumAggregatorPayloadDTO {
   @IsString()
   readonly distinctColumn: string;
-}
-
-class SumAggregatorResponseDTO {
-  [uniqueKey: string]: number;
 }

@@ -19,7 +19,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Relationship: 'eq',
         Value: '10',
       },
@@ -29,7 +29,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.where).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -38,7 +38,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Relationship: 'lt',
         Value: '10',
       },
@@ -48,7 +48,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.lt).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -57,7 +57,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Relationship: 'gte',
         Value: '10',
       },
@@ -67,7 +67,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.gte).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -76,7 +76,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Relationship: 'gtr',
         Value: '10',
       },
@@ -94,7 +94,7 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Value: {
+      Payload: {
         Relationship: 'eq',
         Value: '10',
       },
@@ -113,7 +113,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Value: '10',
       },
     };
@@ -131,7 +131,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Amount',
-      Value: {
+      Payload: {
         Value: { test: 'I love unit tests!' },
       },
     };

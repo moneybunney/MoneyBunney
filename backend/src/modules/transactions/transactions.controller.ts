@@ -44,9 +44,13 @@ export class TransactionsController {
     @Body() createTransactionDto: TransactionDTO,
     @Res() res: Response,
   ) {
+    let category = await this.categoryService.find(
+      createTransactionDto.Category,
+    );
+    createTransactionDto.Category = category;
+    this.transactionsService.create(createTransactionDto);
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);
-    this.transactionsService.create(createTransactionDto);
     return res.status(HttpStatus.CREATED).send();
   }
 

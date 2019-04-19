@@ -21,7 +21,7 @@ export class TransactionDTO {
 
   @ApiModelProperty()
   @IsString()
-  readonly Category: string;
+  Category: any;
 
   @ApiModelProperty()
   @IsNumber()

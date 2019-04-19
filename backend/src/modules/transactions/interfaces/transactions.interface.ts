@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 export interface Transactions extends Document {
   readonly Date: string;
   readonly Account: string;
-  readonly Category: string;
+  readonly Category: any;
   readonly Amount: number;
   readonly Description: string;
   readonly Tags: string[];

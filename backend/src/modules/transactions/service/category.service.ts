@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Categories } from '../interfaces/category.interface';
 import { CategoryDto } from '../dto/category.dto';
@@ -25,6 +25,11 @@ export class CategoryService {
   }
 
   async find(id: string): Promise<Categories> {
-    return await this.categoryModel.findById(id).exec();
+    try {
+      return await this.categoryModel.findById(id).exec();
+    } catch (e) {
+      this.logger.log('Requested category was not found!');
+      throw new BadRequestException('Requested category was not found!');
+    }
   }
 }

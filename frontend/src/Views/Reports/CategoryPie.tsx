@@ -1,0 +1,28 @@
+import React, { useEffect, useState } from "react";
+import { IChart } from "../../Models/ChartModel";
+import { getExpenseByCategoryChart } from "../../Utilities/Api";
+import PieChart from "./PieChart";
+
+const CategoryPie = () => {
+  const [data, setData] = useState<IChart[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getExpenseByCategoryChart();
+      const result: IChart[] = [];
+      response.forEach(resp => {
+        result.push({
+          name: resp.Key,
+          value: 0 - resp.Sum
+        });
+      });
+      setData(result);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+  return <PieChart data={data} loading={loading} />;
+};
+
+export default CategoryPie;

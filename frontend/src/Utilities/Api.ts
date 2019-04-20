@@ -70,6 +70,6 @@ export const getAccounts = async () => {
   return accounts;
 };
 
-export const getExpenseByCategoryChart = async () => {
+export const getExpenseByCategoryData = async () => {
   return new TransactionQuery().lt("Amount", 0).sum("Category");
 };

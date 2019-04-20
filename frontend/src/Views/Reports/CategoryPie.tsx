@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IChart } from "../../Models/ChartModel";
-import { getExpenseByCategoryChart } from "../../Utilities/Api";
+import { getExpenseByCategoryData } from "../../Utilities/Api";
 import PieChart from "./PieChart";
 
 const CategoryPie = () => {
@@ -8,7 +8,7 @@ const CategoryPie = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getExpenseByCategoryChart();
+      const response = await getExpenseByCategoryData();
       const result: IChart[] = [];
       response.forEach(resp => {
         result.push({

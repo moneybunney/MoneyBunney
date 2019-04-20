@@ -9,12 +9,11 @@ const CategoryPie = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getExpenseByCategoryData();
-      const result: IChart[] = [];
-      response.forEach(resp => {
-        result.push({
+      const result = response.map(resp => {
+        return {
           name: resp.Key,
           value: 0 - resp.Sum
-        });
+        };
       });
       setData(result);
       setLoading(false);

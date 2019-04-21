@@ -1,7 +1,6 @@
 import React from "react";
-import BarChart from "./BarChart";
+import CashFlowChart from "./CashFlowChart";
 import CategoryPie from "./CategoryPie";
-import ComposedChart from "./ComposedStackedBarLineChart";
 
 import { Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -24,7 +23,7 @@ const Reports = () => {
           </Grid>
           <Grid item={true} xs={6}>
             <h1>Cash flow chart</h1>
-            <ComposedChart />
+            <CashFlowChart numberOfMonths={5} />
           </Grid>
         </Grid>
       </Typography>

@@ -108,6 +108,7 @@ const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
         onChange={onPasswordChange}
         value={password}
         onBlur={checkIfPasswordsMatch}
+        autoComplete="new-password"
       />
       <FormField
         error={!passwordsMatch}
@@ -119,6 +120,7 @@ const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
         value={passwordConfirmation}
         onBlur={checkIfPasswordsMatch}
         errorText="Passwords do not match"
+        autoComplete="new-password"
       />
       <div className={classes.buttonContainer}>
         <Button

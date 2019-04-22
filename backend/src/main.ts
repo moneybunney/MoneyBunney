@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 8080;
+  const port = 8081;
   // Basic error management
   app.useGlobalFilters(new DispatchError());
   // Api which lists all endpoints and allows to send request, very convenient. Available through 'localhost:8080/api/index/#/'

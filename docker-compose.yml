@@ -1,30 +1,40 @@
-version: "3"
+version: "3.2"
 
 services:
   db:
     image: mongo:latest
+    command: mongod --port 27023
     ports:
-      - "27017:27017"
+      - "27023:27023"
     volumes:
-      - ./data:/data/db
+      - type: volume
+        source: db-data
+        target: /data/db
 
   backend:
-    build: ./backend
+    build:
+      dockerfile: backend.Dockerfile
+      context: ./
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - "db"
     environment:
       - DB_HOST=db
-      - DB_PORT=27017
+      - DB_PORT=27023
       - DB_NAME=moneybunney
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./
+      dockerfile: frontend.Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - "backend"
     environment:
       - REACT_APP_API_HOST=localhost
-      - REACT_APP_API_PORT=8080
+      - REACT_APP_API_PORT=8081
+
+volumes:
+  db-data:

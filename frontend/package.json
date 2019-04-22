@@ -32,7 +32,7 @@
     "lint": "tslint -p ./tsconfig.json -c ./tslint.json --force",
     "format:tslint": "tslint --fix --project tsconfig.json; prettier --write \"src/**/*.{tsx,ts}\"",
     "format": "prettier --write \"src/**/*.{tsx,ts}\"",
-    "start:prod": "serve -s -l 3000 build",
+    "start:prod": "serve -s -l 3001 build",
     "prestart:prod": "rimraf dist && npm run build"
   },
   "browserslist": [

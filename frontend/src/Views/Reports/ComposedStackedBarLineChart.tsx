@@ -66,8 +66,8 @@ const BasicComposedChart = ({
           {data.length > 0 &&
             data[0].positiveValues.map((value, index) => {
               return (
-                // tslint:disable-next-line: jsx-key
                 <Bar
+                  key={"bar_" + index}
                   dataKey={"positiveValues[" + index + "].value"}
                   name={positiveLabel + value.name}
                   fill={POSITIVECOLORS[index % POSITIVECOLORS.length]}
@@ -78,8 +78,8 @@ const BasicComposedChart = ({
           {data.length > 0 &&
             data[0].negativeValues.map((value, index) => {
               return (
-                // tslint:disable-next-line: jsx-key
                 <Bar
+                  key={"bar_" + index}
                   dataKey={"negativeValues[" + index + "].value"}
                   name={negativeLabel + value.name}
                   fill={NEGATIVECOLORS[index % NEGATIVECOLORS.length]}

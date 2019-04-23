@@ -5,9 +5,10 @@ import React, { useState } from "react";
 
 interface IProps {
   children: JSX.Element;
+  className?: string;
 }
 
-const FilterPopupButton = ({ children: Popup }: IProps) => {
+const FilterPopupButton = ({ children: Popup, className }: IProps) => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const open = !!anchorEl;
 
@@ -20,7 +21,7 @@ const FilterPopupButton = ({ children: Popup }: IProps) => {
   };
 
   return (
-    <>
+    <div className={className}>
       <Fab onClick={handleClick} color="secondary" aria-label="Filter">
         <FilterList />
       </Fab>
@@ -40,7 +41,7 @@ const FilterPopupButton = ({ children: Popup }: IProps) => {
       >
         {Popup}
       </Popover>
-    </>
+    </div>
   );
 };
 

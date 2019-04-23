@@ -46,17 +46,16 @@ const TransactionView = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <TransactionListContainer />
       <CreateTransactionButton className={classes.createFab} />
-      <div className={classes.filterFab}>
-        <TransactionFilter
-          setFilters={setFilters}
-          filters={filters}
-          items={filterItems}
-        />
-      </div>
-    </React.Fragment>
+      <TransactionFilter
+        className={classes.filterFab}
+        setFilters={setFilters}
+        filters={filters}
+        items={filterItems}
+      />
+    </>
   );
 };
 

@@ -18,9 +18,15 @@ interface IProps {
   setFilters: (value: SetStateAction<IFilters>) => void;
   filters: IFilters;
   items: IFilters;
+  className?: string;
 }
 
-const TransactionFilter = ({ setFilters, filters, items }: IProps) => {
+const TransactionFilter = ({
+  setFilters,
+  filters,
+  items,
+  className
+}: IProps) => {
   const classes = useStyles();
 
   // TODO: The type annotations for the event parameter dont work
@@ -39,7 +45,7 @@ const TransactionFilter = ({ setFilters, filters, items }: IProps) => {
   };
 
   return (
-    <FilterPopupButton>
+    <FilterPopupButton className={className}>
       <div className={classes.filterPopup}>
         <Grid container={true} spacing={16}>
           <Grid item={true} xs={3}>

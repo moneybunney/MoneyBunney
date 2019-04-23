@@ -1,8 +1,9 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useState } from "react";
+import React from "react";
 import FilterPopupButton from "../FilterPopupButton";
 import FilterSelect from "../FilterSelect";
+import { emptyFilterObject, FilterKeys, IFilters } from "./TransactionView";
 
 const useStyles = makeStyles(() => ({
   filterPopup: {
@@ -12,30 +13,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-interface IFilters {
-  accounts: string[];
-  categories: string[];
-  transactionTypes: string[];
-  tags: string[];
+type SetStateAction<S> = S | ((prevState: S) => S);
+interface IProps {
+  setFilters: (value: SetStateAction<IFilters>) => void;
+  filters: IFilters;
+  items: IFilters;
 }
-type FilterKeys = keyof IFilters;
 
-const emptyFilterObject: IFilters = {
-  accounts: [],
-  categories: [],
-  transactionTypes: [],
-  tags: []
-};
-
-const accounts = ["Cash", "Revolut"];
-const categories = ["booze", "wine", "drink", "alcohol", "beer", "other"];
-const transactionTypes = ["Expense", "Income", "Transfer"];
-const tags = ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
-
-const TransactionFilter = () => {
+const TransactionFilter = ({ setFilters, filters, items }: IProps) => {
   const classes = useStyles();
-
-  const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
 
   // TODO: The type annotations for the event parameter dont work
   // Typescript thinks that event.target.value is a `string` while
@@ -71,7 +57,7 @@ const TransactionFilter = () => {
             <FilterSelect
               label="Accounts"
               selected={filters.accounts}
-              items={accounts}
+              items={items.accounts}
               handleChange={handleChange("accounts")}
             />
           </Grid>
@@ -80,7 +66,7 @@ const TransactionFilter = () => {
             <FilterSelect
               label="Categories"
               selected={filters.categories}
-              items={categories}
+              items={items.categories}
               handleChange={handleChange("categories")}
             />
           </Grid>
@@ -89,7 +75,7 @@ const TransactionFilter = () => {
             <FilterSelect
               label="Types"
               selected={filters.transactionTypes}
-              items={transactionTypes}
+              items={items.transactionTypes}
               handleChange={handleChange("transactionTypes")}
             />
           </Grid>
@@ -98,7 +84,7 @@ const TransactionFilter = () => {
             <FilterSelect
               label="Tags"
               selected={filters.tags}
-              items={tags}
+              items={items.tags}
               handleChange={handleChange("tags")}
             />
           </Grid>

@@ -3,7 +3,12 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import FilterPopupButton from "../FilterPopupButton";
 import FilterSelect from "../FilterSelect";
-import { emptyFilterObject, FilterKeys, IFilters } from "./TransactionView";
+import {
+  emptyFilterObject,
+  FilterKeys,
+  IFilters,
+  IFilterItems
+} from "./TransactionView";
 
 const useStyles = makeStyles(() => ({
   filterPopup: {
@@ -17,7 +22,7 @@ type SetStateAction<S> = S | ((prevState: S) => S);
 interface IProps {
   setFilters: (value: SetStateAction<IFilters>) => void;
   filters: IFilters;
-  items: IFilters;
+  items: IFilterItems;
   className?: string;
 }
 

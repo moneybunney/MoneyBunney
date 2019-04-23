@@ -2,6 +2,8 @@ import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 
+import { IAccount, ICategory } from "../../Models/TransactionModel";
+
 import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+// Contains the ids of the filtered fields
 export interface IFilters {
   accounts: string[];
   categories: string[];
@@ -34,20 +37,59 @@ export const emptyFilterObject: IFilters = {
   tags: []
 };
 
+export interface IKeyValuePair<K, V> {
+  key: K;
+  value: V;
+}
+
+export type FilterItem = IKeyValuePair<string, string>;
+export type FilterItemArray = Array<FilterItem>;
+
+export interface IFilterItems {
+  accounts: FilterItemArray;
+  categories: FilterItemArray;
+  transactionTypes: FilterItemArray;
+  tags: FilterItemArray;
+}
+
+const hardcodedCategories = ["Beer", "Wine", "Other"].map(
+  (item, index): ICategory => ({ id: index, text: item })
+);
+const hardcodedAccounts = ["Cash", "Wallet", "Revolut"].map(
+  (item, index): IAccount => ({ id: index, name: item })
+);
+
 const TransactionView = () => {
   const classes = useStyles();
 
   const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
-  const filterItems: IFilters = {
-    accounts: ["Cash", "Revolut"],
-    categories: ["booze", "wine", "drink", "alcohol", "beer", "other"],
-    transactionTypes: ["Expense", "Income", "Transfer"],
-    tags: ["foo", "bar", "baz", "bez", "booze", "bamboozle"]
+  const [categories, setCategories] = useState<ICategory[]>(
+    hardcodedCategories
+  );
+  const [accounts, setAccounts] = useState<IAccount[]>(hardcodedAccounts);
+
+  const filterItems: IFilterItems = {
+    accounts: accounts.map(({ id, name }) => ({
+      key: id.toString(),
+      value: name
+    })),
+    categories: categories.map(({ id, text }) => ({
+      key: id.toString(),
+      value: text
+    })),
+    transactionTypes: ["Expense", "Income", "Transfer"].map(item => ({
+      key: item,
+      value: item
+    })),
+    tags: ["foo", "bar", "baz", "bez", "booze", "bamboozle"].map(item => ({
+      key: item,
+      value: item
+    }))
   };
 
   return (
     <>
-      <TransactionListContainer />
+      <TransactionListContainer accounts={accounts} categories={categories} />
       <CreateTransactionButton className={classes.createFab} />
       <TransactionFilter
         className={classes.filterFab}

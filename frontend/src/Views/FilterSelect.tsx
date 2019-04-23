@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
+import { FilterItemArray } from "./TransactionList/TransactionView";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,14 +35,17 @@ const useStyles = makeStyles(() => ({
 interface IProps {
   label: string;
   selected: string[];
-  items: string[];
+  items: FilterItemArray;
   handleChange: (event: any) => void;
 }
 
 const FilterSelect = ({ label, selected, handleChange, items }: IProps) => {
   const classes = useStyles();
 
-  const renderValue = (values: any) => values.join(", ");
+  const renderValue = (keys: any) =>
+    keys
+      .map((needle: any) => items.find(({ key }) => key === needle)!.value)
+      .join(", ");
 
   return (
     <>
@@ -57,10 +61,10 @@ const FilterSelect = ({ label, selected, handleChange, items }: IProps) => {
         renderValue={renderValue}
         MenuProps={MenuProps}
       >
-        {items.map(item => (
-          <MenuItem key={item} value={item}>
-            <Checkbox checked={selected.indexOf(item) > -1} />
-            <ListItemText primary={item} />
+        {items.map(({ key, value }) => (
+          <MenuItem key={key} value={key}>
+            <Checkbox checked={selected.indexOf(key) > -1} />
+            <ListItemText primary={value} />
           </MenuItem>
         ))}
       </Select>

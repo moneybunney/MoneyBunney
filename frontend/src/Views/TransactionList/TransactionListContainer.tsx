@@ -39,15 +39,18 @@ interface IAction {
 
 interface IState {
   transactions: ITransaction[];
-  categories: ICategory[];
-  accounts: IAccount[];
   canLoadMore: boolean;
   loadingMore: boolean;
 }
 
+interface IProps {
+  categories: ICategory[];
+  accounts: IAccount[];
+}
+
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
-const TransactionListContainer = () => {
+const TransactionListContainer = ({ categories, accounts }: IProps) => {
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
       case ActionType.LoadStart:
@@ -77,17 +80,8 @@ const TransactionListContainer = () => {
     }
   };
 
-  const categories = ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
-  const accounts = ["Cash", "Wallet", "Revolut"].map(
-    (item, index): IAccount => ({ id: index, name: item })
-  );
-
   const initialState = {
     transactions: [],
-    categories,
-    accounts,
     loadingMore: false,
     canLoadMore: true
   };
@@ -117,8 +111,8 @@ const TransactionListContainer = () => {
     <Paper className={classes.paper}>
       <TransactionList
         transactions={state.transactions}
-        categories={state.categories}
-        accounts={state.accounts}
+        categories={categories}
+        accounts={accounts}
         requestMoreTransactions={onRequestMoreTranscations}
         loading={state.loadingMore}
         canLoadMore={state.canLoadMore}

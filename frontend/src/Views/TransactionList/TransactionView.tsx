@@ -6,6 +6,7 @@ import { IAccount, ICategory } from "../../Models/TransactionModel";
 
 import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
+import { IFilterItems, IFilters } from "./TransactionFilterTypes";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,36 +22,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-// Contains the ids of the filtered fields
-export interface IFilters {
-  accounts: string[];
-  categories: string[];
-  transactionTypes: string[];
-  tags: string[];
-}
-export type FilterKeys = keyof IFilters;
-
 export const emptyFilterObject: IFilters = {
   accounts: [],
   categories: [],
   transactionTypes: [],
   tags: []
 };
-
-export interface IKeyValuePair<K, V> {
-  key: K;
-  value: V;
-}
-
-export type FilterItem = IKeyValuePair<string, string>;
-export type FilterItemArray = FilterItem[];
-
-export interface IFilterItems {
-  accounts: FilterItemArray;
-  categories: FilterItemArray;
-  transactionTypes: FilterItemArray;
-  tags: FilterItemArray;
-}
 
 const hardcodedCategories = ["Beer", "Wine", "Other"].map(
   (item, index): ICategory => ({ id: index, text: item })

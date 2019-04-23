@@ -3,12 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import FilterPopupButton from "../FilterPopupButton";
 import FilterSelect from "../FilterSelect";
-import {
-  emptyFilterObject,
-  FilterKeys,
-  IFilters,
-  IFilterItems
-} from "./TransactionView";
+import { FilterKeys, IFilterItems, IFilters } from "./TransactionFilterTypes";
+import { emptyFilterObject } from "./TransactionView";
 
 const useStyles = makeStyles(() => ({
   filterPopup: {

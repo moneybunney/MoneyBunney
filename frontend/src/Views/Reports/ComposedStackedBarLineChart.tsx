@@ -67,7 +67,7 @@ const BasicComposedChart = ({
             data[0].positiveValues.map((value, index) => {
               return (
                 <Bar
-                  key={"bar_" + index}
+                  key={"positiveBar_" + index}
                   dataKey={"positiveValues[" + index + "].value"}
                   name={positiveLabel + value.name}
                   fill={POSITIVECOLORS[index % POSITIVECOLORS.length]}
@@ -79,7 +79,7 @@ const BasicComposedChart = ({
             data[0].negativeValues.map((value, index) => {
               return (
                 <Bar
-                  key={"bar_" + index}
+                  key={"negativeBar_" + index}
                   dataKey={"negativeValues[" + index + "].value"}
                   name={negativeLabel + value.name}
                   fill={NEGATIVECOLORS[index % NEGATIVECOLORS.length]}

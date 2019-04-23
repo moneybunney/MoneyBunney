@@ -48,6 +48,10 @@ const TransactionFilter = () => {
     }));
   };
 
+  const handleReset = () => {
+    setFilters(emptyFilterObject);
+  };
+
   return (
     <FilterPopupButton>
       <div className={classes.filterPopup}>
@@ -56,7 +60,7 @@ const TransactionFilter = () => {
             <Typography variant="h5">Filters</Typography>
           </Grid>
           <Grid item={true} xs={9}>
-            <Button color="primary">
+            <Button onClick={handleReset} color="primary">
               <Typography color="primary" variant="button">
                 Reset
               </Typography>

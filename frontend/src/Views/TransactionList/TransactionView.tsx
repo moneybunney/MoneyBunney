@@ -1,15 +1,13 @@
-import { Fab, Theme } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
-import useReactRouter from "use-react-router";
 
-import { TransactionsCreateLocation } from "../../routes.constants";
+import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  fab: {
+  createFab: {
     position: "fixed",
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 10
@@ -37,7 +35,6 @@ export const emptyFilterObject: IFilters = {
 };
 
 const TransactionView = () => {
-  const { history } = useReactRouter();
   const classes = useStyles();
 
   const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
@@ -48,22 +45,10 @@ const TransactionView = () => {
     tags: ["foo", "bar", "baz", "bez", "booze", "bamboozle"]
   };
 
-  const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.preventDefault();
-    history.replace(TransactionsCreateLocation);
-  };
-
   return (
     <React.Fragment>
       <TransactionListContainer />
-      <Fab
-        onClick={onClick}
-        color="primary"
-        className={classes.fab}
-        aria-label="Add"
-      >
-        <Add />
-      </Fab>
+      <CreateTransactionButton className={classes.createFab} />
       <div className={classes.filterFab}>
         <TransactionFilter
           setFilters={setFilters}

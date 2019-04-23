@@ -1,6 +1,6 @@
 import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { IAccount, ICategory } from "../../Models/TransactionModel";
 
@@ -43,7 +43,7 @@ export interface IKeyValuePair<K, V> {
 }
 
 export type FilterItem = IKeyValuePair<string, string>;
-export type FilterItemArray = Array<FilterItem>;
+export type FilterItemArray = FilterItem[];
 
 export interface IFilterItems {
   accounts: FilterItemArray;
@@ -63,10 +63,8 @@ const TransactionView = () => {
   const classes = useStyles();
 
   const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
-  const [categories, setCategories] = useState<ICategory[]>(
-    hardcodedCategories
-  );
-  const [accounts, setAccounts] = useState<IAccount[]>(hardcodedAccounts);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
 
   const filterItems: IFilterItems = {
     accounts: accounts.map(({ id, name }) => ({
@@ -86,6 +84,11 @@ const TransactionView = () => {
       value: item
     }))
   };
+
+  useEffect(() => {
+    setAccounts(hardcodedAccounts);
+    setCategories(hardcodedCategories);
+  }, []);
 
   return (
     <>

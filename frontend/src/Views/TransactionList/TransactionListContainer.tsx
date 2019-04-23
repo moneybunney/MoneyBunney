@@ -1,9 +1,7 @@
-import { List, Paper, Theme } from "@material-ui/core";
-import { Satellite } from "@material-ui/icons";
+import { Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import {
-  createEmptyTransaction,
   IAccount,
   ICategory,
   ITransaction
@@ -45,7 +43,6 @@ interface IState {
   accounts: IAccount[];
   canLoadMore: boolean;
   loadingMore: boolean;
-  chunksLoaded: number;
 }
 
 // this component should load list elements dynamically,
@@ -59,13 +56,11 @@ const TransactionListContainer = () => {
           loadingMore: true
         };
       case ActionType.ItemsLoaded:
-        const newChunksLoaded = oldState.chunksLoaded + 1;
         return {
           ...oldState,
           transactions: [...oldState.transactions, ...action.payload],
           loadingMore: false,
-          canLoadMore: true,
-          chunksLoaded: newChunksLoaded
+          canLoadMore: true
         };
       case ActionType.NoItemsFound:
         return {
@@ -94,8 +89,7 @@ const TransactionListContainer = () => {
     categories,
     accounts,
     loadingMore: false,
-    canLoadMore: true,
-    chunksLoaded: 1
+    canLoadMore: true
   };
 
   const [state, dispatch] = React.useReducer(reducer, initialState);

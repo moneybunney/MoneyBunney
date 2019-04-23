@@ -13,14 +13,23 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface IFilters {
+  accounts: string[];
+  categories: string[];
+  transactionTypes: string[];
   tags: string[];
 }
 type FilterKeys = keyof IFilters;
 
 const emptyFilterObject: IFilters = {
+  accounts: [],
+  categories: [],
+  transactionTypes: [],
   tags: []
 };
 
+const accounts = ["Cash", "Revolut"];
+const categories = ["booze", "wine", "drink", "alcohol", "beer", "other"];
+const transactionTypes = ["Expense", "Income", "Transfer"];
 const tags = ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
 
 const TransactionFilter = () => {
@@ -52,6 +61,33 @@ const TransactionFilter = () => {
                 Reset
               </Typography>
             </Button>
+          </Grid>
+
+          <Grid item={true} xs={12}>
+            <FilterSelect
+              label="Accounts"
+              selected={filters.accounts}
+              items={accounts}
+              handleChange={handleChange("accounts")}
+            />
+          </Grid>
+
+          <Grid item={true} xs={12}>
+            <FilterSelect
+              label="Categories"
+              selected={filters.categories}
+              items={categories}
+              handleChange={handleChange("categories")}
+            />
+          </Grid>
+
+          <Grid item={true} xs={12}>
+            <FilterSelect
+              label="Types"
+              selected={filters.transactionTypes}
+              items={transactionTypes}
+              handleChange={handleChange("transactionTypes")}
+            />
           </Grid>
 
           <Grid item={true} xs={12}>

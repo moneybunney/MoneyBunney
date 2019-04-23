@@ -2,6 +2,8 @@ FROM node:latest
 
 WORKDIR /usr/src
 
+ARG port
+
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY backend/package*.json ./backend/
 
@@ -11,7 +13,7 @@ RUN npm --prefix ./backend install
 COPY ./backend ./backend
 COPY ./shared ./shared
 
-EXPOSE 8080
+EXPOSE $port
 
 WORKDIR /usr/src/backend
 

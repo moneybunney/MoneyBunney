@@ -1,5 +1,7 @@
 FROM node:latest
 
+ARG port
+
 WORKDIR /usr/src
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY ./frontend/package*.json ./frontend/
@@ -10,8 +12,6 @@ RUN npm --prefix frontend install
 COPY ./frontend ./frontend
 COPY ./shared ./shared
 
-EXPOSE 3000
+EXPOSE $port
 
 WORKDIR /usr/src/frontend
-
-ENTRYPOINT [ "npm", "run", "start:prod" ]

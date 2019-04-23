@@ -3,9 +3,9 @@ import { AppModule } from './app.module';
 import { DispatchError } from './common/filters/DispatchError';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+const { BACKEND_PORT } = process.env;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 8081;
   // Basic error management
   app.useGlobalFilters(new DispatchError());
   // Api which lists all endpoints and allows to send request, very convenient. Available through 'localhost:8080/api/index/#/'
@@ -20,7 +20,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/index', app, document);
 
   // tslint:disable-next-line:no-console
-  console.log('Listening on http://localhost:' + port);
-  await app.listen(port);
+  console.log('Listening on http://localhost:' + BACKEND_PORT);
+  await app.listen(BACKEND_PORT);
 }
 bootstrap();

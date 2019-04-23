@@ -9,6 +9,8 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 
+const { REACT_APP_PORT, REACT_APP_HOST } = process.env;
+
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -30,7 +32,10 @@ import { ConfigService } from './modules/config/config.service';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    const allowedOrigins = ['http://localhost:3000'];
+    const allowedOrigins = [
+      `http://${REACT_APP_HOST}:${REACT_APP_PORT}`,
+      `https://${REACT_APP_HOST}:${REACT_APP_PORT}`,
+    ];
 
     CorsMiddleware.configure({
       credentials: true,

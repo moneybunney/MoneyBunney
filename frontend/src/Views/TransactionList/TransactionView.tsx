@@ -5,6 +5,7 @@ import React from "react";
 import useReactRouter from "use-react-router";
 
 import { TransactionsCreateLocation } from "../../routes.constants";
+import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -12,6 +13,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "fixed",
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 10
+  },
+  filterFab: {
+    position: "fixed",
+    bottom: theme.spacing.unit * 10,
+    right: theme.spacing.unit * 20
   }
 }));
 
@@ -35,6 +41,9 @@ const TransactionView = () => {
       >
         <Add />
       </Fab>
+      <div className={classes.filterFab}>
+        <TransactionFilter />
+      </div>
     </React.Fragment>
   );
 };

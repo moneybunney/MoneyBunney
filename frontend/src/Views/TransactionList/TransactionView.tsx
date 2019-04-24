@@ -69,7 +69,11 @@ const TransactionView = () => {
 
   return (
     <>
-      <TransactionListContainer accounts={accounts} categories={categories} />
+      <TransactionListContainer
+        filters={filters}
+        accounts={accounts}
+        categories={categories}
+      />
       <CreateTransactionButton className={classes.createFab} />
       <TransactionFilter
         className={classes.filterFab}

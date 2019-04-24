@@ -1,12 +1,13 @@
 import { Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IAccount,
   ICategory,
   ITransaction
 } from "../../Models/TransactionModel";
 import { getTransactionListChunk } from "../../Utilities/Api";
+import { IFilters } from "./TransactionFilterTypes";
 import TransactionList from "./TransactionList";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,7 +30,8 @@ enum ActionType {
   LoadStart = 1,
   ItemsLoaded,
   NoItemsFound,
-  Error
+  Error,
+  ResetTransactionState
 }
 
 interface IAction {
@@ -46,11 +48,22 @@ interface IState {
 interface IProps {
   categories: ICategory[];
   accounts: IAccount[];
+  filters: IFilters;
 }
 
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
-const TransactionListContainer = ({ categories, accounts }: IProps) => {
+const TransactionListContainer = ({
+  categories,
+  accounts,
+  filters
+}: IProps) => {
+  const initialState = {
+    transactions: [],
+    loadingMore: false,
+    canLoadMore: true
+  };
+
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
       case ActionType.LoadStart:
@@ -77,13 +90,9 @@ const TransactionListContainer = ({ categories, accounts }: IProps) => {
           loadingMore: false,
           canLoadMore: false
         };
+      case ActionType.ResetTransactionState:
+        return initialState;
     }
-  };
-
-  const initialState = {
-    transactions: [],
-    loadingMore: false,
-    canLoadMore: true
   };
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -104,6 +113,10 @@ const TransactionListContainer = ({ categories, accounts }: IProps) => {
       }
     });
   };
+
+  useEffect(() => {
+    dispatch({ type: ActionType.ResetTransactionState, payload: [] });
+  }, [filters]);
 
   const classes = useStyles();
 

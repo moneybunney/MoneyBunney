@@ -30,7 +30,9 @@ export class TransactionsController {
     private readonly categoryService: CategoryService,
     private readonly queryService: TransactionQueryService,
     private readonly logger: Logger,
-  ) {}
+  ) {
+    this.categoryService.loadCategories();
+  }
 
   @Post()
   @ApiOperation({ title: 'Create Transaction' })
@@ -85,6 +87,16 @@ export class TransactionsController {
   getTest(@Param('id') id: string): Promise<Categories> {
     this.logger.log('GET to /transactions/categories | getCategory');
     return this.categoryService.find(id);
+  }
+
+  @Delete('/categories')
+  @ApiOperation({ title: 'Remove category from database' })
+  @ApiResponse({ status: 200, description: 'Category removed.' })
+  @ApiResponse({ status: 200, description: 'Category not found.' })
+  public async deleteCategory(@Query('id') id: string, @Res() res: Response) {
+    this.logger.log('Delete to /transactions/categories | deleteCategory');
+    await this.categoryService.remove(id);
+    return res.status(HttpStatus.OK).send();
   }
 
   @Delete()

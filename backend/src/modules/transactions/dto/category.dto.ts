@@ -9,4 +9,8 @@ export class CategoryDto {
   @ApiModelProperty()
   @IsString()
   readonly Icon: string;
+
+  @ApiModelProperty()
+  @IsString()
+  readonly _id: string;
 }

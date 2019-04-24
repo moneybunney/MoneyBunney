@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { FilterItemArray } from "./TransactionList/TransactionFilterTypes";
+import { FilterItemArray } from "./TransactionFilterTypes";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

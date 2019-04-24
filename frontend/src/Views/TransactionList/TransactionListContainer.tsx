@@ -61,6 +61,11 @@ const TransactionListContainer = ({
   const initialState = {
     transactions: [],
     loadingMore: false,
+    canLoadMore: false
+  };
+
+  const resetState = {
+    ...initialState,
     canLoadMore: true
   };
 
@@ -91,7 +96,7 @@ const TransactionListContainer = ({
           canLoadMore: false
         };
       case ActionType.ResetTransactionState:
-        return initialState;
+        return resetState;
     }
   };
 

@@ -27,6 +27,8 @@ export class WhereSelector<T extends Document> extends Selector<T> {
       query.gt(key, value),
     gte: (query: DocumentQuery<T[], T, {}>, key: string, value: object) =>
       query.gte(key, value),
+    in: (query: DocumentQuery<T[], T, {}>, key: string, value: any[]) =>
+      query.in(key, value),
   };
 
   ApplyValidatedSelectorDTO = (

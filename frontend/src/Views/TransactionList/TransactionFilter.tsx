@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useEffect } from "react";
+import useReactRouter from "use-react-router";
 import {
   emptyFilterObject,
   FilterKeys,
@@ -33,6 +34,7 @@ const TransactionFilter = ({
   className
 }: IProps) => {
   const classes = useStyles();
+  const { location } = useReactRouter();
 
   // TODO: The type annotations for the event parameter dont work
   // Typescript thinks that event.target.value is a `string` while
@@ -48,6 +50,16 @@ const TransactionFilter = ({
   const handleReset = () => {
     setFilters(emptyFilterObject);
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("account") !== null) {
+      setFilters(oldState => ({
+        ...oldState,
+        accounts: [String(params.get("account"))]
+      }));
+    }
+  }, []);
 
   return (
     <FilterPopupButton className={className}>

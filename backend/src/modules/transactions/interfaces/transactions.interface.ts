@@ -15,6 +15,14 @@ export class TransactionsUtils {
   }
 
   static GetEquatableFields(): string[] {
-    return ['Date', 'Account', 'Price', 'Description', 'Tags'];
+    return [
+      'Date',
+      'Account',
+      'Price',
+      'Description',
+      'Tags',
+      'Category',
+      'Amount',
+    ];
   }
 }

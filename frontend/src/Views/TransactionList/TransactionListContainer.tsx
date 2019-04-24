@@ -1,13 +1,13 @@
 import { Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
+import { IFilters } from "../../Models/TransactionFilterModel";
 import {
   IAccount,
   ICategory,
   ITransaction
 } from "../../Models/TransactionModel";
 import { getTransactionListChunk } from "../../Utilities/Api";
-import { IFilters } from "./TransactionFilterTypes";
 import TransactionList from "./TransactionList";
 
 const useStyles = makeStyles((theme: Theme) => ({

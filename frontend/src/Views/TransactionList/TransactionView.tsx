@@ -4,9 +4,13 @@ import React, { useEffect, useState } from "react";
 
 import { IAccount, ICategory } from "../../Models/TransactionModel";
 
+import {
+  emptyFilterObject,
+  IFilterItems,
+  IFilters
+} from "../../Models/TransactionFilterModel";
 import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
-import { IFilterItems, IFilters } from "./TransactionFilterTypes";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,13 +25,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: theme.spacing.unit * 20
   }
 }));
-
-export const emptyFilterObject: IFilters = {
-  accounts: [],
-  categories: [],
-  transactionTypes: [],
-  tags: []
-};
 
 const hardcodedCategories = ["Beer", "Wine", "Other"].map(
   (item, index): ICategory => ({ id: index, text: item })

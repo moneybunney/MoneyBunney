@@ -1,10 +1,14 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
+import {
+  emptyFilterObject,
+  FilterKeys,
+  IFilterItems,
+  IFilters
+} from "../../Models/TransactionFilterModel";
 import FilterPopupButton from "./FilterPopupButton";
 import FilterSelect from "./FilterSelect";
-import { FilterKeys, IFilterItems, IFilters } from "./TransactionFilterTypes";
-import { emptyFilterObject } from "./TransactionView";
 
 const useStyles = makeStyles(() => ({
   filterPopup: {

@@ -22,3 +22,10 @@ export interface IFilterItems {
   transactionTypes: FilterItemArray;
   tags: FilterItemArray;
 }
+
+export const emptyFilterObject: IFilters = {
+  accounts: [],
+  categories: [],
+  transactionTypes: [],
+  tags: []
+};

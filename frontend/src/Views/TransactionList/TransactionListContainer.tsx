@@ -105,16 +105,24 @@ const TransactionListContainer = ({
         ? new Date(state.transactions[state.transactions.length - 1].date)
         : new Date();
 
-    getTransactionListChunk(lastLoadedTransactionDate, 5).then(data => {
-      if (data.length <= 0) {
-        dispatch({ type: ActionType.NoItemsFound, payload: [] });
-      } else {
-        dispatch({ type: ActionType.ItemsLoaded, payload: data });
+    getTransactionListChunk(lastLoadedTransactionDate, 5, filters).then(
+      data => {
+        if (data.length <= 0) {
+          dispatch({ type: ActionType.NoItemsFound, payload: [] });
+        } else {
+          dispatch({ type: ActionType.ItemsLoaded, payload: data });
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {
+    // There is a bad race condition where when data is still being fetched
+    // and the filter change, the ResetTransactionState action will be dispatched,
+    // which will cause the correct data to be fetched.
+    // The data that was in progress will still, however, get in and
+    // pollute the list with duplicate/unecessary data.
+    // TODO: Need to be able to cancel getTransactionListChunk request
     dispatch({ type: ActionType.ResetTransactionState, payload: [] });
   }, [filters]);
 

@@ -49,8 +49,15 @@ const TransactionListItemIcon = ({
   };
 
   const getLoadingDummy = () => {
+    const loaderStyle = {
+      ...avatarSizeStyle,
+      display: "flex",
+      "justify-content": "center",
+      "align-items": "center"
+    };
+
     return (
-      <div style={avatarSizeStyle}>
+      <div style={loaderStyle}>
         <CircularProgress size={innerSizeFinal} />
       </div>
     );

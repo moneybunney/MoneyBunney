@@ -14,7 +14,7 @@ export class LimitSelector<T extends Document> extends Selector<T> {
     selectorDTO: SelectorDTO,
     currentQuery: DocumentQuery<T[], T, {}>,
   ): DocumentQuery<T[], T, {}> => {
-    return currentQuery.limit(selectorDTO.Value);
+    return currentQuery.limit(selectorDTO.Payload);
   };
 
   ValidateSelectorDTO = (selectorDTO: SelectorDTO): void => {
@@ -27,7 +27,7 @@ export class LimitSelector<T extends Document> extends Selector<T> {
       );
     }
 
-    if (classObject.Value <= 0) {
+    if (classObject.Payload <= 0) {
       throw new BadRequestException('Invalid limit amount!');
     }
   };
@@ -35,5 +35,5 @@ export class LimitSelector<T extends Document> extends Selector<T> {
 
 class LimitSelectorDTO {
   @IsNumber()
-  Value: number;
+  Payload: number;
 }

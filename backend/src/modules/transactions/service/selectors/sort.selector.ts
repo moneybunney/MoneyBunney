@@ -17,7 +17,7 @@ export class SortSelector<T extends Document> extends Selector<T> {
   ): DocumentQuery<T[], T, {}> => {
     const sortObj = {};
     // eventually we might need to pass a more complex object here
-    sortObj[selectorDTO.Key] = selectorDTO.Value as number;
+    sortObj[selectorDTO.Key] = selectorDTO.Payload as number;
     return currentQuery.sort(sortObj);
   };
 
@@ -35,7 +35,7 @@ export class SortSelector<T extends Document> extends Selector<T> {
       this.ThrowValidationErr('Invalid key given!');
     }
 
-    const sortOrder = classObject.Value;
+    const sortOrder = classObject.Payload;
     if (!(sortOrder === -1 || sortOrder === 1)) {
       this.ThrowValidationErr('Invalid value (sort order) given!');
     }
@@ -50,5 +50,5 @@ class SortSelectorDTO {
   readonly Key: string;
 
   @IsNumber()
-  Value: number;
+  Payload: number;
 }

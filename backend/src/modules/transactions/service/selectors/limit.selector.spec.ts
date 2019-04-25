@@ -11,11 +11,11 @@ describe('SortSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'limit',
-      Value: 10,
+      Payload: 10,
     };
     const selector = new LimitSelector<Transactions>();
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
-    expect(transactionsQueryMock.limit).toBeCalledWith(selectorDTO.Value);
+    expect(transactionsQueryMock.limit).toBeCalledWith(selectorDTO.Payload);
     expect(ret).toEqual(transactionsQueryMock);
   });
 
@@ -25,7 +25,7 @@ describe('SortSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'limit',
-      Value: -1,
+      Payload: -1,
     };
     const selector = new LimitSelector<Transactions>();
     expect(() => {

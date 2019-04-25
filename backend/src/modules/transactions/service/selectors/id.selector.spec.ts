@@ -8,7 +8,7 @@ describe('IdSelector', () => {
   it("should call 'where' with the DTO values (id)", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'id',
-      Value: '132',
+      Payload: '132',
     };
     const selector = new IdSelector<Transactions>();
     transactionsQueryMock = {
@@ -17,7 +17,7 @@ describe('IdSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.where).toBeCalledWith(
       '_id',
-      selectorDTO.Value,
+      selectorDTO.Payload,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -25,7 +25,7 @@ describe('IdSelector', () => {
   it('should error with the bad value', async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'id',
-      Value: 20,
+      Payload: 20,
     };
     const selector = new IdSelector<Transactions>();
     transactionsQueryMock = {

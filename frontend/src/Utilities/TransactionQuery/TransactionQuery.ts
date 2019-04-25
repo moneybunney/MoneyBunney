@@ -1,3 +1,6 @@
+import { BalanceResponseObjectDTO } from "../../../../shared/aggregator-responses/balance.response.dto";
+import { SumResponseObjectDTO } from "../../../../shared/aggregator-responses/sum.response.dto";
+import { AggregatorDTO } from "../../../../shared/aggregator.dto";
 import { QueryDTO } from "../../../../shared/query.dto";
 import { SelectorDTO } from "../../../../shared/selector.dto";
 import { ITransaction } from "../../Models/TransactionModel";
@@ -5,6 +8,7 @@ import { getPost } from "../Http";
 
 export class TransactionQuery {
   private selectors: SelectorDTO[] = [];
+  private aggregator?: AggregatorDTO;
   private signal: AbortSignal;
 
   constructor(signal: AbortSignal) {
@@ -22,7 +26,7 @@ export class TransactionQuery {
   public id = (id: string): TransactionQuery => {
     const idSelector = (): SelectorDTO => ({
       Name: "id",
-      Value: id
+      Payload: id
     });
     this.selectors.push(idSelector());
     return this;
@@ -31,7 +35,7 @@ export class TransactionQuery {
   public limit = (amount: number): TransactionQuery => {
     const limitSelector = (): SelectorDTO => ({
       Name: "limit",
-      Value: amount
+      Payload: amount
     });
     this.selectors.push(limitSelector());
     return this;
@@ -45,7 +49,7 @@ export class TransactionQuery {
     const sortSelector = (): SelectorDTO => ({
       Name: "sort",
       Key: field,
-      Value: order
+      Payload: order
     });
     this.selectors.push(sortSelector());
     return this;
@@ -82,11 +86,16 @@ export class TransactionQuery {
   };
 
   public getQueryDTO = (): QueryDTO => {
-    const makeQueryDTO = (): QueryDTO => ({
+    if (this.selectors.length === 0) {
+      this.any();
+    }
+    if (!this.aggregator) {
+      this.aggregator = { Name: "list" };
+    }
+    return {
       selectors: this.selectors,
-      aggregator: "not-implemented"
-    });
-    return makeQueryDTO();
+      aggregator: this.aggregator as AggregatorDTO
+    };
   };
 
   public execute = async () => {
@@ -97,38 +106,133 @@ export class TransactionQuery {
       queryDTO,
       { signal: this.signal }
     );
-    if (response.status === 200) {
-      return response.json().then(data => {
-        if (!Array.isArray(data)) {
-          throw new Error("Response was not an array!");
-        }
-        const dtoArray = data as any[];
-        return dtoArray.map(
-          (element): ITransaction => {
-            this.throwIfNotString(element.Date);
-            this.throwIfNotNumber(element.Account);
-            this.throwIfNotNumber(element.Category);
-            this.throwIfNotNumber(element.Amount);
-            this.throwIfNotString(element.Description);
+    if (response.status !== 200) {
+      throw new Error("Something went wrong:" + JSON.stringify(response));
+    }
+    return this.parseResponse(queryDTO, response);
+  };
 
-            if (!Array.isArray(element.Tags)) {
-              throw new Error("Response Tags was not an array!");
-            }
+  public sum = async (
+    distinctColumn: string
+  ): Promise<SumResponseObjectDTO[]> => {
+    this.aggregator = {
+      Name: "sum",
+      Payload: {
+        distinctColumn
+      }
+    };
+    return this.execute();
+  };
 
-            return {
-              date: element.Date,
-              account: element.Account,
-              category: element.Category,
-              amount: element.Amount,
-              description: element.Description,
-              tags: element.Tags,
-              id: element._id
-            };
+  public balance = async (
+    key: string,
+    take: number
+  ): Promise<BalanceResponseObjectDTO[]> => {
+    this.aggregator = {
+      Name: "balance",
+      Payload: {
+        take,
+        key
+      }
+    };
+    return this.execute();
+  };
+
+  private whereSelector = (
+    field: string,
+    value: any,
+    relationship: string
+  ): SelectorDTO => ({
+    Name: "where",
+    Key: field,
+    Payload: {
+      Relationship: relationship,
+      Value: value
+    }
+  });
+
+  private parseResponse = (queryDTO: QueryDTO, response: any): any => {
+    switch (queryDTO.aggregator.Name) {
+      case "list":
+        return this.parseListResponse(response);
+      case "sum":
+        return this.parseSumResponse(response);
+      case "balance":
+        return this.parseBalanceResponse(response);
+    }
+  };
+
+  private parseListResponse(response: any): ITransaction[] {
+    return response.json().then((data: any) => {
+      this.throwIfNotArray(data);
+      const dtoArray = data as any[];
+      return dtoArray.map(
+        (element): ITransaction => {
+          this.throwIfNotString(element.Date);
+          this.throwIfNotNumber(element.Account);
+          this.throwIfNotNumber(element.Category);
+          this.throwIfNotNumber(element.Amount);
+          this.throwIfNotString(element.Description);
+
+          if (!Array.isArray(element.Tags)) {
+            throw new Error("Response Tags was not an array!");
           }
-        );
-      });
-    } else {
-      throw new Error("Something went wrong");
+
+          return {
+            date: element.Date,
+            account: element.Account,
+            category: element.Category,
+            amount: element.Amount,
+            description: element.Description,
+            tags: element.Tags,
+            id: element._id
+          };
+        }
+      );
+    });
+  }
+
+  private parseSumResponse = (response: any): SumResponseObjectDTO[] => {
+    return response.json().then((data: any) => {
+      this.throwIfNotArray(data);
+      const dtoArray = data as any[];
+      return dtoArray.map(
+        (element: SumResponseObjectDTO): SumResponseObjectDTO => {
+          this.throwIfNotString(element.Key);
+          this.throwIfNotNumber(element.Sum);
+
+          return {
+            Key: element.Key,
+            Sum: element.Sum
+          };
+        }
+      );
+    });
+  };
+
+  private parseBalanceResponse = (
+    response: any
+  ): BalanceResponseObjectDTO[] => {
+    return response.json().then((data: any) => {
+      this.throwIfNotArray(data);
+      const dtoArray = data as any[];
+      return dtoArray.map(
+        (element: BalanceResponseObjectDTO): BalanceResponseObjectDTO => {
+          this.throwIfNotString(element.Key);
+          this.throwIfNotNumber(element.Balance);
+
+          return {
+            Key: element.Key,
+            Balance: element.Balance
+          };
+        }
+      );
+    });
+  };
+
+  private throwIfNotArray = (value: any) => {
+    if (!Array.isArray(value)) {
+      throw new Error("Expected array, got:" + JSON.stringify(value));
     }
   };
 
@@ -146,17 +250,4 @@ export class TransactionQuery {
     }
     throw new Error("Excepted number, but got:" + JSON.stringify(value));
   };
-
-  private whereSelector = (
-    field: string,
-    value: any,
-    relationship: string
-  ): SelectorDTO => ({
-    Name: "where",
-    Key: field,
-    Value: {
-      Relationship: relationship,
-      Value: value
-    }
-  });
 }

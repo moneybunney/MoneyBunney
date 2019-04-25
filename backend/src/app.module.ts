@@ -1,6 +1,5 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { CorsMiddleware } from '@nest-middlewares/cors';
-import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestModule } from './modules/test/test.module';
 import { UserModule } from './modules/user/user.module';
@@ -25,7 +24,7 @@ import { ConfigService } from './modules/config/config.service';
     TransactionsModule,
     ConfigModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {

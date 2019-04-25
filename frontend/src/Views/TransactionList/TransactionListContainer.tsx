@@ -51,6 +51,8 @@ interface IProps {
   filters: IFilters;
 }
 
+const activeRequests: AbortController[] = [];
+
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
 const TransactionListContainer = ({
@@ -61,11 +63,6 @@ const TransactionListContainer = ({
   const initialState = {
     transactions: [],
     loadingMore: false,
-    canLoadMore: false
-  };
-
-  const resetState = {
-    ...initialState,
     canLoadMore: true
   };
 
@@ -96,7 +93,7 @@ const TransactionListContainer = ({
           canLoadMore: false
         };
       case ActionType.ResetTransactionState:
-        return resetState;
+        return initialState;
     }
   };
 
@@ -110,24 +107,29 @@ const TransactionListContainer = ({
         ? new Date(state.transactions[state.transactions.length - 1].date)
         : new Date();
 
-    getTransactionListChunk(lastLoadedTransactionDate, 5, filters).then(
-      data => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    activeRequests.push(controller);
+    getTransactionListChunk(lastLoadedTransactionDate, 5, filters, signal)
+      .then(data => {
+        // Remove controller from active requests
         if (data.length <= 0) {
           dispatch({ type: ActionType.NoItemsFound, payload: [] });
         } else {
           dispatch({ type: ActionType.ItemsLoaded, payload: data });
         }
-      }
-    );
+      })
+      .catch(e => {
+        if (e.name !== "AbortError") {
+          throw e;
+        }
+      });
   };
 
   useEffect(() => {
-    // There is a bad race condition where when data is still being fetched
-    // and the filter change, the ResetTransactionState action will be dispatched,
-    // which will cause the correct data to be fetched.
-    // The data that was in progress will still, however, get in and
-    // pollute the list with duplicate/unecessary data.
-    // TODO: Need to be able to cancel getTransactionListChunk request
+    activeRequests.forEach(controller => controller.abort());
+    // Clear array
+    activeRequests.splice(0, activeRequests.length);
     dispatch({ type: ActionType.ResetTransactionState, payload: [] });
   }, [filters]);
 

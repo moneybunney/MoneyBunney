@@ -87,9 +87,10 @@ const applyFilters = (
 export const getTransactionListChunk = async (
   startingDate: Date,
   count: number,
-  filters: IFilters
+  filters: IFilters,
+  signal: AbortSignal
 ) => {
-  let query = new TransactionQuery()
+  let query = new TransactionQuery(signal)
     .sort("Date", -1)
     .lt("Date", startingDate.toISOString())
     .limit(count);

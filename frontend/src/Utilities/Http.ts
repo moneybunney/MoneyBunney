@@ -72,7 +72,8 @@ export const getPost = (
     headers: {
       "Content-Type": "application/json"
     },
-    body: body ? JSON.stringify(body) : ""
+    body: body ? JSON.stringify(body) : "",
+    ...init
   };
   return http(input, options, params);
 };

@@ -16,7 +16,7 @@ import { Transactions } from './interfaces/transactions.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { QueryDTO } from '../../../../shared/query.dto';
 import { TransactionQueryService } from './service/transaction-query.service';
 import { UserService } from '../user/user.service';
@@ -41,7 +41,7 @@ export class TransactionsController {
   async create(
     @Body() createTransactionDto: TransactionDTO,
     @Res() res: Response,
-    @Req() req: any,
+    @Req() req: Request,
   ) {
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);

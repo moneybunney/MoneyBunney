@@ -15,8 +15,14 @@ export class TransactionsService {
     private readonly logger: Logger,
   ) {}
 
-  async create(TransactionDto: TransactionDTO): Promise<Transactions> {
-    const createdTransaction = new this.transactionModel(TransactionDto);
+  async create(
+    TransactionDto: TransactionDTO,
+    UserId: string,
+  ): Promise<Transactions> {
+    const createdTransaction = new this.transactionModel({
+      ...TransactionDto,
+      UserId,
+    });
     return await createdTransaction.save();
   }
 

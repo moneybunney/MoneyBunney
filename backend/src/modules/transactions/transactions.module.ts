@@ -5,6 +5,8 @@ import { TransactionsService } from './service/transactions.service';
 import { TransactionsSchema } from './schemas/transactions.schema';
 import { LoggerModule } from '../logger/logger.module';
 import { TransactionQueryService } from './service/transaction-query.service';
+import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -12,8 +14,9 @@ import { TransactionQueryService } from './service/transaction-query.service';
       { name: 'Transactions', schema: TransactionsSchema },
     ]),
     LoggerModule,
+    UserModule,
   ],
   controllers: [TransactionsController],
-  providers: [TransactionsService, TransactionQueryService],
+  providers: [TransactionsService, TransactionQueryService, UserService],
 })
 export class TransactionsModule {}

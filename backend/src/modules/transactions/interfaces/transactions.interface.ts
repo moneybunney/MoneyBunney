@@ -7,6 +7,7 @@ export interface Transactions extends Document {
   readonly Amount: number;
   readonly Description: string;
   readonly Tags: string[];
+  readonly UserId: string;
 }
 
 export class TransactionsUtils {

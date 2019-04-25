@@ -1,7 +1,6 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { CorsMiddleware } from '@nest-middlewares/cors';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TestModule } from './modules/test/test.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
@@ -17,7 +16,6 @@ import { ConfigService } from './modules/config/config.service';
       }),
       inject: [ConfigService],
     }),
-    TestModule,
     TransactionsModule,
     UserModule,
     AuthModule,

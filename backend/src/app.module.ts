@@ -6,6 +6,7 @@ import { TestModule } from './modules/test/test.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { AccountsModule } from './modules/accounts/accounts.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 
@@ -23,6 +24,7 @@ import { ConfigService } from './modules/config/config.service';
     UserModule,
     AuthModule,
     TransactionsModule,
+    AccountsModule,
     ConfigModule,
   ],
   controllers: [AppController],

@@ -1,6 +1,7 @@
 import { SelectorDTO } from "./selector.dto";
+import { AggregatorDTO } from "./aggregator.dto";
 
 export class QueryDTO {
   readonly selectors: SelectorDTO[] = [];
-  readonly aggregator: string = "";
+  readonly aggregator: AggregatorDTO = { Name: "list" };
 }

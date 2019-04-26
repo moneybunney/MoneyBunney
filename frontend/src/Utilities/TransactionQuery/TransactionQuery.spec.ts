@@ -102,7 +102,7 @@ describe("TransactionQuery", () => {
     expect(dto.selectors.length).toEqual(1);
     expect(dto.selectors[0].Name).toEqual("where");
     expect(dto.selectors[0].Key).toEqual("Tags");
-    const whereDescriptor = dto.selectors[0].Value as any;
+    const whereDescriptor = dto.selectors[0].Payload as any;
     expect(whereDescriptor.Relationship).toEqual("in");
     expect(whereDescriptor.Value).toEqual(["tag1", "tag2"]);
   });

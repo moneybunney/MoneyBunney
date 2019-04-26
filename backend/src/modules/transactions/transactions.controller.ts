@@ -18,7 +18,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
 import { Response, Request } from 'express';
 import { QueryDTO } from '../../../../shared/query.dto';
-import { TransactionQueryService } from './service/transaction-query.service';
+import { TransactionQueryService } from './service/transaction.query.service';
 import { UserService } from '../user/user.service';
 
 @Controller('api/transactions')

@@ -7,7 +7,7 @@ import {
 import React from "react";
 
 type FieldType = "text" | "password" | "number";
-type AutoCompleteType = "email" | "current-password";
+type AutoCompleteType = "email" | "current-password" | "new-password";
 
 interface IProps {
   error?: boolean;

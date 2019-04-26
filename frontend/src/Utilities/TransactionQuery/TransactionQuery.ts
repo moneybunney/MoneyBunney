@@ -75,6 +75,11 @@ export class TransactionQuery {
     return this;
   };
 
+  public in = (field: string, value: any): TransactionQuery => {
+    this.selectors.push(this.whereSelector(field, value, "in"));
+    return this;
+  };
+
   public getQueryDTO = (): QueryDTO => {
     if (this.selectors.length === 0) {
       this.any();

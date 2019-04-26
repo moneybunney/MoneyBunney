@@ -34,6 +34,25 @@ describe('WhereSelector', () => {
     expect(ret).toEqual(transactionsQueryMock);
   });
 
+  it("should call 'in' with the DTO values", async () => {
+    const selectorDTO: SelectorDTO = {
+      Name: 'where',
+      Key: 'Tags',
+      Value: {
+        Relationship: 'lt',
+        Value: ['tag1', 'tag2'],
+      },
+    };
+
+    const selector = new WhereSelector<Transactions>();
+    const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
+    expect(transactionsQueryMock.lt).toBeCalledWith(
+      selectorDTO.Key,
+      selectorDTO.Value.Value,
+    );
+    expect(ret).toEqual(transactionsQueryMock);
+  });
+
   it("should call 'lt' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',

@@ -2,12 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DispatchError } from './common/filters/DispatchError';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = 8080;
   // Basic error management
   app.useGlobalFilters(new DispatchError());
+  app.use(cookieParser());
   // Api which lists all endpoints and allows to send request, very convenient. Available through 'localhost:8080/api/index/#/'
   const options = new DocumentBuilder()
     .setTitle('User requests')

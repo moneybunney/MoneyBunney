@@ -115,3 +115,23 @@ export const getAccounts = async () => {
 
   return accounts;
 };
+
+export const getExpenseByCategoryData = async () => {
+  return new TransactionQuery().lt("Amount", 0).sum("Category");
+};
+
+export const getExpenseByDateRange = async (from: Date, to: Date) => {
+  return new TransactionQuery()
+    .gte("Date", from)
+    .lt("Date", to)
+    .lt("Amount", 0)
+    .sum("Account");
+};
+
+export const getIncomeByDateRange = async (from: Date, to: Date) => {
+  return new TransactionQuery()
+    .gte("Date", from)
+    .lt("Date", to)
+    .gt("Amount", 0)
+    .sum("Account");
+};

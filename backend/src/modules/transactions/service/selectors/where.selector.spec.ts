@@ -38,7 +38,7 @@ describe('WhereSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
       Key: 'Tags',
-      Value: {
+      Payload: {
         Relationship: 'lt',
         Value: ['tag1', 'tag2'],
       },
@@ -48,7 +48,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.lt).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });

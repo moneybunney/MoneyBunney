@@ -8,6 +8,7 @@ import {
   Res,
   UsePipes,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { TransactionsService } from './service/transactions.service';
 import { TransactionDTO } from './dto/transaction.dto';
@@ -15,15 +16,17 @@ import { Transactions } from './interfaces/transactions.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { QueryDTO } from '../../../../shared/query.dto';
 import { TransactionQueryService } from './service/transaction.query.service';
+import { UserService } from '../user/user.service';
 
 @Controller('api/transactions')
 export class TransactionsController {
   constructor(
     private readonly transactionsService: TransactionsService,
     private readonly queryService: TransactionQueryService,
+    private readonly userService: UserService,
     private readonly logger: Logger,
   ) {}
 
@@ -38,11 +41,19 @@ export class TransactionsController {
   async create(
     @Body() createTransactionDto: TransactionDTO,
     @Res() res: Response,
+    @Req() req: Request,
   ) {
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);
-    this.transactionsService.create(createTransactionDto);
-    return res.status(HttpStatus.CREATED).send();
+    if ('Token' in req.cookies) {
+      const userEmail = JSON.parse(
+        Buffer.from(req.cookies.Token, 'base64').toString(),
+      ).email;
+      const user = await this.userService.findByEmail(userEmail);
+      this.transactionsService.create(createTransactionDto, user.id);
+      return res.status(HttpStatus.CREATED).send();
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
   @Delete()
@@ -65,10 +76,23 @@ export class TransactionsController {
   public async getTransactionByQuery(
     @Body() query: QueryDTO,
     @Res() res: Response,
+    @Req() req: Request,
   ) {
     this.logger.log('POST to /api/transactions/query');
-    const transactions = await this.queryService.query(query);
-    return res.status(HttpStatus.OK).send(transactions);
+    if ('Token' in req.cookies) {
+      const userEmail = JSON.parse(
+        Buffer.from(req.cookies.Token, 'base64').toString(),
+      ).email;
+      const user = await this.userService.findByEmail(userEmail);
+      query.selectors.push({
+        Name: 'where',
+        Key: 'UserId',
+        Payload: { Relationship: 'eq', Value: user.id },
+      });
+      const transactions = await this.queryService.query(query);
+      return res.status(HttpStatus.OK).send(transactions);
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
   @Get('/list')

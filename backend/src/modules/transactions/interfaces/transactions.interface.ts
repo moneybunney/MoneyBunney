@@ -7,6 +7,7 @@ export interface Transactions extends Document {
   readonly Amount: number;
   readonly Description: string;
   readonly Tags: string[];
+  readonly UserId: string;
 }
 
 export class TransactionsUtils {
@@ -18,7 +19,15 @@ export class TransactionsUtils {
   }
 
   static GetEquatableFields(): string[] {
-    return ['Date', 'Account', 'Amount', 'Category', 'Description', 'Tags'];
+    return [
+      'Date',
+      'Account',
+      'Amount',
+      'Category',
+      'Description',
+      'Tags',
+      'UserId',
+    ];
   }
 
   static GetDistinctableFields(): string[] {

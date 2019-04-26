@@ -9,9 +9,9 @@ import { getPost } from "../Http";
 export class TransactionQuery {
   private selectors: SelectorDTO[] = [];
   private aggregator?: AggregatorDTO;
-  private signal: AbortSignal;
+  private signal: AbortSignal | undefined;
 
-  constructor(signal: AbortSignal) {
+  constructor(signal?: AbortSignal) {
     this.signal = signal;
   }
 

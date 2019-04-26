@@ -40,11 +40,11 @@ const CashFlowChart = ({ numberOfMonths }: IProps) => {
     const fetchData = async () => {
       const result = await Promise.all(
         dates.map(async date => {
-          const fromDate = date.year + "-" + date.month + "-01";
+          const fromDate = `${date.year}-${date.month}-01`;
           const toDate =
             date.month === 12
-              ? date.year + 1 + "-01-01"
-              : date.year + "-" + (date.month + 1) + "-01";
+              ? `${date.year + 1}-01-01`
+              : `${date.year}-${date.month + 1}-01`;
           const incomeResponse = await getIncomeByDateRange(
             new Date(fromDate),
             new Date(toDate)
@@ -69,7 +69,7 @@ const CashFlowChart = ({ numberOfMonths }: IProps) => {
             };
           });
           return {
-            key: date.year + "-" + date.month,
+            key: `${date.year}-${date.month}`,
             positiveValues,
             negativeValues,
             lineValue: sum

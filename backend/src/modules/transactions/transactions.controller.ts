@@ -76,10 +76,23 @@ export class TransactionsController {
   public async getTransactionByQuery(
     @Body() query: QueryDTO,
     @Res() res: Response,
+    @Req() req: Request,
   ) {
     this.logger.log('POST to /api/transactions/query');
-    const transactions = await this.queryService.query(query);
-    return res.status(HttpStatus.OK).send(transactions);
+    if ('Token' in req.cookies) {
+      const userEmail = JSON.parse(
+        Buffer.from(req.cookies.Token, 'base64').toString(),
+      ).email;
+      const user = await this.userService.findByEmail(userEmail);
+      query.selectors.push({
+        Name: 'where',
+        Key: 'UserId',
+        Payload: { Relationship: 'eq', Value: user.id },
+      });
+      const transactions = await this.queryService.query(query);
+      return res.status(HttpStatus.OK).send(transactions);
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
   @Get('/list')

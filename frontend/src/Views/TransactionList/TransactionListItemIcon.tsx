@@ -52,8 +52,8 @@ const TransactionListItemIcon = ({
     const loaderStyle = {
       ...avatarSizeStyle,
       display: "flex",
-      "justify-content": "center",
-      "align-items": "center"
+      justifyContent: "center",
+      alignItems: "center"
     };
 
     return (

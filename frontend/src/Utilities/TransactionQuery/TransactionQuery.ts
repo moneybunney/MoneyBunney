@@ -9,6 +9,11 @@ import { getPost } from "../Http";
 export class TransactionQuery {
   private selectors: SelectorDTO[] = [];
   private aggregator?: AggregatorDTO;
+  private signal: AbortSignal | undefined;
+
+  constructor(signal?: AbortSignal) {
+    this.signal = signal;
+  }
 
   public any = (): TransactionQuery => {
     const anySelector = (): SelectorDTO => ({
@@ -98,7 +103,8 @@ export class TransactionQuery {
     const response = await getPost(
       "/api/transactions/query",
       undefined,
-      queryDTO
+      queryDTO,
+      { signal: this.signal }
     );
     if (response.status !== 200) {
       throw new Error("Something went wrong:" + JSON.stringify(response));

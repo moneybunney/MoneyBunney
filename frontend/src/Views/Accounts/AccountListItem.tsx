@@ -23,7 +23,7 @@ const AccountListItem = ({ account }: IProps) => {
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
-    history.replace(`${TransactionsLocation}?account=${account.name}`);
+    history.replace(`${TransactionsLocation}?account=${account.id}`);
   };
 
   return (

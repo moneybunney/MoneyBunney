@@ -1,41 +1,84 @@
-import { Fab, Theme } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
-import useReactRouter from "use-react-router";
+import React, { useEffect, useState } from "react";
 
-import { TransactionsCreateLocation } from "../../routes.constants";
+import { IAccount, ICategory } from "../../Models/TransactionModel";
+
+import {
+  emptyFilterObject,
+  IFilterItems,
+  IFilters
+} from "../../Models/TransactionFilterModel";
+import CreateTransactionButton from "./CreateTransactionButton";
+import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  fab: {
+  createFab: {
     position: "fixed",
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 10
+  },
+  filterFab: {
+    position: "fixed",
+    bottom: theme.spacing.unit * 10,
+    right: theme.spacing.unit * 20
   }
 }));
 
+const hardcodedCategories = ["Beer", "Wine", "Other"].map(
+  (item, index): ICategory => ({ id: index, text: item })
+);
+const hardcodedAccounts = ["Cash", "Wallet", "Revolut"].map(
+  (item, index): IAccount => ({ id: index, name: item })
+);
+
 const TransactionView = () => {
-  const { history } = useReactRouter();
   const classes = useStyles();
 
-  const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.preventDefault();
-    history.replace(TransactionsCreateLocation);
+  const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
+
+  const filterItems: IFilterItems = {
+    accounts: accounts.map(({ id, name }) => ({
+      key: id.toString(),
+      value: name
+    })),
+    categories: categories.map(({ id, text }) => ({
+      key: id.toString(),
+      value: text
+    })),
+    transactionTypes: ["Expense", "Income", "Transfer"].map(item => ({
+      key: item,
+      value: item
+    })),
+    tags: ["foo", "bar", "baz", "bez", "booze", "bamboozle"].map(item => ({
+      key: item,
+      value: item
+    }))
   };
 
+  useEffect(() => {
+    setAccounts(hardcodedAccounts);
+    setCategories(hardcodedCategories);
+  }, []);
+
   return (
-    <React.Fragment>
-      <TransactionListContainer />
-      <Fab
-        onClick={onClick}
-        color="primary"
-        className={classes.fab}
-        aria-label="Add"
-      >
-        <Add />
-      </Fab>
-    </React.Fragment>
+    <>
+      <TransactionListContainer
+        filters={filters}
+        accounts={accounts}
+        categories={categories}
+      />
+      <CreateTransactionButton className={classes.createFab} />
+      <TransactionFilter
+        className={classes.filterFab}
+        setFilters={setFilters}
+        filters={filters}
+        items={filterItems}
+      />
+    </>
   );
 };
 

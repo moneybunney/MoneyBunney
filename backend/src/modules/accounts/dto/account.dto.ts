@@ -7,6 +7,6 @@ export class AccountDTO {
   readonly Name: string;
 
   @ApiModelProperty()
-  @IsString()
-  readonly Type: string;
+  @IsNumber()
+  readonly InitialBalance: number;
 }

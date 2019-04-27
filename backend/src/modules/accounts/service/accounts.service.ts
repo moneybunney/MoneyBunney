@@ -3,8 +3,6 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Accounts } from '../interfaces/accounts.interface';
 import { AccountDTO } from '../dto/account.dto';
-import { AppErrorTypeEnum } from '../../../common/error/AppErrorTypeEnum';
-import { AppError } from '../../../common/error/AppError';
 import { Logger } from '../../logger/logger.service';
 
 @Injectable()
@@ -26,15 +24,6 @@ export class AccountsService {
         .findById(id)
         .remove()
         .exec();
-    } catch (e) {
-      this.logger.log(e.toString());
-      throw new BadRequestException('Requested account was not found!');
-    }
-  }
-
-  async findById(id: string): Promise<Accounts> {
-    try {
-      return await this.accountModel.findById(id).exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new BadRequestException('Requested account was not found!');

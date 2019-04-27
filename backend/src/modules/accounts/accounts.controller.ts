@@ -16,7 +16,6 @@ import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
 import { Response } from 'express';
-import { QueryDTO } from '../../../../shared/query.dto';
 import { AccountQueryService } from './service/account-query.service';
 
 @Controller('api/accounts')
@@ -49,19 +48,6 @@ export class AccountsController {
     this.logger.log('Delete to /accounts | deleteAccount');
     await this.accountsService.remove(id);
     return res.status(HttpStatus.OK).send();
-  }
-
-  @Post('/query')
-  @ApiOperation({ title: 'Find account by ID' })
-  @ApiResponse({ status: 200, description: 'Account response' })
-  @ApiResponse({ status: 500, description: 'Validation error' })
-  public async getAccountByQuery(
-    @Body() query: QueryDTO,
-    @Res() res: Response,
-  ) {
-    this.logger.log('POST to /api/accounts/query');
-    const accounts = await this.queryService.query(query);
-    return res.status(HttpStatus.OK).send(accounts);
   }
 
   @Get('')

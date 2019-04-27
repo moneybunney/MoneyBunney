@@ -54,13 +54,11 @@ function Register() {
 
     setTimeout(() => {
       postRegister({ email, password })
-        .then(response => {
+        .then(() => {
           history.replace("/");
         })
-        .catch(error => {
+        .catch(() => {
           setEmailError(true);
-        })
-        .then(() => {
           setLoading(false);
         });
     }, 1500);

@@ -3,7 +3,16 @@ import React from "react";
 import { AppBar, Theme, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import { Notifications } from "@material-ui/icons";
+import { Route, Switch } from "react-router";
+import {
+  AccountInfoLocation,
+  AccountsLocation,
+  BudgetsLocation,
+  DashboardLocation,
+  ReportsLocation,
+  SettingsLocation,
+  TransactionsLocation
+} from "../../routes.constants";
 import LogOutButton from "../LogOutButton";
 
 const drawerWidth = 240;
@@ -17,11 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export interface IProps {
-  text: string;
-}
-
-const PageHeader = ({ text }: IProps) => {
+const PageHeader = () => {
   const classes = useStyles();
 
   return (
@@ -33,7 +38,16 @@ const PageHeader = ({ text }: IProps) => {
           noWrap={true}
           className={classes.title}
         >
-          {text}
+          <Switch>
+            <Route path={TransactionsLocation} render={() => "Transactions"} />
+            <Route path={DashboardLocation} render={() => "Dashboard"} />
+            <Route path={AccountsLocation} render={() => "Accounts"} />
+            <Route path={ReportsLocation} render={() => "Reports"} />
+            <Route path={BudgetsLocation} render={() => "Budget"} />
+            <Route path={AccountInfoLocation} render={() => "Account"} />
+            <Route path={SettingsLocation} render={() => "Settings"} />
+            <Route path="/" render={() => "Dashboard"} />
+          </Switch>
         </Typography>
         <LogOutButton />
       </Toolbar>

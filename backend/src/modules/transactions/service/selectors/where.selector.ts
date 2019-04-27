@@ -27,14 +27,16 @@ export class WhereSelector<T extends Document> extends Selector<T> {
       query.gt(key, value),
     gte: (query: DocumentQuery<T[], T, {}>, key: string, value: object) =>
       query.gte(key, value),
+    in: (query: DocumentQuery<T[], T, {}>, key: string, value: any[]) =>
+      query.in(key, value),
   };
 
   ApplyValidatedSelectorDTO = (
     selectorDTO: SelectorDTO,
     currentQuery: DocumentQuery<T[], T, {}>,
   ): DocumentQuery<T[], T, {}> => {
-    const operator = this.Operators[selectorDTO.Value.Relationship];
-    return operator(currentQuery, selectorDTO.Key, selectorDTO.Value.Value);
+    const operator = this.Operators[selectorDTO.Payload.Relationship];
+    return operator(currentQuery, selectorDTO.Key, selectorDTO.Payload.Value);
   };
 
   ValidateSelectorDTO = (selectorDTO: SelectorDTO): void => {
@@ -45,15 +47,14 @@ export class WhereSelector<T extends Document> extends Selector<T> {
     const errors = validateSync(classObject);
     if (errors.length > 0) {
       throw new BadRequestException(
-        'Validation failed!',
-        JSON.stringify(errors),
+        'Validation failed: ' + JSON.stringify(errors),
       );
     }
 
-    if (this.Operators[classObject.Value.Relationship] === undefined) {
+    if (this.Operators[classObject.Payload.Relationship] === undefined) {
       throw new BadRequestException(
         'Matching query operator not found for ' +
-          classObject.Value.Relationship,
+          classObject.Payload.Relationship,
       );
     }
 
@@ -77,5 +78,5 @@ class WhereSelectorDTO {
 
   @ValidateNested()
   @Type(() => WhereValueDTO)
-  Value: WhereValueDTO;
+  Payload: WhereValueDTO;
 }

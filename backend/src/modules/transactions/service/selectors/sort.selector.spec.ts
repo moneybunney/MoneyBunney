@@ -12,13 +12,13 @@ describe('SortSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'sort',
       Key: 'Date',
-      Value: 1,
+      Payload: 1,
     };
 
     const selector = new SortSelector<Transactions>();
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     const sortObject: any = {};
-    sortObject[selectorDTO.Key] = selectorDTO.Value;
+    sortObject[selectorDTO.Key] = selectorDTO.Payload;
     expect(transactionsQueryMock.sort).toBeCalledWith(sortObject);
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -30,7 +30,7 @@ describe('SortSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'sort',
       Key: 'Category',
-      Value: 1,
+      Payload: 1,
     };
     const selector = new SortSelector<Transactions>();
     expect(() =>
@@ -45,7 +45,7 @@ describe('SortSelector', () => {
     const selectorDTO: SelectorDTO = {
       Name: 'sort',
       Key: 'Date',
-      Value: -100,
+      Payload: -100,
     };
     const selector = new SortSelector<Transactions>();
     expect(() =>

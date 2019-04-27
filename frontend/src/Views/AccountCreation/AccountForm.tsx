@@ -1,8 +1,9 @@
-import { Button, Theme, InputAdornment } from "@material-ui/core";
+import { Button, InputAdornment, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { ChangeEvent, SyntheticEvent } from "react";
 
 import FormField from "../../Components/FormField";
+import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -17,30 +18,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface IProps {
-  onSubmit: (accountName: string, initialBalance: number) => void;
+  onFieldChange: (field: string, value: any) => void;
+  account: IAccount;
+  onSubmit?: (account: IAccount) => void;
 }
 
-const AccountForm = ({ onSubmit }: IProps) => {
+const AccountForm = ({ account, onFieldChange, onSubmit }: IProps) => {
   const classes = useStyles();
-
-  const [accountName, setAccountName] = React.useState("");
-  const [initialBalance, setInitialBalance] = React.useState("0");
-
-  const onAccountNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAccountName(event.target.value);
+  const fieldUpdate = (fieldId: string) => (
+    e: ChangeEvent<HTMLInputElement>
+  ): void => {
+    onFieldChange(fieldId, e.target.value);
   };
-
-  const onInitialBalanceChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setInitialBalance(event.target.value);
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    // @ts-ignore
+    onSubmit(account);
   };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(accountName, +initialBalance);
-  };
-
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
@@ -49,16 +43,16 @@ const AccountForm = ({ onSubmit }: IProps) => {
         fieldType="text"
         name="accountName"
         text="Account name"
-        onChange={onAccountNameChange}
-        value={accountName}
+        onChange={fieldUpdate("name")}
+        value={account.name}
         autoFocus={true}
       />
       <FormField
         fieldType="number"
         name="initialBalance"
         text="Initial balance"
-        onChange={onInitialBalanceChange}
-        value={initialBalance}
+        onChange={fieldUpdate("initialBalance")}
+        value={account.initialBalance.toString()}
         startAdornment={<InputAdornment position="start">€</InputAdornment>}
       />
       <div className={classes.buttonContainer}>

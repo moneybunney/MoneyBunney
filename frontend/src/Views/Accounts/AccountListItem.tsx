@@ -9,7 +9,7 @@ import React from "react";
 import useReactRouter from "use-react-router";
 import BalanceAmountText from "../../Components/BalanceAmountText";
 import { IAccount } from "../../Models/AccountModel";
-import { TransactionsLocation } from "../../routes.constants";
+import { AccountsLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({}));
 
@@ -23,7 +23,7 @@ const AccountListItem = ({ account }: IProps) => {
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
-    history.replace(`${TransactionsLocation}?account=${account.name}`);
+    history.replace(`${AccountsLocation}?account=${account.name}`);
   };
 
   return (

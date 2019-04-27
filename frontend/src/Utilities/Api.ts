@@ -1,6 +1,7 @@
 import { IAccount } from "../Models/AccountModel";
 import { ITransaction } from "../Models/TransactionModel";
-import { get, post } from "./Http";
+import { AccountQuery } from "./AccountQuery/AccountQuery";
+import { post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -54,20 +55,21 @@ export const getTransactionListChunk = async (
     .execute();
 };
 
-export const createAccount = async (
-  accountName: string,
-  initialBalance: number
-) => {
-  return "RESPONSE";
+export const postAccount = async (data: IAccount) => {
+  const DTO = {
+    Name: data.name.toString(),
+    InitialBalance: Number(data.initialBalance)
+  };
+  const response = await post("/api/accounts", DTO);
+  if (response.status === 201) {
+    return response.body;
+  } else {
+    throw new Error("Something went wrong");
+  }
 };
 
 export const getAccounts = async () => {
-  const accounts: IAccount[] = [
-    { id: 1, name: "Cash", initialBalance: 53.86 },
-    { id: 2, name: "Revolut", initialBalance: 2131.42 }
-  ];
-
-  return accounts;
+  return new AccountQuery().execute();
 };
 
 export const getExpenseByCategoryData = async () => {

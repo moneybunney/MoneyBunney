@@ -1,5 +1,11 @@
 export interface IAccount {
-  id: number;
+  id: string;
   name: string;
   initialBalance: number;
 }
+
+export const createEmptyAccount = (): IAccount => ({
+  name: "",
+  initialBalance: NaN,
+  id: ""
+});

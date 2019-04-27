@@ -3,8 +3,9 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
+import { createEmptyAccount, IAccount } from "../../Models/AccountModel";
 import { AccountsLocation } from "../../routes.constants";
-import { createAccount } from "../../Utilities/Api";
+import { postAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,17 +30,33 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   }
 }));
-
-const AccountCreation = () => {
+interface IProps {
+  onSubmit?: (account: IAccount) => void;
+}
+const AccountCreation = (props: IProps) => {
   const classes = useStyles();
   const { history } = useReactRouter();
 
-  const onSubmit = async (accountName: string, initialBalance: number) => {
-    await createAccount(accountName, initialBalance);
-    alert(`SUCCESFULY CREATED ACCOUNT ${accountName} ${initialBalance}`);
-    history.replace(AccountsLocation);
+  const [account, setAccount] = React.useState(createEmptyAccount());
+  const onFieldChange = (field: string, value: any) => {
+    const clone = { ...account } as any;
+    clone[field] = value;
+    setAccount(clone);
   };
-
+  const onSubmit = (currentAccount: IAccount) => {
+    if (props.onSubmit) {
+      props.onSubmit(currentAccount);
+    }
+    postAccount(currentAccount)
+      .catch(error => {
+        console.log(error);
+      })
+      .then(() => {
+        alert(
+          "Success! " + account.name + " account has been successfully created."
+        );
+      });
+  };
   return (
     <main className={classes.layout}>
       <Paper className={classes.paper}>
@@ -47,7 +64,11 @@ const AccountCreation = () => {
           New Account
         </Typography>
         <React.Fragment>
-          <AccountForm onSubmit={onSubmit} />
+          <AccountForm
+            onFieldChange={onFieldChange}
+            account={account}
+            onSubmit={onSubmit}
+          />
         </React.Fragment>
       </Paper>
     </main>

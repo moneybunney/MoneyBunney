@@ -1,9 +1,8 @@
-import { List, Paper, Theme } from "@material-ui/core";
-import { Satellite } from "@material-ui/icons";
+import { Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useEffect } from "react";
+import { IFilters } from "../../Models/TransactionFilterModel";
 import {
-  createEmptyTransaction,
   IAccount,
   ICategory,
   ITransaction
@@ -31,7 +30,8 @@ enum ActionType {
   LoadStart = 1,
   ItemsLoaded,
   NoItemsFound,
-  Error
+  Error,
+  ResetTransactionState
 }
 
 interface IAction {
@@ -41,16 +41,31 @@ interface IAction {
 
 interface IState {
   transactions: ITransaction[];
-  categories: ICategory[];
-  accounts: IAccount[];
   canLoadMore: boolean;
   loadingMore: boolean;
-  chunksLoaded: number;
 }
+
+interface IProps {
+  categories: ICategory[];
+  accounts: IAccount[];
+  filters: IFilters;
+}
+
+const activeRequests: AbortController[] = [];
 
 // this component should load list elements dynamically,
 // and (maybe later) support pagination
-const TransactionListContainer = () => {
+const TransactionListContainer = ({
+  categories,
+  accounts,
+  filters
+}: IProps) => {
+  const initialState = {
+    transactions: [],
+    loadingMore: false,
+    canLoadMore: true
+  };
+
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
       case ActionType.LoadStart:
@@ -59,13 +74,11 @@ const TransactionListContainer = () => {
           loadingMore: true
         };
       case ActionType.ItemsLoaded:
-        const newChunksLoaded = oldState.chunksLoaded + 1;
         return {
           ...oldState,
           transactions: [...oldState.transactions, ...action.payload],
           loadingMore: false,
-          canLoadMore: true,
-          chunksLoaded: newChunksLoaded
+          canLoadMore: true
         };
       case ActionType.NoItemsFound:
         return {
@@ -79,23 +92,9 @@ const TransactionListContainer = () => {
           loadingMore: false,
           canLoadMore: false
         };
+      case ActionType.ResetTransactionState:
+        return initialState;
     }
-  };
-
-  const categories = ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
-  const accounts = ["Cash", "Wallet", "Revolut"].map(
-    (item, index): IAccount => ({ id: index, name: item })
-  );
-
-  const initialState = {
-    transactions: [],
-    categories,
-    accounts,
-    loadingMore: false,
-    canLoadMore: true,
-    chunksLoaded: 1
   };
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -108,14 +107,31 @@ const TransactionListContainer = () => {
         ? new Date(state.transactions[state.transactions.length - 1].date)
         : new Date();
 
-    getTransactionListChunk(lastLoadedTransactionDate, 5).then(data => {
-      if (data.length <= 0) {
-        dispatch({ type: ActionType.NoItemsFound, payload: [] });
-      } else {
-        dispatch({ type: ActionType.ItemsLoaded, payload: data });
-      }
-    });
+    const controller = new AbortController();
+    const { signal } = controller;
+    activeRequests.push(controller);
+    getTransactionListChunk(lastLoadedTransactionDate, 5, filters, signal)
+      .then(data => {
+        // Remove controller from active requests
+        if (data.length <= 0) {
+          dispatch({ type: ActionType.NoItemsFound, payload: [] });
+        } else {
+          dispatch({ type: ActionType.ItemsLoaded, payload: data });
+        }
+      })
+      .catch(e => {
+        if (e.name !== "AbortError") {
+          throw e;
+        }
+      });
   };
+
+  useEffect(() => {
+    activeRequests.forEach(controller => controller.abort());
+    // Clear array
+    activeRequests.splice(0, activeRequests.length);
+    dispatch({ type: ActionType.ResetTransactionState, payload: [] });
+  }, [filters]);
 
   const classes = useStyles();
 
@@ -123,8 +139,8 @@ const TransactionListContainer = () => {
     <Paper className={classes.paper}>
       <TransactionList
         transactions={state.transactions}
-        categories={state.categories}
-        accounts={state.accounts}
+        categories={categories}
+        accounts={accounts}
         requestMoreTransactions={onRequestMoreTranscations}
         loading={state.loadingMore}
         canLoadMore={state.canLoadMore}

@@ -1,4 +1,5 @@
 import { IAccount } from "../Models/AccountModel";
+import { IFilters } from "../Models/TransactionFilterModel";
 import { ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
 import { post } from "./Http";
@@ -44,15 +45,60 @@ export const postTransaction = async (data: ITransaction) => {
   }
 };
 
+const applyFilters = (
+  initialQuery: TransactionQuery,
+  filters: IFilters
+): TransactionQuery => {
+  let query = initialQuery;
+
+  if (filters.accounts.length !== 0) {
+    query = query.in("Account", filters.accounts);
+  }
+
+  if (filters.categories.length !== 0) {
+    query = query.in("Category", filters.categories);
+  }
+
+  if (filters.tags.length !== 0) {
+    query = query.in("Tags", filters.tags);
+  }
+
+  if (filters.transactionTypes.length !== 0) {
+    if (
+      !(
+        filters.transactionTypes.includes("Expense") &&
+        filters.transactionTypes.includes("Income")
+      )
+    ) {
+      if (filters.transactionTypes.includes("Income")) {
+        query = query.gt("Amount", 0);
+      }
+
+      if (filters.transactionTypes.includes("Expense")) {
+        query = query.lt("Amount", 0);
+      }
+    }
+
+    //TODO: Support for Transfers
+  }
+
+  return query;
+};
+
 export const getTransactionListChunk = async (
   startingDate: Date,
-  count: number
+  count: number,
+  filters: IFilters,
+  signal: AbortSignal
 ) => {
-  return new TransactionQuery()
+  let query = new TransactionQuery(signal)
     .sort("Date", -1)
     .lt("Date", startingDate.toISOString())
-    .limit(count)
-    .execute();
+    .limit(count);
+
+  query = applyFilters(query, filters);
+
+  return query.execute();
 };
 
 export const postAccount = async (data: IAccount) => {

@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
-import { createEmptyAccount, IAccount } from "../../Models/AccountModel";
 import { AccountsLocation } from "../../routes.constants";
 import { postAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
+import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -30,33 +30,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   }
 }));
-interface IProps {
-  onSubmit?: (account: IAccount) => void;
-}
-const AccountCreation = (props: IProps) => {
+
+const AccountCreation = () => {
   const classes = useStyles();
   const { history } = useReactRouter();
 
-  const [account, setAccount] = React.useState(createEmptyAccount());
-  const onFieldChange = (field: string, value: any) => {
-    const clone = { ...account } as any;
-    clone[field] = value;
-    setAccount(clone);
-  };
-  const onSubmit = (currentAccount: IAccount) => {
-    if (props.onSubmit) {
-      props.onSubmit(currentAccount);
+  const onSubmit = async (accountName: string, initialBalance: number) => {
+    // TODO: This should actually be some other type which doesn't have the id field
+    const account: IAccount = { id: "", name: accountName, initialBalance };
+    try {
+      await postAccount(account);
+    } catch (error) {
+      // TODO: Error state in the form?
+      console.error(error);
     }
-    postAccount(currentAccount)
-      .catch(error => {
-        console.log(error);
-      })
-      .then(() => {
-        alert(
-          "Success! " + account.name + " account has been successfully created."
-        );
-      });
+    history.replace(AccountsLocation);
   };
+
   return (
     <main className={classes.layout}>
       <Paper className={classes.paper}>
@@ -64,11 +54,7 @@ const AccountCreation = (props: IProps) => {
           New Account
         </Typography>
         <React.Fragment>
-          <AccountForm
-            onFieldChange={onFieldChange}
-            account={account}
-            onSubmit={onSubmit}
-          />
+          <AccountForm onSubmit={onSubmit} />
         </React.Fragment>
       </Paper>
     </main>

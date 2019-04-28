@@ -3,9 +3,3 @@ export interface IAccount {
   name: string;
   initialBalance: number;
 }
-
-export const createEmptyAccount = (): IAccount => ({
-  name: "",
-  initialBalance: NaN,
-  id: ""
-});

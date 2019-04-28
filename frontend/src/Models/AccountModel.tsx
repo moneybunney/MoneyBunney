@@ -1,5 +1,5 @@
 export interface IAccount {
-  id: number;
+  id: string;
   name: string;
   initialBalance: number;
 }

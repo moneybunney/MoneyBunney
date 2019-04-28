@@ -29,7 +29,7 @@ const AccountList = ({ accounts, loading }: IProps) => {
   const classes = useStyles();
   return (
     <List className={classes.listRoot}>
-      <Collapse collapsedHeight="40px" in={!loading}>
+      <Collapse in={!loading}>
         {loading && <CircularProgress size={40} />}
         {accounts.map((account, i) => (
           <React.Fragment>

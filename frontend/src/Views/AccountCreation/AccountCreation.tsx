@@ -4,8 +4,9 @@ import React from "react";
 import useReactRouter from "use-react-router";
 
 import { AccountsLocation } from "../../routes.constants";
-import { createAccount } from "../../Utilities/Api";
+import { postAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
+import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -35,8 +36,14 @@ const AccountCreation = () => {
   const { history } = useReactRouter();
 
   const onSubmit = async (accountName: string, initialBalance: number) => {
-    await createAccount(accountName, initialBalance);
-    alert(`SUCCESFULY CREATED ACCOUNT ${accountName} ${initialBalance}`);
+    // TODO: This should actually be some other type which doesn't have the id field
+    const account: IAccount = { id: "", name: accountName, initialBalance };
+    try {
+      await postAccount(account);
+    } catch (error) {
+      // TODO: Error state in the form?
+      console.error(error);
+    }
     history.replace(AccountsLocation);
   };
 

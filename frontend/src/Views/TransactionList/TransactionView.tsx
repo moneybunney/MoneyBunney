@@ -2,13 +2,15 @@ import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
 
-import { IAccount, ICategory } from "../../Models/TransactionModel";
+import { IAccount } from "../../Models/AccountModel";
+import { ICategory } from "../../Models/TransactionModel";
 
 import {
   emptyFilterObject,
   IFilterItems,
   IFilters
 } from "../../Models/TransactionFilterModel";
+import { getAccounts } from "../../Utilities/Api";
 import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
@@ -28,9 +30,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const hardcodedCategories = ["Beer", "Wine", "Other"].map(
   (item, index): ICategory => ({ id: index, text: item })
-);
-const hardcodedAccounts = ["Cash", "Wallet", "Revolut"].map(
-  (item, index): IAccount => ({ id: index, name: item })
 );
 
 const TransactionView = () => {
@@ -60,8 +59,10 @@ const TransactionView = () => {
   };
 
   useEffect(() => {
-    setAccounts(hardcodedAccounts);
-    setCategories(hardcodedCategories);
+    (async () => {
+      setAccounts(await getAccounts());
+      setCategories(hardcodedCategories);
+    })();
   }, []);
 
   return (

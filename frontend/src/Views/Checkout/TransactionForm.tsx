@@ -16,8 +16,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { ChangeEvent, SyntheticEvent } from "react";
+import { IAccount } from "../../Models/AccountModel";
 import { ITransaction } from "../../Models/TransactionModel";
-import { IAccount, ICategory } from "./Checkout";
+import { ICategory } from "./Checkout";
 import TagPicker from "./TagPicker";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -249,7 +250,7 @@ const TransactionForm = ({
               >
                 {accounts.map(item => (
                   <MenuItem value={item.id} key={item.id}>
-                    {item.text}
+                    {item.name}
                   </MenuItem>
                 ))}
               </Select>

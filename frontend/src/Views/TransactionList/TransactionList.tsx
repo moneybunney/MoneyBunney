@@ -63,6 +63,13 @@ const TransactionList = ({
 
   const classes = useStyles();
 
+  const getAccountName = (transaction: ITransaction) => {
+    const accountsWithId = accounts.filter(
+      acc => acc.id === transaction.account
+    );
+    return accountsWithId.length !== 0 ? accountsWithId[0].name : "";
+  };
+
   return (
     <List className={classes.listRoot}>
       {transactions.map((t, i) => (
@@ -70,7 +77,7 @@ const TransactionList = ({
           key={"transaction_" + i}
           transaction={t}
           categoryText={categories[t.category].text}
-          accountText={accounts[t.account].name}
+          accountText={getAccountName(t)}
         />
       ))}
       <Collapse in={loading}>

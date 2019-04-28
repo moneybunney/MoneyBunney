@@ -169,7 +169,7 @@ export class TransactionQuery {
       return dtoArray.map(
         (element): ITransaction => {
           this.throwIfNotString(element.Date);
-          this.throwIfNotNumber(element.Account);
+          this.throwIfNotString(element.Account);
           this.throwIfNotNumber(element.Category);
           this.throwIfNotNumber(element.Amount);
           this.throwIfNotString(element.Description);

@@ -1,11 +1,12 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { IAccount } from "../../Models/AccountModel";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
-import { postTransaction } from "../../Utilities/Api";
+import { getAccounts, postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -40,18 +41,10 @@ export interface ICategory {
   text: string;
 }
 
-export interface IAccount {
-  id: number;
-  text: string;
-}
-
 const Checkout = (props: IProps) => {
   // fetch these from the api aswell
   const categories = ["Beer", "Wine", "Other"].map(
     (item, index): ICategory => ({ id: index, text: item })
-  );
-  const accounts = ["Cash", "Wallet", "Revolut"].map(
-    (item, index): IAccount => ({ id: index, text: item })
   );
 
   const [transaction, setTransaction] = React.useState(
@@ -81,6 +74,13 @@ const Checkout = (props: IProps) => {
         alert("Success!");
       });
   };
+
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
+  useEffect(() => {
+    (async () => {
+      setAccounts(await getAccounts());
+    })();
+  }, []);
 
   return (
     <React.Fragment>

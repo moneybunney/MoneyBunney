@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionsController } from './transactions.controller';
+import { CategoriesController } from './categories.controller';
 import { TransactionsService } from './service/transactions.service';
 import { CategoryService } from './service/category.service';
 import { TransactionsSchema } from './schemas/transactions.schema';
@@ -16,7 +17,7 @@ import { TransactionQueryService } from './service/transaction-query.service';
     LoggerModule,
     MongooseModule.forFeature([{ name: 'Categories', schema: CategorySchema }]),
   ],
-  controllers: [TransactionsController],
+  controllers: [TransactionsController, CategoriesController],
   providers: [TransactionsService, TransactionQueryService, CategoryService],
 })
 export class TransactionsModule {}

@@ -56,49 +56,6 @@ export class TransactionsController {
     return res.status(HttpStatus.CREATED).send();
   }
 
-  @Post('/categories')
-  @ApiOperation({ title: 'Create Category' })
-  @ApiResponse({
-    status: 201,
-    description: 'Category successfully received.',
-  })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  @UsePipes(new ValidationPipe(new Logger()))
-  async createCategory(
-    @Body() createCategoryDto: CategoryDto,
-    @Res() res: Response,
-  ) {
-    this.logger.log('Category received:');
-    this.logger.log(createCategoryDto.Name);
-    this.categoryService.create(createCategoryDto);
-    return res.status(HttpStatus.CREATED).send();
-  }
-
-  @Get('/categories')
-  @ApiOperation({ title: 'Get all categories' })
-  @ApiResponse({ status: 200, description: 'Categories  response' })
-  @ApiResponse({ status: 500, description: 'Server error.' })
-  getCategories(): Promise<Categories[]> {
-    this.logger.log(`GET to /transactions/categories | getCategories`);
-    return this.categoryService.findAll();
-  }
-
-  @Get('/categories/:id')
-  getTest(@Param('id') id: string): Promise<Categories> {
-    this.logger.log('GET to /transactions/categories | getCategory');
-    return this.categoryService.find(id);
-  }
-
-  @Delete('/categories')
-  @ApiOperation({ title: 'Remove category from database' })
-  @ApiResponse({ status: 200, description: 'Category removed.' })
-  @ApiResponse({ status: 200, description: 'Category not found.' })
-  public async deleteCategory(@Query('id') id: string, @Res() res: Response) {
-    this.logger.log('Delete to /transactions/categories | deleteCategory');
-    await this.categoryService.remove(id);
-    return res.status(HttpStatus.OK).send();
-  }
-
   @Delete()
   @ApiOperation({ title: 'Remove transaction from database' })
   @ApiResponse({ status: 200, description: 'Transaction removed.' })

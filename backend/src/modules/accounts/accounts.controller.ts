@@ -16,13 +16,11 @@ import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
 import { Response } from 'express';
-import { AccountQueryService } from './service/account-query.service';
 
 @Controller('api/accounts')
 export class AccountsController {
   constructor(
     private readonly accountsService: AccountsService,
-    private readonly queryService: AccountQueryService,
     private readonly logger: Logger,
   ) {}
 
@@ -56,7 +54,7 @@ export class AccountsController {
   })
   @ApiResponse({ status: 200, description: 'Accounts  response' })
   @ApiResponse({ status: 500, description: 'Server error.' })
-  getAccounts(@Query() query): Promise<Accounts[]> {
+  getAccounts(): Promise<Accounts[]> {
     return this.accountsService.findAccounts();
   }
 }

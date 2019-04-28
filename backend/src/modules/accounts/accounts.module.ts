@@ -4,7 +4,6 @@ import { AccountsController } from './accounts.controller';
 import { AccountsService } from './service/accounts.service';
 import { AccountsSchema } from './schemas/accounts.schema';
 import { LoggerModule } from '../logger/logger.module';
-import { AccountQueryService } from './service/account-query.service';
 
 @Module({
   imports: [
@@ -12,6 +11,6 @@ import { AccountQueryService } from './service/account-query.service';
     LoggerModule,
   ],
   controllers: [AccountsController],
-  providers: [AccountsService, AccountQueryService],
+  providers: [AccountsService],
 })
 export class AccountsModule {}

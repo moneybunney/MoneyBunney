@@ -1,11 +1,8 @@
 import { Collapse, List, Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import {
-  IAccount,
-  ICategory,
-  ITransaction
-} from "../../Models/TransactionModel";
+import { IAccount } from "../../Models/AccountModel";
+import { ICategory, ITransaction } from "../../Models/TransactionModel";
 import TransactionListItem from "./TransactionListItem";
 import TransactionListLoadingItem from "./TransactionListLoadingItem";
 

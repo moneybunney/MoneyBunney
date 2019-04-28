@@ -1,12 +1,9 @@
 import { Paper, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
+import { IAccount } from "../../Models/AccountModel";
 import { IFilters } from "../../Models/TransactionFilterModel";
-import {
-  IAccount,
-  ICategory,
-  ITransaction
-} from "../../Models/TransactionModel";
+import { ICategory, ITransaction } from "../../Models/TransactionModel";
 import { getTransactionListChunk } from "../../Utilities/Api";
 import TransactionList from "./TransactionList";
 

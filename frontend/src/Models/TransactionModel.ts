@@ -34,8 +34,3 @@ export interface ICategory {
   id: number;
   text: string;
 }
-
-export interface IAccount {
-  id: number;
-  name: string;
-}

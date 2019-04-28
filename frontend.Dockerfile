@@ -2,6 +2,8 @@ FROM node:latest
 
 ARG port
 
+COPY .env .env
+
 WORKDIR /usr/src
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY ./frontend/package*.json ./frontend/

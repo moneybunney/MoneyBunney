@@ -40,21 +40,16 @@ services:
     command:
       - npm
       - run
-      - start
-    # command:
-    #   - npm
-    #   - run
-    #   - start:prod
-    #   - --
-    #   - -l
-    #   - ${REACT_APP_PORT}
-    #   - build
+      - start:prod
+      - --
+      - -l
+      - ${REACT_APP_PORT}
+      - build
     ports:
       - "${REACT_APP_PORT}:${REACT_APP_PORT}"
     environment:
-      - BACKEND_HOST=${BACKEND_HOST}
-      - BACKEND_PORT=${BACKEND_PORT}
-      - TEST=test
+      - REACT_APP_BACKEND_HOST=${BACKEND_HOST}
+      - REACT_APP_BACKEND_PORT=${BACKEND_PORT}
     depends_on:
       - "backend"
 

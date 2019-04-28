@@ -4,6 +4,8 @@ WORKDIR /usr/src
 
 ARG port
 
+COPY .env .env
+
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY backend/package*.json ./backend/
 

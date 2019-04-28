@@ -1,8 +1,9 @@
-const { BACKEND_HOST, BACKEND_PORT } = process.env;
+const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
-console.log("Env:" + JSON.stringify(process.env));
-
-if (BACKEND_HOST === undefined || BACKEND_PORT === undefined) {
+if (
+  REACT_APP_BACKEND_HOST === undefined ||
+  REACT_APP_BACKEND_PORT === undefined
+) {
   alert(
     "You are missing some environment variables. Have you copied the " +
       ".env.example file into .env? Have you perhaps missed some necessary " +
@@ -15,7 +16,7 @@ export const http = (
   init?: RequestInit,
   querryParams?: Map<string, string>
 ): Promise<Response> => {
-  const uri = `http://${BACKEND_HOST}:${BACKEND_PORT}${input}`;
+  const uri = `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}${input}`;
   const url = new URL(uri);
 
   if (querryParams) {

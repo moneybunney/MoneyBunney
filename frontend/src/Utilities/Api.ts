@@ -103,7 +103,7 @@ export const getTransactionListChunk = async (
 
 export const postAccount = async (data: IAccount) => {
   const DTO = {
-    Name: data.name.toString(),
+    Name: data.name,
     InitialBalance: Number(data.initialBalance)
   };
   const response = await post("/api/accounts", DTO);

@@ -47,15 +47,15 @@ export class CategoryService {
 
   async loadCategories(): Promise<any> {
     let categoryList: CategoryDto[] = [
-      { _id: '0', Name: 'Transport', Icon: 'PlaceholderIcon0' },
-      { _id: '1', Name: 'Food', Icon: 'PlaceholderIcon1' },
-      { _id: '2', Name: 'Entertainment', Icon: 'PlaceholderIcon2' },
-      { _id: '3', Name: 'Health', Icon: 'PlaceholderIcon3' },
-      { _id: '4', Name: 'Gifts', Icon: 'PlaceholderIcon4' },
-      { _id: '5', Name: 'Bills', Icon: 'PlaceholderIcon5' },
-      { _id: '6', Name: 'Travel', Icon: 'PlaceholderIcon6' },
-      { _id: '7', Name: 'Clothes', Icon: 'PlaceholderIcon7' },
-      { _id: '8', Name: 'Personal care', Icon: 'PlaceholderIcon8' },
+      { _id: '0', Name: 'Transport', Icon: 'mdi/car' },
+      { _id: '1', Name: 'Food', Icon: 'mdi/food' },
+      { _id: '2', Name: 'Entertainment', Icon: 'mdi/gamepad-variant' },
+      { _id: '3', Name: 'Health', Icon: 'mdi/hospital-building' },
+      { _id: '4', Name: 'Gifts', Icon: 'mdi/gift' },
+      { _id: '5', Name: 'Bills', Icon: 'mdi/clipboard-text' },
+      { _id: '6', Name: 'Travel', Icon: 'mdi/wallet-travel' },
+      { _id: '7', Name: 'Clothes', Icon: 'mdi/hanger' },
+      { _id: '8', Name: 'Personal care', Icon: 'mdi/dumbbell' },
     ];
 
     for (let category of categoryList) {

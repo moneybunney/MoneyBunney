@@ -41,7 +41,7 @@ export class TransactionsController {
     description: 'Transaction successfully received.',
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
-  @UsePipes(new ValidationPipe(new Logger()))
+  @UsePipes(new ValidationPipe(this.logger))
   async create(
     @Body() createTransactionDto: TransactionDTO,
     @Res() res: Response,

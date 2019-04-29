@@ -13,8 +13,11 @@ export class AccountsService {
     private readonly logger: Logger,
   ) {}
 
-  async create(AccountDto: AccountDTO): Promise<Accounts> {
-    const createdAccount = new this.accountModel(AccountDto);
+  async create(AccountDto: AccountDTO, UserId: string): Promise<Accounts> {
+    const createdAccount = new this.accountModel({
+      ...AccountDto,
+      UserId,
+    });
     return await createdAccount.save();
   }
 
@@ -30,7 +33,7 @@ export class AccountsService {
     }
   }
 
-  public async findAccounts(): Promise<Accounts[]> {
-    return await this.accountModel.find().exec();
+  async findAccounts(UserId: string): Promise<Accounts[]> {
+    return await this.accountModel.find({ UserId }).exec();
   }
 }

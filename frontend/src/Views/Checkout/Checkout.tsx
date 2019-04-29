@@ -48,10 +48,10 @@ const Checkout = (props: IProps) => {
   );
 
   const [transaction, setTransaction] = React.useState(
-    createEmptyTransaction()
+    createEmptyTransaction({})
   );
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
 
   const onFieldChange = (field: string, value: any) => {
@@ -78,7 +78,14 @@ const Checkout = (props: IProps) => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);
   useEffect(() => {
     (async () => {
-      setAccounts(await getAccounts());
+      const fetchedAccounts = await getAccounts();
+      setAccounts(fetchedAccounts);
+      setLoading(false);
+      if (fetchedAccounts.length > 0) {
+        setTransaction(
+          createEmptyTransaction({ account: fetchedAccounts[0].id })
+        );
+      }
     })();
   }, []);
 

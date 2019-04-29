@@ -5,6 +5,12 @@ import { Accounts } from '../interfaces/accounts.interface';
 import { AccountDTO } from '../dto/account.dto';
 import { Logger } from '../../logger/logger.service';
 
+interface IAccountDTO {
+  Name: string;
+  InitialBalance: number;
+  _id: string;
+}
+
 @Injectable()
 export class AccountsService {
   constructor(
@@ -33,10 +39,14 @@ export class AccountsService {
     }
   }
 
-  async findAccounts(UserId: string): Promise<AccountDTO[]> {
+  async findAccounts(UserId: string): Promise<IAccountDTO[]> {
     const accounts = await this.accountModel.find({ UserId }).exec();
     return accounts.map(account => {
-      return { Name: account.Name, InitialBalance: account.InitialBalance };
+      return {
+        Name: account.Name,
+        InitialBalance: account.InitialBalance,
+        _id: account._id,
+      };
     });
   }
 }

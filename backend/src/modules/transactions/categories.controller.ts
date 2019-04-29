@@ -32,7 +32,7 @@ export class CategoriesController {
     description: 'Category successfully received.',
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
-  @UsePipes(new ValidationPipe(new Logger()))
+  @UsePipes(new ValidationPipe(this.logger))
   async createCategory(
     @Body() createCategoryDto: CategoryDto,
     @Res() res: Response,

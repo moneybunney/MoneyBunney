@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useApi from "../../Hooks/useApi";
 import { IComposedChart } from "../../Models/ComposedChartModel";
 import {
   getExpenseByDateRange,
@@ -32,56 +33,52 @@ const generateDates = (count: number) => {
   return dates.reverse();
 };
 
-const CashFlowChart = ({ numberOfMonths }: IProps) => {
-  const [data, setData] = useState<IComposedChart[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const dates = generateDates(numberOfMonths);
-    const fetchData = async () => {
-      const result = await Promise.all(
-        dates.map(async date => {
-          const fromDate = `${date.year}-${date.month}-01`;
-          const toDate =
-            date.month === 12
-              ? `${date.year + 1}-01-01`
-              : `${date.year}-${date.month + 1}-01`;
-          const incomeResponse = await getIncomeByDateRange(
-            new Date(fromDate),
-            new Date(toDate)
-          );
-          let sum = 0;
-          const positiveValues = incomeResponse.map(resp => {
-            sum += resp.Sum;
-            return {
-              name: resp.Key,
-              value: resp.Sum
-            };
-          });
-          const expenseResponse = await getExpenseByDateRange(
-            new Date(fromDate),
-            new Date(toDate)
-          );
-          const negativeValues = expenseResponse.map(resp => {
-            sum += resp.Sum;
-            return {
-              name: resp.Key,
-              value: resp.Sum
-            };
-          });
+const fetchChartData = async (numberOfMonths: number) => {
+  const dates = generateDates(numberOfMonths);
+  return Promise.all(
+    dates.map(
+      async (date): Promise<IComposedChart> => {
+        const fromDate = `${date.year}-${date.month}-01`;
+        const toDate =
+          date.month === 12
+            ? `${date.year + 1}-01-01`
+            : `${date.year}-${date.month + 1}-01`;
+        const incomeResponse = await getIncomeByDateRange(
+          new Date(fromDate),
+          new Date(toDate)
+        );
+        let sum = 0;
+        const positiveValues = incomeResponse.map(resp => {
+          sum += resp.Sum;
           return {
-            key: `${date.year}-${date.month}`,
-            positiveValues,
-            negativeValues,
-            lineValue: sum
+            name: resp.Key,
+            value: resp.Sum
           };
-        })
-      );
-      setData(result);
-      setLoading(false);
-    };
+        });
+        const expenseResponse = await getExpenseByDateRange(
+          new Date(fromDate),
+          new Date(toDate)
+        );
+        const negativeValues = expenseResponse.map(resp => {
+          sum += resp.Sum;
+          return {
+            name: resp.Key,
+            value: resp.Sum
+          };
+        });
+        return {
+          key: `${date.year}-${date.month}`,
+          positiveValues,
+          negativeValues,
+          lineValue: sum
+        };
+      }
+    )
+  );
+};
 
-    fetchData();
-  }, []);
+const CashFlowChart = ({ numberOfMonths }: IProps) => {
+  const { data, loading } = useApi(fetchChartData, [], numberOfMonths);
 
   return (
     <ComposedChart

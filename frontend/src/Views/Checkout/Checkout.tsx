@@ -1,12 +1,12 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useEffect, useState } from "react";
-import { IAccount } from "../../Models/AccountModel";
+import React, { useState } from "react";
+import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
-import { getAccounts, postTransaction } from "../../Utilities/Api";
+import { postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,22 +36,13 @@ interface IProps {
   onSubmit?: (transaction: ITransaction) => void;
 }
 
-export interface ICategory {
-  id: number;
-  text: string;
-}
-
 const Checkout = (props: IProps) => {
-  // fetch these from the api aswell
-  const categories = ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
+  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
 
-  const [transaction, setTransaction] = React.useState(
-    createEmptyTransaction()
-  );
+  const [transaction, setTransaction] = useState(createEmptyTransaction());
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
   const onFieldChange = (field: string, value: any) => {
@@ -74,13 +65,6 @@ const Checkout = (props: IProps) => {
         alert("Success!");
       });
   };
-
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
-  useEffect(() => {
-    (async () => {
-      setAccounts(await getAccounts());
-    })();
-  }, []);
 
   return (
     <React.Fragment>

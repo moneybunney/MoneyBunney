@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Fab, Paper, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
-import { IAccount } from "../../Models/AccountModel";
+import { useAccounts } from "../../Hooks/useApi";
 import { AccountsCreateLocation } from "../../routes.constants";
-import { getAccounts } from "../../Utilities/Api";
 import AccountList from "./AccountList";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -34,17 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Accounts = () => {
   const { history } = useReactRouter();
   const classes = useStyles();
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setAccounts(await getAccounts());
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
+  const { data: accounts, loading } = useAccounts();
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();

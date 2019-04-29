@@ -33,7 +33,10 @@ export class AccountsService {
     }
   }
 
-  async findAccounts(UserId: string): Promise<Accounts[]> {
-    return await this.accountModel.find({ UserId }).exec();
+  async findAccounts(UserId: string): Promise<AccountDTO[]> {
+    const accounts = await this.accountModel.find({ UserId }).exec();
+    return accounts.map(account => {
+      return { Name: account.Name, InitialBalance: account.InitialBalance };
+    });
   }
 }

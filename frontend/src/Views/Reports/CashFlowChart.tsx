@@ -22,6 +22,7 @@ interface IParams {
   numberOfMonths: number;
   accounts: any;
 }
+
 const generateDates = (count: number) => {
   const dates: IDate[] = [];
   let year = new Date().getFullYear();
@@ -41,7 +42,15 @@ const generateDates = (count: number) => {
 
 const fetchChartData = async ({ numberOfMonths, accounts }: IParams) => {
   const dates = generateDates(numberOfMonths);
-  const result = await Promise.all(
+  const accountNameReducer = (reduced: IChart[], value: IChart) => {
+    const accountName = getAccountName(value.name, accounts.data);
+    if (accountName !== "") {
+      reduced.push({ name: accountName, value: value.value });
+    }
+    return reduced;
+  };
+
+  return Promise.all(
     dates.map(
       async (date): Promise<IComposedChart> => {
         const fromDate = `${date.year}-${date.month}-01`;
@@ -54,24 +63,28 @@ const fetchChartData = async ({ numberOfMonths, accounts }: IParams) => {
           new Date(toDate)
         );
         let sum = 0;
-        const positiveValues = incomeResponse.map(resp => {
-          sum += resp.Sum;
-          return {
-            name: resp.Key,
-            value: resp.Sum
-          };
-        });
+        const positiveValues = incomeResponse
+          .map(resp => {
+            sum += resp.Sum;
+            return {
+              name: resp.Key,
+              value: resp.Sum
+            };
+          })
+          .reduce(accountNameReducer, []);
         const expenseResponse = await getExpenseByDateRange(
           new Date(fromDate),
           new Date(toDate)
         );
-        const negativeValues = expenseResponse.map(resp => {
-          sum += resp.Sum;
-          return {
-            name: resp.Key,
-            value: resp.Sum
-          };
-        });
+        const negativeValues = expenseResponse
+          .map(resp => {
+            sum += resp.Sum;
+            return {
+              name: resp.Key,
+              value: resp.Sum
+            };
+          })
+          .reduce(accountNameReducer, []);
         return {
           key: `${date.year}-${date.month}`,
           positiveValues,
@@ -81,29 +94,6 @@ const fetchChartData = async ({ numberOfMonths, accounts }: IParams) => {
       }
     )
   );
-  result.map(element => {
-    element.positiveValues = element.positiveValues.reduce(
-      (reduced: IChart[], value) => {
-        const accountName = getAccountName(value.name, accounts.data);
-        if (accountName !== "") {
-          reduced.push({ name: accountName, value: value.value });
-        }
-        return reduced;
-      },
-      []
-    );
-    element.negativeValues = element.negativeValues.reduce(
-      (reduced: IChart[], value) => {
-        const accountName = getAccountName(value.name, accounts.data);
-        if (accountName !== "") {
-          reduced.push({ name: accountName, value: value.value });
-        }
-        return reduced;
-      },
-      []
-    );
-  });
-  return result;
 };
 
 const CashFlowChart = ({ numberOfMonths }: IProps) => {

@@ -1,5 +1,7 @@
 import React from "react";
-import useApi from "../../Hooks/useApi";
+import useApi, { useAccounts } from "../../Hooks/useApi";
+import { getAccountName } from "../../Models/AccountModel";
+import { IChart } from "../../Models/ChartModel";
 import { IComposedChart } from "../../Models/ComposedChartModel";
 import {
   getExpenseByDateRange,
@@ -16,6 +18,10 @@ interface IProps {
   numberOfMonths: number;
 }
 
+interface IParams {
+  numberOfMonths: number;
+  accounts: any;
+}
 const generateDates = (count: number) => {
   const dates: IDate[] = [];
   let year = new Date().getFullYear();
@@ -33,9 +39,9 @@ const generateDates = (count: number) => {
   return dates.reverse();
 };
 
-const fetchChartData = async (numberOfMonths: number) => {
+const fetchChartData = async ({ numberOfMonths, accounts }: IParams) => {
   const dates = generateDates(numberOfMonths);
-  return Promise.all(
+  const result = await Promise.all(
     dates.map(
       async (date): Promise<IComposedChart> => {
         const fromDate = `${date.year}-${date.month}-01`;
@@ -75,10 +81,37 @@ const fetchChartData = async (numberOfMonths: number) => {
       }
     )
   );
+  result.map(element => {
+    element.positiveValues = element.positiveValues.reduce(
+      (reduced: IChart[], value) => {
+        const accountName = getAccountName(value.name, accounts.data);
+        if (accountName !== "") {
+          reduced.push({ name: accountName, value: value.value });
+        }
+        return reduced;
+      },
+      []
+    );
+    element.negativeValues = element.negativeValues.reduce(
+      (reduced: IChart[], value) => {
+        const accountName = getAccountName(value.name, accounts.data);
+        if (accountName !== "") {
+          reduced.push({ name: accountName, value: value.value });
+        }
+        return reduced;
+      },
+      []
+    );
+  });
+  return result;
 };
 
 const CashFlowChart = ({ numberOfMonths }: IProps) => {
-  const { data, loading } = useApi(fetchChartData, [], numberOfMonths);
+  const accounts = useAccounts();
+  const { data, loading } = useApi(fetchChartData, [], {
+    numberOfMonths,
+    accounts
+  });
 
   return (
     <ComposedChart

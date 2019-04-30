@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { DispatchError } from './common/filters/DispatchError';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const { BACKEND_PORT } = process.env;
+const { BACKEND_HOST, BACKEND_PORT } = process.env;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // Basic error management
@@ -20,7 +20,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/index', app, document);
 
   // tslint:disable-next-line:no-console
-  console.log('Listening on http://localhost:' + BACKEND_PORT);
+  console.log('Listening on http://'+ BACKEND_HOST+ ':' + BACKEND_PORT);
   await app.listen(BACKEND_PORT);
 }
 bootstrap();

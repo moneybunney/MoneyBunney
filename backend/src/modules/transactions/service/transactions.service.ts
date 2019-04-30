@@ -6,6 +6,7 @@ import { TransactionDTO } from '../dto/transaction.dto';
 import { AppErrorTypeEnum } from '../../../common/error/AppErrorTypeEnum';
 import { AppError } from '../../../common/error/AppError';
 import { Logger } from '../../logger/logger.service';
+import { Categories } from '../interfaces/category.interface';
 
 @Injectable()
 export class TransactionsService {
@@ -49,6 +50,7 @@ export class TransactionsService {
         .where('Date')
         .lt(date)
         .limit(Number(amount))
+        .populate('Category')
         .exec();
     } catch (e) {
       this.logger.log(e.toString());

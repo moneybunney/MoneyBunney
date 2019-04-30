@@ -49,7 +49,7 @@ export class TransactionsController {
     let category = await this.categoryService.find(
       createTransactionDto.Category,
     );
-    createTransactionDto.Category = category;
+    if (category == null) return res.status(400).send('Category not found!');
     this.transactionsService.create(createTransactionDto);
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);

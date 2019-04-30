@@ -6,7 +6,6 @@ import { TransactionDTO } from '../dto/transaction.dto';
 import { AppErrorTypeEnum } from '../../../common/error/AppErrorTypeEnum';
 import { AppError } from '../../../common/error/AppError';
 import { Logger } from '../../logger/logger.service';
-import { Categories } from '../interfaces/category.interface';
 
 @Injectable()
 export class TransactionsService {
@@ -35,7 +34,10 @@ export class TransactionsService {
 
   async findById(id: string): Promise<Transactions> {
     try {
-      return await this.transactionModel.findById(id).exec();
+      return await this.transactionModel
+        .findById(id)
+        .populate('Category')
+        .exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new BadRequestException('Requested transaction was not found!');

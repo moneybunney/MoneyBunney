@@ -10,8 +10,6 @@ const useApi = <S, A extends any[]>(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  console.log(args);
-
   useEffect(() => {
     (async () => {
       try {

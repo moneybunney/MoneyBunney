@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 import { getAccounts, getCategories, getTags } from "../Utilities/Api";
 
-const useApi = <S>(
-  apiMethod: (params?: any) => Promise<S>,
+const useApi = <S, A extends any[]>(
+  apiMethod: (...args: A) => Promise<S>,
   initialState: S,
-  params?: any
+  ...args: A
 ) => {
   const [data, setData] = useState<S>(initialState);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(
-    () => {
-      (async () => {
-        try {
-          const apiData = await apiMethod(params);
-          setData(apiData);
-        } catch (error) {
-          setError(`${(error && error.message) || error || "Error"}`);
-        }
-        setLoading(false);
-      })();
-    },
-    params !== undefined ? [params] : []
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        const apiData = await apiMethod(...args);
+        setData(apiData);
+      } catch (error) {
+        setError(`${(error && error.message) || error || "Error"}`);
+      }
+      setLoading(false);
+    })();
+  }, args);
 
   return {
     data,

@@ -1,5 +1,6 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { IAccount } from "../../Models/AccountModel";
@@ -7,9 +8,9 @@ import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
+import { TransactionsLocation } from "../../routes.constants";
 import { getAccounts, postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
-import { TransactionsLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -57,6 +58,8 @@ const Checkout = (props: IProps) => {
   const [loading, setLoading] = React.useState(false);
   const classes = useStyles();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onFieldChange = (field: string, value: any) => {
     const clone = { ...transaction } as any;
     clone[field] = value;
@@ -74,6 +77,9 @@ const Checkout = (props: IProps) => {
       })
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Successfully created transaction!", {
+          variant: "success"
+        });
         history.replace(TransactionsLocation);
       });
   };

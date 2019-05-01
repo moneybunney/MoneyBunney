@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -54,13 +55,15 @@ const HomeRoutes = () => {
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <GuestRoute path={LoginLocation} Component={Login} />
-        <GuestRoute path={RegisterLocation} Component={Register} />
-        <UserRoute path="/" Component={HomeRoutes} />
-      </Switch>
-    </Router>
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Switch>
+          <GuestRoute path={LoginLocation} Component={Login} />
+          <GuestRoute path={RegisterLocation} Component={Register} />
+          <UserRoute path="/" Component={HomeRoutes} />
+        </Switch>
+      </Router>
+    </SnackbarProvider>
   );
 };
 

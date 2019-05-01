@@ -1,16 +1,13 @@
 import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { IAccount } from "../../Models/AccountModel";
-import { ICategory } from "../../Models/TransactionModel";
-
+import { useAccounts, useCategories, useTags } from "../../Hooks/useApi";
 import {
   emptyFilterObject,
   IFilterItems,
   IFilters
 } from "../../Models/TransactionFilterModel";
-import { getAccounts } from "../../Utilities/Api";
 import CreateTransactionButton from "./CreateTransactionButton";
 import TransactionFilter from "./TransactionFilter";
 import TransactionListContainer from "./TransactionListContainer";
@@ -28,16 +25,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const hardcodedCategories = ["Beer", "Wine", "Other"].map(
-  (item, index): ICategory => ({ id: index, text: item })
-);
-
 const TransactionView = () => {
   const classes = useStyles();
 
   const [filters, setFilters] = useState<IFilters>(emptyFilterObject);
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
+  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
+  const { data: tags } = useTags();
 
   const filterItems: IFilterItems = {
     accounts: accounts.map(({ id, name }) => ({
@@ -52,18 +46,11 @@ const TransactionView = () => {
       key: item,
       value: item
     })),
-    tags: ["foo", "bar", "baz", "bez", "booze", "bamboozle"].map(item => ({
+    tags: tags.map(item => ({
       key: item,
       value: item
     }))
   };
-
-  useEffect(() => {
-    (async () => {
-      setAccounts(await getAccounts());
-      setCategories(hardcodedCategories);
-    })();
-  }, []);
 
   return (
     <>

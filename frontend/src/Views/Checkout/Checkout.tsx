@@ -1,15 +1,15 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useReactRouter from "use-react-router";
-import { IAccount } from "../../Models/AccountModel";
+import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
-import { getAccounts, postTransaction } from "../../Utilities/Api";
-import TransactionForm from "./TransactionForm";
 import { TransactionsLocation } from "../../routes.constants";
+import { postTransaction } from "../../Utilities/Api";
+import TransactionForm from "./TransactionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -38,23 +38,14 @@ interface IProps {
   onSubmit?: (transaction: ITransaction) => void;
 }
 
-export interface ICategory {
-  id: number;
-  text: string;
-}
-
 const Checkout = (props: IProps) => {
+  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
   const { history } = useReactRouter();
-  // fetch these from the api aswell
-  const categories = ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
 
-  const [transaction, setTransaction] = React.useState(
-    createEmptyTransaction()
-  );
+  const [transaction, setTransaction] = useState(createEmptyTransaction());
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
   const onFieldChange = (field: string, value: any) => {
@@ -77,13 +68,6 @@ const Checkout = (props: IProps) => {
         history.replace(TransactionsLocation);
       });
   };
-
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
-  useEffect(() => {
-    (async () => {
-      setAccounts(await getAccounts());
-    })();
-  }, []);
 
   return (
     <React.Fragment>

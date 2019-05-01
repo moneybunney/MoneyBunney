@@ -60,4 +60,10 @@ export class UserService implements IUserService {
       throw new AppError(AppErrorTypeEnum.AUTHENTICATION_FAILED);
     }
   }
+
+  public async getIdByToken(token: string): Promise<string> {
+    const userEmail = JSON.parse(Buffer.from(token, 'base64').toString()).email;
+    const user = await this.findByEmail(userEmail);
+    return user.id;
+  }
 }

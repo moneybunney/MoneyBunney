@@ -18,9 +18,9 @@ services:
       dockerfile: backend.Dockerfile
       context: ./
       args:
-        port: ${BACKEND_PORT}
+        port: ${REACT_APP_BACKEND_PORT}
     ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "${REACT_APP_BACKEND_PORT}:${REACT_APP_BACKEND_PORT}"
     depends_on:
       - "db"
     environment:
@@ -48,8 +48,8 @@ services:
     ports:
       - "${REACT_APP_PORT}:${REACT_APP_PORT}"
     environment:
-      - REACT_APP_BACKEND_HOST=${BACKEND_HOST}
-      - REACT_APP_BACKEND_PORT=${BACKEND_PORT}
+      - REACT_APP_BACKEND_HOST=${REACT_APP_BACKEND_HOST}
+      - REACT_APP_BACKEND_PORT=${REACT_APP_BACKEND_PORT}
     depends_on:
       - "backend"
 

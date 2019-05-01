@@ -32,6 +32,7 @@
     "apollo-server-express": "^2.4.2",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
+    "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
     "express-session": "^1.15.6",
     "graphql": "^14.1.1",

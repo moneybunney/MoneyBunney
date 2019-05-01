@@ -18,8 +18,8 @@ describe('WhereSelector', () => {
   it("should call 'where' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Relationship: 'eq',
         Value: '10',
       },
@@ -29,7 +29,26 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.where).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
+    );
+    expect(ret).toEqual(transactionsQueryMock);
+  });
+
+  it("should call 'in' with the DTO values", async () => {
+    const selectorDTO: SelectorDTO = {
+      Name: 'where',
+      Key: 'Tags',
+      Payload: {
+        Relationship: 'lt',
+        Value: ['tag1', 'tag2'],
+      },
+    };
+
+    const selector = new WhereSelector<Transactions>();
+    const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
+    expect(transactionsQueryMock.lt).toBeCalledWith(
+      selectorDTO.Key,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -37,8 +56,8 @@ describe('WhereSelector', () => {
   it("should call 'lt' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Relationship: 'lt',
         Value: '10',
       },
@@ -48,7 +67,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.lt).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -56,8 +75,8 @@ describe('WhereSelector', () => {
   it("should call 'gte' with the DTO values", async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Relationship: 'gte',
         Value: '10',
       },
@@ -67,7 +86,7 @@ describe('WhereSelector', () => {
     const ret = selector.ApplySelectorDTO(selectorDTO, transactionsQueryMock);
     expect(transactionsQueryMock.gte).toBeCalledWith(
       selectorDTO.Key,
-      selectorDTO.Value.Value,
+      selectorDTO.Payload.Value,
     );
     expect(ret).toEqual(transactionsQueryMock);
   });
@@ -75,8 +94,8 @@ describe('WhereSelector', () => {
   it('should error with wrong operator ', async () => {
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Relationship: 'gtr',
         Value: '10',
       },
@@ -94,7 +113,7 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Value: {
+      Payload: {
         Relationship: 'eq',
         Value: '10',
       },
@@ -112,8 +131,8 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Value: '10',
       },
     };
@@ -130,8 +149,8 @@ describe('WhereSelector', () => {
     } as any;
     const selectorDTO: SelectorDTO = {
       Name: 'where',
-      Key: 'Price',
-      Value: {
+      Key: 'Amount',
+      Payload: {
         Value: { test: 'I love unit tests!' },
       },
     };

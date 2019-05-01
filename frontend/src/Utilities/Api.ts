@@ -1,6 +1,8 @@
 import { IAccount } from "../Models/AccountModel";
-import { ITransaction } from "../Models/TransactionModel";
-import { get, post } from "./Http";
+import { IFilters } from "../Models/TransactionFilterModel";
+import { ICategory, ITransaction } from "../Models/TransactionModel";
+import { AccountQuery } from "./AccountQuery/AccountQuery";
+import { post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -43,29 +45,105 @@ export const postTransaction = async (data: ITransaction) => {
   }
 };
 
-export const getTransactionListChunk = async (
-  startingDate: Date,
-  count: number
-) => {
-  return new TransactionQuery()
-    .sort("Date", -1)
-    .lt("Date", startingDate.toISOString())
-    .limit(count)
-    .execute();
+const applyFilters = (
+  initialQuery: TransactionQuery,
+  filters: IFilters
+): TransactionQuery => {
+  let query = initialQuery;
+
+  if (filters.accounts.length !== 0) {
+    query = query.in("Account", filters.accounts);
+  }
+
+  if (filters.categories.length !== 0) {
+    query = query.in("Category", filters.categories);
+  }
+
+  if (filters.tags.length !== 0) {
+    query = query.in("Tags", filters.tags);
+  }
+
+  if (filters.transactionTypes.length !== 0) {
+    if (
+      !(
+        filters.transactionTypes.includes("Expense") &&
+        filters.transactionTypes.includes("Income")
+      )
+    ) {
+      if (filters.transactionTypes.includes("Income")) {
+        query = query.gt("Amount", 0);
+      }
+
+      if (filters.transactionTypes.includes("Expense")) {
+        query = query.lt("Amount", 0);
+      }
+    }
+
+    // TODO: Support for Transfers
+  }
+
+  return query;
 };
 
-export const createAccount = async (
-  accountName: string,
-  initialBalance: number
+export const getTransactionListChunk = async (
+  startingDate: Date,
+  count: number,
+  filters: IFilters,
+  signal: AbortSignal
 ) => {
-  return "RESPONSE";
+  let query = new TransactionQuery(signal)
+    .sort("Date", -1)
+    .lt("Date", startingDate.toISOString())
+    .limit(count);
+
+  query = applyFilters(query, filters);
+
+  return query.execute();
+};
+
+export const postAccount = async (data: IAccount) => {
+  const DTO = {
+    Name: data.name,
+    InitialBalance: Number(data.initialBalance)
+  };
+  const response = await post("/api/accounts", DTO);
+  if (response.status === 201) {
+    return response.body;
+  } else {
+    throw new Error("Something went wrong");
+  }
 };
 
 export const getAccounts = async () => {
-  const accounts: IAccount[] = [
-    { id: 1, name: "Cash", initialBalance: 53.86 },
-    { id: 2, name: "Revolut", initialBalance: 2131.42 }
-  ];
+  return new AccountQuery().execute();
+};
 
-  return accounts;
+export const getExpenseByCategoryData = async () => {
+  return new TransactionQuery().lt("Amount", 0).sum("Category");
+};
+
+export const getExpenseByDateRange = async (from: Date, to: Date) => {
+  return new TransactionQuery()
+    .gte("Date", from)
+    .lt("Date", to)
+    .lt("Amount", 0)
+    .sum("Account");
+};
+
+export const getIncomeByDateRange = async (from: Date, to: Date) => {
+  return new TransactionQuery()
+    .gte("Date", from)
+    .lt("Date", to)
+    .gt("Amount", 0)
+    .sum("Account");
+};
+
+export const getCategories = async () => {
+  return ["Beer", "Wine", "Other"].map(
+    (item, index): ICategory => ({ id: index, text: item })
+  );
+};
+
+export const getTags = async () => {
+  return ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
 };

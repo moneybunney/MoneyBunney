@@ -14,7 +14,7 @@ export class IdSelector<T extends Document> extends Selector<T> {
     selectorDTO: SelectorDTO,
     currentQuery: DocumentQuery<T[], T, {}>,
   ): DocumentQuery<T[], T, {}> => {
-    return currentQuery.where('_id', selectorDTO.Value);
+    return currentQuery.where('_id', selectorDTO.Payload);
   };
 
   ValidateSelectorDTO = (selectorDTO: SelectorDTO): void => {
@@ -40,5 +40,5 @@ export class IdSelector<T extends Document> extends Selector<T> {
 
 class IdSelectorDTO {
   @IsString()
-  Value: string;
+  Payload: string;
 }

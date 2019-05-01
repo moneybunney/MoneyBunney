@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import * as fs from 'fs';
-import { Injectable } from '@nestjs/common';
 
 interface EnvConfig {
   NODE_ENV: string;
@@ -14,7 +13,6 @@ interface EnvConfig {
   REACT_APP_BACKEND_PORT: number;
 }
 
-@Injectable()
 export class ConfigService {
   private readonly envConfig: EnvConfig;
 

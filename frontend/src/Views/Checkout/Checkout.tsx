@@ -1,11 +1,13 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
+import useReactRouter from "use-react-router";
 import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
+import { TransactionsLocation } from "../../routes.constants";
 import { postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
 
@@ -39,6 +41,7 @@ interface IProps {
 const Checkout = (props: IProps) => {
   const { data: categories } = useCategories();
   const { data: accounts } = useAccounts();
+  const { history } = useReactRouter();
 
   const [transaction, setTransaction] = useState(createEmptyTransaction());
 
@@ -62,7 +65,7 @@ const Checkout = (props: IProps) => {
       })
       .then(() => {
         setLoading(false);
-        alert("Success!");
+        history.replace(TransactionsLocation);
       });
   };
 

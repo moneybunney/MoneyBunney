@@ -46,11 +46,8 @@ export class TransactionsController {
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);
     if ('Token' in req.cookies) {
-      const userEmail = JSON.parse(
-        Buffer.from(req.cookies.Token, 'base64').toString(),
-      ).email;
-      const user = await this.userService.findByEmail(userEmail);
-      this.transactionsService.create(createTransactionDto, user.id);
+      const userId = await this.userService.getIdByToken(req.cookies.Token);
+      this.transactionsService.create(createTransactionDto, userId);
       return res.status(HttpStatus.CREATED).send();
     }
     return res.status(HttpStatus.UNAUTHORIZED).send();
@@ -80,14 +77,11 @@ export class TransactionsController {
   ) {
     this.logger.log('POST to /api/transactions/query');
     if ('Token' in req.cookies) {
-      const userEmail = JSON.parse(
-        Buffer.from(req.cookies.Token, 'base64').toString(),
-      ).email;
-      const user = await this.userService.findByEmail(userEmail);
+      const userId = await this.userService.getIdByToken(req.cookies.Token);
       query.selectors.push({
         Name: 'where',
         Key: 'UserId',
-        Payload: { Relationship: 'eq', Value: user.id },
+        Payload: { Relationship: 'eq', Value: userId },
       });
       const transactions = await this.queryService.query(query);
       return res.status(HttpStatus.OK).send(transactions);

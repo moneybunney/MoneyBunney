@@ -60,7 +60,7 @@ const BasicComposedChart = ({
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="key" />
           <YAxis />
-          <Tooltip />
+          <Tooltip isAnimationActive={false} />
           <Legend />
           <ReferenceLine y={0} stroke="#000" />
           {data.length > 0 &&
@@ -87,7 +87,12 @@ const BasicComposedChart = ({
                 />
               );
             })}
-          <Line dataKey="lineValue" name={lineLabel} stroke="#FF7300" />
+          <Line
+            dataKey="lineValue"
+            name={lineLabel}
+            stroke="#FF7300"
+            isAnimationActive={false}
+          />
         </ComposedChart>
       )}
     </React.Fragment>

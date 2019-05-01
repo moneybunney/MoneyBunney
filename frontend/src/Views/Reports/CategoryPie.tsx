@@ -1,6 +1,7 @@
 import React from "react";
-import useApi from "../../Hooks/useApi";
+import useApi, { useCategories } from "../../Hooks/useApi";
 import { IChart } from "../../Models/ChartModel";
+import { getCategoryName } from "../../Models/TransactionModel";
 import { getExpenseByCategoryData } from "../../Utilities/Api";
 import PieChart from "./PieChart";
 
@@ -18,7 +19,21 @@ const fetchChartData = async () => {
 
 const CategoryPie = () => {
   const { data, loading } = useApi(fetchChartData, []);
-  return <PieChart data={data} loading={loading} />;
+  const { data: categories } = useCategories();
+
+  const categoryNameReducer = (reduced: IChart[], value: IChart) => {
+    const categoryName = getCategoryName(parseInt(value.name, 10), categories);
+    if (categoryName !== "" && value.value !== 0) {
+      reduced.push({
+        name: categoryName,
+        value: value.value
+      });
+    }
+    return reduced;
+  };
+
+  const dataWithCategories = data.reduce(categoryNameReducer, []);
+  return <PieChart data={dataWithCategories} loading={loading} />;
 };
 
 export default CategoryPie;

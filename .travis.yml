@@ -10,10 +10,10 @@ env:
     - DB_HOST=localhost
     - DB_PORT=27017
     - DB_NAME=moneybunney
-    - BACKEND_HOST=localhost
-    - BACKEND_PORT=8080
-    - REACT_APP_PORT=3010
+    - REACT_APP_BACKEND_HOST=localhost
+    - REACT_APP_BACKEND_PORT=8080
     - REACT_APP_HOST=localhost
+    - REACT_APP_PORT=3000
 
 install:
   - npm --prefix ./frontend install

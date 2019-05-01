@@ -1,6 +1,7 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
+import useReactRouter from "use-react-router";
 import { IAccount } from "../../Models/AccountModel";
 import {
   createEmptyTransaction,
@@ -8,6 +9,7 @@ import {
 } from "../../Models/TransactionModel";
 import { getAccounts, postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
+import { TransactionsLocation } from "../../routes.constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -42,6 +44,7 @@ export interface ICategory {
 }
 
 const Checkout = (props: IProps) => {
+  const { history } = useReactRouter();
   // fetch these from the api aswell
   const categories = ["Beer", "Wine", "Other"].map(
     (item, index): ICategory => ({ id: index, text: item })
@@ -71,7 +74,7 @@ const Checkout = (props: IProps) => {
       })
       .then(() => {
         setLoading(false);
-        alert("Success!");
+        history.replace(TransactionsLocation);
       });
   };
 

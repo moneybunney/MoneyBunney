@@ -9,7 +9,7 @@ import { QueryDTO } from '../../../../../shared/query.dto';
 
 interface IAccountDTO {
   Name: string;
-  InitialBalance: number;
+  Balance: number;
   _id: string;
 }
 
@@ -78,12 +78,17 @@ export class AccountsService {
   async findAccounts(UserId: string): Promise<IAccountDTO[]> {
     const accounts = await this.accountModel.find({ UserId }).exec();
 
-    console.log(await this.createAccountToTransactionBalanceMap(UserId));
+    const accountToBalanceMap = await this.createAccountToTransactionBalanceMap(
+      UserId,
+    );
 
     return accounts.map(account => {
       return {
         Name: account.Name,
-        InitialBalance: account.InitialBalance,
+        Balance:
+          (accountToBalanceMap[account._id]
+            ? accountToBalanceMap[account._id]
+            : 0) + account.InitialBalance,
         _id: account._id,
       };
     });

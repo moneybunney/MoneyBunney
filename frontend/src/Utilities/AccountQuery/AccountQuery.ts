@@ -16,11 +16,11 @@ export class AccountQuery {
       return dtoArray.map(
         (element): IAccount => {
           this.throwIfNotString(element.Name);
-          this.throwIfNotNumber(element.InitialBalance);
+          this.throwIfNotNumber(element.Balance);
 
           return {
             name: element.Name,
-            initialBalance: element.InitialBalance,
+            balance: element.Balance,
             id: element._id
           };
         }

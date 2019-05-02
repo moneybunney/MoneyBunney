@@ -25,7 +25,7 @@ const mockAccounts = ["Cash", "Wallet", "Revolut"].map(
   (item, index): IAccount => ({
     id: index.toString(),
     name: item,
-    initialBalance: 0
+    balance: 0
   })
 );
 

@@ -1,7 +1,7 @@
 export interface IAccount {
   id: string;
   name: string;
-  initialBalance: number;
+  balance: number;
 }
 
 export interface IAccountCreateDTO {

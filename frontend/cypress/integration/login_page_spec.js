@@ -4,9 +4,6 @@ describe("The Login Page", function() {
     cy.get('input[name="email"]').type("Nonexistent email");
     cy.get('input[name="password"]').type("password");
     cy.get('button[type="submit"]').click();
-
-    cy.wait(3000);
-
-    cy.url().should("include", "/login");
+    cy.url().should("not.include", "/dashboard");
   });
 });

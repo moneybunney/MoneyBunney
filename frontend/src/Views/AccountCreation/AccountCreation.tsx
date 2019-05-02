@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import useReactRouter from "use-react-router";
 
+import { IAccountCreateDTO } from "../../Models/AccountModel";
 import { AccountsLocation } from "../../routes.constants";
 import { postAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
-import { IAccount } from "../../Models/AccountModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -36,10 +36,12 @@ const AccountCreation = () => {
   const { history } = useReactRouter();
 
   const onSubmit = async (accountName: string, initialBalance: number) => {
-    // TODO: This should actually be some other type which doesn't have the id field
-    const account: IAccount = { id: "", name: accountName, initialBalance };
+    const accountDTO: IAccountCreateDTO = {
+      Name: accountName,
+      InitialBalance: Number(initialBalance)
+    };
     try {
-      await postAccount(account);
+      await postAccount(accountDTO);
     } catch (error) {
       // TODO: Error state in the form?
       console.error(error);

@@ -18,5 +18,6 @@ import { UserModule } from '../user/user.module';
   ],
   controllers: [TransactionsController],
   providers: [TransactionsService, TransactionQueryService, UserService],
+  exports: [TransactionQueryService],
 })
 export class TransactionsModule {}

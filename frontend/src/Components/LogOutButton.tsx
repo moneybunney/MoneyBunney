@@ -1,13 +1,16 @@
 import { Button } from "@material-ui/core";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import useReactRouter from "use-react-router";
+import { LoginLocation } from "../routes.constants";
 import { signOut } from "../Utilities/AuthenticationCookies";
 
-const LogOutButton = ({ history }: RouteComponentProps<any>) => {
+const LogOutButton = () => {
+  const { history } = useReactRouter();
+
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     signOut();
-    history.replace("/login");
+    history.replace(LoginLocation);
   };
 
   return (
@@ -17,4 +20,4 @@ const LogOutButton = ({ history }: RouteComponentProps<any>) => {
   );
 };
 
-export default withRouter(LogOutButton);
+export default LogOutButton;

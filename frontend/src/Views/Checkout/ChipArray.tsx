@@ -1,26 +1,20 @@
-import {
-  Chip,
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core";
+import { Chip, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      justifyContent: "center",
-      flexWrap: "wrap",
-      padding: theme.spacing.unit / 2
-    },
-    chip: {
-      margin: theme.spacing.unit / 2
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    padding: theme.spacing.unit / 2
+  },
+  chip: {
+    margin: theme.spacing.unit / 2
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   chips: string[];
   onRemove: (name: string) => void;
 }
@@ -30,7 +24,9 @@ interface IChipData {
   label: string;
 }
 
-const ChipsArray = ({ classes, chips, onRemove }: IProps) => {
+const ChipsArray = ({ chips, onRemove }: IProps) => {
+  const classes = useStyles();
+
   const chipData = chips.map((chip, id) => ({ key: id, label: chip }));
 
   const handleDelete = (data: IChipData) => () => {
@@ -53,4 +49,4 @@ const ChipsArray = ({ classes, chips, onRemove }: IProps) => {
   );
 };
 
-export default withStyles(styles)(ChipsArray);
+export default ChipsArray;

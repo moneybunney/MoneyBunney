@@ -4,7 +4,8 @@ export const TransactionsSchema = new mongoose.Schema({
   Date,
   Account: String,
   Category: String,
-  Price: Number,
+  Amount: Number,
   Description: String,
   Tags: [String],
+  UserId: String,
 });

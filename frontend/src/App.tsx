@@ -6,28 +6,62 @@ import {
   Switch
 } from "react-router-dom";
 
+import {
+  AccountsCreateLocation,
+  AccountsLocation,
+  DashboardLocation,
+  LoginLocation,
+  RegisterLocation,
+  ReportsLocation,
+  TransactionsCreateLocation,
+  TransactionsLocation
+} from "./routes.constants";
+
+import AccountCreation from "./Views/AccountCreation/AccountCreation";
+import Accounts from "./Views/Accounts/Accounts";
 import Checkout from "./Views/Checkout/Checkout";
-import HomePage from "./Views/Home/HomePage";
+import Dashboard from "./Views/Home/Dashboard";
 import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
-import TransactionListContainer from "./Views/TransactionList/TransactionListContainer";
+import Reports from "./Views/Reports/Reports";
+import TransactionView from "./Views/TransactionList/TransactionView";
 
+import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
 import GuestRoute from "./Components/routes/GuestRoute";
 import UserRoute from "./Components/routes/UserRoute";
+
+import withMaterialUiRoot from "./withMaterialUiRoot";
+
+const HomeRoutes = () => {
+  return (
+    <NavigationWrapper>
+      <Switch>
+        <Route
+          exact={true}
+          path={TransactionsLocation}
+          component={TransactionView}
+        />
+        <Route exact={true} path={AccountsLocation} component={Accounts} />
+        <Route path={AccountsCreateLocation} component={AccountCreation} />
+        <Route path={TransactionsCreateLocation} component={Checkout} />
+        <Route path={DashboardLocation} component={Dashboard} />
+        <Route path={ReportsLocation} component={Reports} />
+        <Redirect to={DashboardLocation} />
+      </Switch>
+    </NavigationWrapper>
+  );
+};
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <UserRoute exact={true} path="/" Component={HomePage} />
-        <GuestRoute path="/login" Component={Login} />
-        <GuestRoute path="/register" Component={Register} />
-        <UserRoute path="/checkout" Component={Checkout} />
-        <UserRoute path="/list" Component={TransactionListContainer} />
-        <Redirect to="/" />
+        <GuestRoute path={LoginLocation} Component={Login} />
+        <GuestRoute path={RegisterLocation} Component={Register} />
+        <UserRoute path="/" Component={HomeRoutes} />
       </Switch>
     </Router>
   );
 };
 
-export default App;
+export default withMaterialUiRoot(App);

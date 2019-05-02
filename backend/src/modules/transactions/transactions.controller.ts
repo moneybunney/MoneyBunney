@@ -4,24 +4,29 @@ import {
   Post,
   Delete,
   Body,
-  Param,
   Query,
   Res,
   UsePipes,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
-import { TransactionsService } from './transactions.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { TransactionsService } from './service/transactions.service';
+import { TransactionDTO } from './dto/transaction.dto';
 import { Transactions } from './interfaces/transactions.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
+import { QueryDTO } from '../../../../shared/query.dto';
+import { TransactionQueryService } from './service/transaction.query.service';
+import { UserService } from '../user/user.service';
 
 @Controller('api/transactions')
 export class TransactionsController {
   constructor(
     private readonly transactionsService: TransactionsService,
+    private readonly queryService: TransactionQueryService,
+    private readonly userService: UserService,
     private readonly logger: Logger,
   ) {}
 
@@ -32,21 +37,26 @@ export class TransactionsController {
     description: 'Transaction successfully received.',
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe(this.logger))
   async create(
-    @Body() createTransactionDto: CreateTransactionDto,
+    @Body() createTransactionDto: TransactionDTO,
     @Res() res: Response,
+    @Req() req: Request,
   ) {
     this.logger.log('Transaction received:');
     this.logger.log(createTransactionDto.Account);
-    this.transactionsService.create(createTransactionDto);
-    return res.status(HttpStatus.CREATED).send();
+    if ('Token' in req.cookies) {
+      const userId = await this.userService.getIdByToken(req.cookies.Token);
+      this.transactionsService.create(createTransactionDto, userId);
+      return res.status(HttpStatus.CREATED).send();
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
   @Delete()
   @ApiOperation({ title: 'Remove transaction from database' })
   @ApiResponse({ status: 200, description: 'Transaction removed.' })
-  @ApiResponse({ status: 404, description: 'Transaction not found.' })
+  @ApiResponse({ status: 200, description: 'Transaction not found.' })
   public async deleteTransaction(
     @Query('id') id: string,
     @Res() res: Response,
@@ -56,98 +66,40 @@ export class TransactionsController {
     return res.status(HttpStatus.OK).send();
   }
 
-  @Get('/id')
+  @Post('/query')
   @ApiOperation({ title: 'Find transaction by ID' })
-  @ApiResponse({ status: 200, description: 'Transaction found.' })
-  @ApiResponse({ status: 404, description: 'Transaction not found.' })
-  public async getTransaction(@Query('id') id: string, @Res() res: Response) {
-    this.logger.log('Get to /transactions | getTransaction');
-    const transactions: Transactions = await this.transactionsService.findById(
-      id,
-    );
-    return res.status(HttpStatus.OK).send(transactions);
-  }
-
-  @Get()
-  @ApiOperation({ title: 'Find all transactions' })
-  @ApiResponse({ status: 200, description: 'Transactions found.' })
-  @ApiResponse({ status: 404, description: 'No transactions found.' })
-  getAllTransactions(): Promise<Transactions[]> {
-    return this.transactionsService.findAll();
-  }
-
-  @Get('/income')
-  @ApiOperation({ title: 'Find all income' })
-  @ApiResponse({ status: 200, description: 'Transactions found.' })
-  @ApiResponse({ status: 404, description: 'No transactions found.' })
-  getIncome(): Promise<Transactions[]> {
-    return this.transactionsService.findIncome();
-  }
-
-  @Get('/expenses')
-  @ApiOperation({ title: 'Find all expenses' })
-  @ApiResponse({ status: 200, description: 'Transactions found.' })
-  getExpenses(): Promise<Transactions[]> {
-    return this.transactionsService.findExpenses();
-  }
-
-  @Get('/account')
-  @ApiOperation({ title: 'Find all account transactions' })
-  @ApiResponse({ status: 200, description: 'Transactions found.' })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  @ApiResponse({ status: 404, description: 'No transactions found.' })
-  public async getAccountTransactions(
-    @Query('account') account: string,
-    @Query('date') date: string,
-    @Query('number') number: number,
+  @ApiResponse({ status: 200, description: 'Transaction response' })
+  @ApiResponse({ status: 500, description: 'Validation error' })
+  public async getTransactionByQuery(
+    @Body() query: QueryDTO,
     @Res() res: Response,
+    @Req() req: Request,
   ) {
-    this.logger.log('Get to /transactions | getAccountTransactions');
-    const transactions: Transactions[] = await this.transactionsService.findAccountTransactions(
-      account,
-      date,
-      number,
-    );
-    return res.status(HttpStatus.OK).send(transactions);
+    this.logger.log('POST to /api/transactions/query');
+    if ('Token' in req.cookies) {
+      const userId = await this.userService.getIdByToken(req.cookies.Token);
+      query.selectors.push({
+        Name: 'where',
+        Key: 'UserId',
+        Payload: { Relationship: 'eq', Value: userId },
+      });
+      const transactions = await this.queryService.query(query);
+      return res.status(HttpStatus.OK).send(transactions);
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
-  @Get('/account/expenses')
-  @ApiOperation({ title: 'Find all account expenses' })
-  @ApiResponse({ status: 200, description: 'Expenses found.' })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  @ApiResponse({ status: 404, description: 'No expenses found.' })
-  public async getAccountExpenses(
-    @Query('account') account: string,
+  @Get('/list')
+  @ApiOperation({
+    title:
+      'Find a requested number of transactions starting from the given date',
+  })
+  @ApiResponse({ status: 200, description: 'Transactions  response' })
+  @ApiResponse({ status: 500, description: 'Server error.' })
+  getTransactions(
     @Query('date') date: string,
-    @Query('number') number: number,
-    @Res() res: Response,
-  ) {
-    this.logger.log('Get to /transactions | getAccountExpenses');
-    const expenses: Transactions[] = await this.transactionsService.findAccountExpenses(
-      account,
-      date,
-      number,
-    );
-    return res.status(HttpStatus.OK).send(expenses);
-  }
-
-  @Get('/account/income')
-  @ApiOperation({ title: 'Find all account income' })
-  @ApiResponse({ status: 200, description: 'Income found.' })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  @ApiResponse({ status: 404, description: 'No income found.' })
-  public async getAccountIncome(
-    @Query('account') account: string,
-    @Query('date') date: string,
-    @Query('number') number: number,
-    @Res() res: Response,
-  ) {
-    this.logger.log('Get to /transactions | getAccountIncome');
-    const income: Transactions[] = await this.transactionsService.findAccountIncome(
-      account,
-      date,
-      number,
-    );
-    return res.status(HttpStatus.OK).send(income);
+    @Query('number') amount: number,
+  ): Promise<Transactions[]> {
+    return this.transactionsService.findTransactions(date, amount);
   }
 }

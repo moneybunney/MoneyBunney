@@ -1,41 +1,33 @@
-import {
-  Button,
-  createStyles,
-  Theme,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { Button, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-import { Route } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import FormField from "../../Components/FormField";
+import { LoginLocation } from "../../routes.constants";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    form: {
-      width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing.unit
-    },
-    buttonContainer: {
-      marginTop: theme.spacing.unit * 3,
-      display: "flex",
-      justifyContent: "space-between"
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 3,
+    display: "flex",
+    justifyContent: "space-between"
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   loading: boolean;
   emailError: boolean;
   onSubmit: (email: string, password: string) => void;
 }
 
-const RegistrationForm = ({
-  classes,
-  loading,
-  emailError,
-  onSubmit
-}: IProps) => {
+const RegistrationForm = ({ loading, emailError, onSubmit }: IProps) => {
+  const classes = useStyles();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
@@ -87,6 +79,11 @@ const RegistrationForm = ({
     }
   };
 
+  const { history } = useReactRouter();
+  const loginInsteadButtonOnClick = () => {
+    history.replace(LoginLocation);
+  };
+
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <FormField
@@ -111,6 +108,7 @@ const RegistrationForm = ({
         onChange={onPasswordChange}
         value={password}
         onBlur={checkIfPasswordsMatch}
+        autoComplete="new-password"
       />
       <FormField
         error={!passwordsMatch}
@@ -122,21 +120,16 @@ const RegistrationForm = ({
         value={passwordConfirmation}
         onBlur={checkIfPasswordsMatch}
         errorText="Passwords do not match"
+        autoComplete="new-password"
       />
       <div className={classes.buttonContainer}>
-        <Route
-          render={({ history }) => (
-            <Button
-              color="primary"
-              disabled={loading}
-              onClick={() => {
-                history.replace("/login");
-              }}
-            >
-              Log in instead
-            </Button>
-          )}
-        />
+        <Button
+          color="primary"
+          disabled={loading}
+          onClick={loginInsteadButtonOnClick}
+        >
+          Log in instead
+        </Button>
         <Button
           type="submit"
           variant="contained"
@@ -150,4 +143,4 @@ const RegistrationForm = ({
   );
 };
 
-export default withStyles(styles)(RegistrationForm);
+export default RegistrationForm;

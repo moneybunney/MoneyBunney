@@ -1,39 +1,34 @@
-import {
-  Button,
-  Checkbox,
-  createStyles,
-  FormControlLabel,
-  Theme,
-  WithStyles,
-  withStyles
-} from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-import { Route } from "react-router-dom";
+import useReactRouter from "use-react-router";
 
 import FormField from "../../Components/FormField";
+import { RegisterLocation } from "../../routes.constants";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    form: {
-      width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing.unit
-    },
-    buttonContainer: {
-      marginTop: theme.spacing.unit * 3,
-      display: "flex",
-      justifyContent: "space-between"
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 3,
+    display: "flex",
+    justifyContent: "space-between"
+  }
+}));
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   loading: boolean;
   error: boolean;
   onSubmit: (email: string, password: string) => void;
   setError: (error: boolean) => void;
 }
 
-const LoginForm = ({ classes, loading, error, onSubmit, setError }: IProps) => {
+const LoginForm = ({ loading, error, onSubmit, setError }: IProps) => {
+  const classes = useStyles();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -50,6 +45,11 @@ const LoginForm = ({ classes, loading, error, onSubmit, setError }: IProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(email, password);
+  };
+
+  const { history } = useReactRouter();
+  const registerButtonOnClick = () => {
+    history.replace(RegisterLocation);
   };
 
   return (
@@ -83,19 +83,13 @@ const LoginForm = ({ classes, loading, error, onSubmit, setError }: IProps) => {
         label="Remember me"
       />
       <div className={classes.buttonContainer}>
-        <Route
-          render={({ history }) => (
-            <Button
-              color="primary"
-              disabled={loading}
-              onClick={() => {
-                history.replace("/register");
-              }}
-            >
-              Register
-            </Button>
-          )}
-        />
+        <Button
+          color="primary"
+          disabled={loading}
+          onClick={registerButtonOnClick}
+        >
+          Register
+        </Button>
         <Button
           type="submit"
           variant="contained"
@@ -109,4 +103,4 @@ const LoginForm = ({ classes, loading, error, onSubmit, setError }: IProps) => {
   );
 };
 
-export default withStyles(styles)(LoginForm);
+export default LoginForm;

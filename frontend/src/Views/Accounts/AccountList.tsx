@@ -31,9 +31,9 @@ const AccountList = ({ accounts, loading }: IProps) => {
     <List className={classes.listRoot}>
       <Collapse in={!loading}>
         {loading && <CircularProgress size={40} />}
-        {accounts.map((account, i) => (
-          <React.Fragment>
-            <AccountListItem key={"account_" + i} account={account} />
+        {accounts.map(account => (
+          <React.Fragment key={account.id}>
+            <AccountListItem account={account} />
             <Divider />
           </React.Fragment>
         ))}

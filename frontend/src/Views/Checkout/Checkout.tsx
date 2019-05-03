@@ -73,11 +73,16 @@ const Checkout = (props: IProps) => {
     }
     postTransaction(currentTransaction)
       .catch(error => {
-        console.log(error);
+        enqueueSnackbar(
+          "An unspecified error occured when creating the transaction",
+          {
+            variant: "error"
+          }
+        );
       })
       .then(() => {
         setLoading(false);
-        enqueueSnackbar("Successfully created transaction!", {
+        enqueueSnackbar("Successfully created a transaction!", {
           variant: "success"
         });
         history.replace(TransactionsLocation);

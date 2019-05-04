@@ -44,30 +44,4 @@ export class CategoryService {
       throw new BadRequestException('Requested category was not found!');
     }
   }
-
-  async loadCategories(): Promise<any> {
-    let categoryList: CategoryDto[] = [
-      { _id: '0', Name: 'Transport', Icon: 'mdi/car' },
-      { _id: '1', Name: 'Food', Icon: 'mdi/food' },
-      { _id: '2', Name: 'Entertainment', Icon: 'mdi/gamepad-variant' },
-      { _id: '3', Name: 'Health', Icon: 'mdi/hospital-building' },
-      { _id: '4', Name: 'Gifts', Icon: 'mdi/gift' },
-      { _id: '5', Name: 'Bills', Icon: 'mdi/clipboard-text' },
-      { _id: '6', Name: 'Travel', Icon: 'mdi/wallet-travel' },
-      { _id: '7', Name: 'Clothes', Icon: 'mdi/hanger' },
-      { _id: '8', Name: 'Personal care', Icon: 'mdi/dumbbell' },
-    ];
-
-    for (let category of categoryList) {
-      try {
-        let temp = await this.find(category._id);
-        if (temp.Name != category.Name || temp.Icon != category.Icon) {
-          this.remove(category._id);
-          this.create(category);
-        }
-      } catch (e) {
-        this.create(category);
-      }
-    }
-  }
 }

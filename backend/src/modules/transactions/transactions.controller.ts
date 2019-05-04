@@ -30,9 +30,7 @@ export class TransactionsController {
     private readonly categoryService: CategoryService,
     private readonly queryService: TransactionQueryService,
     private readonly logger: Logger,
-  ) {
-    this.categoryService.loadCategories();
-  }
+  ) {}
 
   @Post()
   @ApiOperation({ title: 'Create Transaction' })

@@ -1,11 +1,13 @@
-var mongoose = require('mongoose');
-var Category = require('../modules/transactions/models/category.model');
+import { CategorySchema } from '../modules/transactions/schemas/category.schema';
+import * as mongoose from 'mongoose';
+
+const Category = mongoose.model('Category', CategorySchema);
 
 mongoose.connect('mongodb://localhost:27017/moneybunney', {
   useNewUrlParser: true,
 });
 
-var categories = [
+const categories = [
   new Category({
     Name: 'Transport',
     Icon: 'mdi/car',
@@ -58,8 +60,8 @@ var categories = [
   }),
 ];
 
-var done = 0;
-for (var i = 0; i < categories.length; i++) {
+let done = 0;
+for (let i = 0; i < categories.length; i++) {
   categories[i].save(function(err, result) {
     done++;
     if (done === categories.length) {

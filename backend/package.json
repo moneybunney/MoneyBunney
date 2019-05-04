@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:tslint": "tslint --fix --project tsconfig.json; prettier --write \"src/**/*.ts\"",
-    "seed": "node src/seeds/categories.js"
+    "seed": "ts-node src/seeds/categories.ts"
   },
   "dependencies": {
     "@nest-middlewares/cors": "^5.1.1",

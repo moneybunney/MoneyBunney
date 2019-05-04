@@ -4,7 +4,9 @@ describe("The Login Page", function() {
     cy.get('input[name="email"]').type("Nonexistent email");
     cy.get('input[name="password"]').type("password");
     cy.get('button[type="submit"]').click();
-    cy.reload();
-    cy.url().should("not.include", "/dashboard");
+    cy.get(".MuiFormHelperText-required-211").should(
+      "contain",
+      "Wrong password"
+    );
   });
 });

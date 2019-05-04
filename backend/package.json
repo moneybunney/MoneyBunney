@@ -40,7 +40,6 @@
     "joi": "^14.3.1",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.14",
-    "mongoose-data-seed": "^1.0.7",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "reflect-metadata": "^0.1.12",

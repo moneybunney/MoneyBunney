@@ -7,11 +7,18 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
+import DeleteItemButton from "../../Components/DeleteItemButton";
 import { ITransaction } from "../../Models/TransactionModel";
 import TransactionListItemPrice from "./TransactionListItemAmount";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 
-const useStyles = makeStyles((theme: Theme) => ({}));
+const useStyles = makeStyles((theme: Theme) => ({
+  secondary: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+}));
 
 interface IProps {
   transaction: ITransaction;
@@ -63,8 +70,12 @@ const TransactionListItem = ({
           iconId={categoryIcon !== "" ? categoryIcon : undefined}
         />
         <ListItemText primary={primaryText} secondary={dateString} />
-        <ListItemSecondaryAction>
+        <ListItemSecondaryAction className={classes.secondary}>
           <TransactionListItemPrice amount={parsedAmount} />
+          <DeleteItemButton
+            path="api/transactions"
+            params={new Map([["id", transaction.id]])}
+          />
         </ListItemSecondaryAction>
       </ListItem>
     </Collapse>

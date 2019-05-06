@@ -1,12 +1,14 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
-import { IAccount } from "../../Models/AccountModel";
+import useReactRouter from "use-react-router";
+import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
   createEmptyTransaction,
   ITransaction
 } from "../../Models/TransactionModel";
-import { getAccounts, postTransaction } from "../../Utilities/Api";
+import { TransactionsLocation } from "../../routes.constants";
+import { postTransaction } from "../../Utilities/Api";
 import TransactionForm from "./TransactionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,22 +38,18 @@ interface IProps {
   onSubmit?: (transaction: ITransaction) => void;
 }
 
-export interface ICategory {
-  id: number;
-  text: string;
-}
-
 const Checkout = (props: IProps) => {
-  // fetch these from the api aswell
-  const categories = ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
+  const { data: categories } = useCategories();
+  const {
+    data: accounts,
+    loading: accountsLoading,
+    error: accountsError
+  } = useAccounts();
+  const { history } = useReactRouter();
 
-  const [transaction, setTransaction] = React.useState(
-    createEmptyTransaction({})
-  );
+  const [transaction, setTransaction] = useState(createEmptyTransaction({}));
 
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
   const onFieldChange = (field: string, value: any) => {
@@ -71,23 +69,18 @@ const Checkout = (props: IProps) => {
       })
       .then(() => {
         setLoading(false);
-        alert("Success!");
+        history.replace(TransactionsLocation);
       });
   };
 
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
   useEffect(() => {
     (async () => {
-      const fetchedAccounts = await getAccounts();
-      setAccounts(fetchedAccounts);
       setLoading(false);
-      if (fetchedAccounts.length > 0) {
-        setTransaction(
-          createEmptyTransaction({ account: fetchedAccounts[0].id })
-        );
+      if (accounts.length > 0) {
+        setTransaction(createEmptyTransaction({ account: accounts[0].id }));
       }
     })();
-  }, []);
+  }, [accountsLoading]);
 
   return (
     <React.Fragment>

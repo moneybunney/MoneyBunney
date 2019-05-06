@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
-import { shallow, mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import React from "react";
 
 import { IAccount } from "../../../Models/AccountModel";
@@ -35,12 +35,18 @@ describe("<TransactionList />", () => {
     }
   ];
 
+  const theme = createMuiTheme({
+    typography: {
+      useNextVariants: true
+    }
+  });
+
   const requestMoreTransactions = jest.fn();
 
   it("Doesn't crash when rendering", () => {
     expect(() => {
       mount(
-        <ThemeProvider theme={createMuiTheme({})}>
+        <ThemeProvider theme={theme}>
           <TransactionList
             transactions={transactions}
             accounts={accounts}
@@ -57,7 +63,7 @@ describe("<TransactionList />", () => {
   it("Doesn't crash when accounts are not loaded", () => {
     expect(() => {
       mount(
-        <ThemeProvider theme={createMuiTheme({})}>
+        <ThemeProvider theme={theme}>
           <TransactionList
             transactions={transactions}
             accounts={[]}
@@ -74,7 +80,7 @@ describe("<TransactionList />", () => {
   it("Doesn't crash when categories are not loaded", () => {
     expect(() => {
       mount(
-        <ThemeProvider theme={createMuiTheme({})}>
+        <ThemeProvider theme={theme}>
           <TransactionList
             transactions={transactions}
             accounts={accounts}

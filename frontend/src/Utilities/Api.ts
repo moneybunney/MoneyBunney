@@ -1,6 +1,6 @@
 import { IAccount } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
-import { ITransaction } from "../Models/TransactionModel";
+import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
 import { post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
@@ -79,7 +79,7 @@ const applyFilters = (
       }
     }
 
-    //TODO: Support for Transfers
+    // TODO: Support for Transfers
   }
 
   return query;
@@ -136,4 +136,14 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
     .lt("Date", to)
     .gt("Amount", 0)
     .sum("Account");
+};
+
+export const getCategories = async () => {
+  return ["Beer", "Wine", "Other"].map(
+    (item, index): ICategory => ({ id: index, text: item })
+  );
+};
+
+export const getTags = async () => {
+  return ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
 };

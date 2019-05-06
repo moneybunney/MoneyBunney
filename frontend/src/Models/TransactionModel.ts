@@ -37,3 +37,8 @@ export interface ICategory {
   id: number;
   text: string;
 }
+
+export const getCategoryName = (id: number, categories: ICategory[]) => {
+  const categoriesWithId = categories.filter(category => category.id === id);
+  return categoriesWithId.length !== 0 ? categoriesWithId[0].text : "";
+};

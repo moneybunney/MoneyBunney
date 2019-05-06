@@ -17,8 +17,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import React, { ChangeEvent, SyntheticEvent } from "react";
 import { IAccount } from "../../Models/AccountModel";
-import { ITransaction } from "../../Models/TransactionModel";
-import { ICategory } from "./Checkout";
+import { ICategory, ITransaction } from "../../Models/TransactionModel";
 import TagPicker from "./TagPicker";
 
 const useStyles = makeStyles((theme: Theme) => ({

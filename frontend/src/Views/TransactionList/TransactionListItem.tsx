@@ -1,4 +1,10 @@
-import { Collapse, ListItem, ListItemText, Theme } from "@material-ui/core";
+import {
+  Collapse,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Theme
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
 import { ITransaction } from "../../Models/TransactionModel";
@@ -57,7 +63,9 @@ const TransactionListItem = ({
           iconId={categoryIcon !== "" ? categoryIcon : undefined}
         />
         <ListItemText primary={primaryText} secondary={dateString} />
-        <TransactionListItemPrice amount={parsedAmount} />
+        <ListItemSecondaryAction>
+          <TransactionListItemPrice amount={parsedAmount} />
+        </ListItemSecondaryAction>
       </ListItem>
     </Collapse>
   );

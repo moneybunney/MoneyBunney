@@ -113,4 +113,19 @@ export class TransactionsController {
   ): Promise<Transactions[]> {
     return this.transactionsService.findTransactions(date, amount);
   }
+
+  @Get('/tags')
+  @ApiOperation({
+    title: 'Get all tags',
+  })
+  @ApiResponse({ status: 200, description: 'List of all tags' })
+  @ApiResponse({ status: 500, description: 'Server error.' })
+  public async getTags(@Res() res: Response, @Req() req: Request) {
+    if ('Token' in req.cookies) {
+      const userId = await this.userService.getIdByToken(req.cookies.Token);
+      const tags = await this.transactionsService.findAllTags(userId);
+      return res.status(HttpStatus.OK).send(tags);
+    }
+    return res.status(HttpStatus.UNAUTHORIZED).send();
+  }
 }

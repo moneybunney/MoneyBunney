@@ -46,7 +46,7 @@ const categories = [
   }),
   new Category({
     Name: 'Other',
-    Icon: 'mdiCheckBoxOutlineBlank',
+    Icon: 'mdiBankTransfer',
   }),
 ];
 

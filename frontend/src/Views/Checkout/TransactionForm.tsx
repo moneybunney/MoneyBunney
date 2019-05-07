@@ -62,6 +62,7 @@ const TransactionForm = ({
   const classes = useStyles();
 
   const transactionAmount = Number(transaction.amount);
+  const [accountError, setAccountError] = React.useState(false);
   const [categoryError, setCategoryError] = React.useState(false);
   const [amountError, setAmountError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
@@ -112,6 +113,11 @@ const TransactionForm = ({
     if (fieldId === "category") {
       setCategoryError(false);
     }
+
+    if (fieldId === "account") {
+      setAccountError(false);
+    }
+
     onFieldChange(fieldId, e.target.value);
   };
 
@@ -123,7 +129,7 @@ const TransactionForm = ({
     // basic validation:
     let error = false;
     e.preventDefault();
-    if (transaction.category < 0) {
+    if (categories.filter(it => it.id === transaction.category).length === 0) {
       setCategoryError(true);
       error = true;
     } else {
@@ -134,6 +140,13 @@ const TransactionForm = ({
       error = true;
     } else {
       setAmountError(false);
+    }
+
+    if (accounts.filter(it => it.id === transaction.account).length === 0) {
+      setAccountError(true);
+      error = true;
+    } else {
+      setAccountError(false);
     }
 
     if (!error) {
@@ -238,7 +251,7 @@ const TransactionForm = ({
             </FormControl>
           </Grid>
           <Grid item={true} xs={12} sm={3}>
-            <FormControl fullWidth={true}>
+            <FormControl fullWidth={true} error={accountError}>
               <InputLabel htmlFor="account-helper">Account</InputLabel>
               <Select
                 fullWidth={true}
@@ -253,6 +266,9 @@ const TransactionForm = ({
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText className={accountError ? "" : classes.hidden}>
+                Please select a valid account
+              </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item={true} xs={12}>

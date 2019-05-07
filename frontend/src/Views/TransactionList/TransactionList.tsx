@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { IAccount } from "../../Models/AccountModel";
 import {
+  getCategoryIcon,
   getCategoryName,
   ICategory,
   ITransaction
@@ -82,6 +83,7 @@ const TransactionList = ({
           transaction={t}
           categoryText={getCategoryName(t.category, categories)}
           accountText={getAccountName(t)}
+          categoryIcon={getCategoryIcon(t.category, categories)}
         />
       ))}
       <Collapse in={loading}>

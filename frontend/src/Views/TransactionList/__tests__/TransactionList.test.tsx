@@ -15,14 +15,13 @@ import TransactionList from "../TransactionList";
 describe("<TransactionList />", () => {
   const transactions: ITransaction[] = [
     {
-      ...createEmptyTransaction(),
-      category: 0
+      ...createEmptyTransaction({ category: "0" })
     }
   ];
 
   const categories: ICategory[] = [
     {
-      id: 1,
+      id: "1",
       text: "foo"
     }
   ];

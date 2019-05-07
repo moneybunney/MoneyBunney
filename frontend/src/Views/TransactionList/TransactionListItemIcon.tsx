@@ -13,7 +13,7 @@ const iconMap = {
 };
 
 interface IProps {
-  iconId?: number;
+  iconId?: string;
 
   // measurements in pixels
   size?: number;
@@ -31,7 +31,7 @@ const TransactionListItemIcon = ({
   color,
   loading
 }: IProps) => {
-  const resolveIconPath = (id: number) => {
+  const resolveIconPath = (id: string) => {
     return (iconMap as any)[id];
   };
   // setting the defaults:
@@ -63,7 +63,7 @@ const TransactionListItemIcon = ({
     );
   };
 
-  const getItemIcon = (icId: number) => {
+  const getItemIcon = (icId: string) => {
     return (
       <Avatar style={avatarSizeStyle}>
         <Icon

@@ -32,7 +32,7 @@ export const postTransaction = async (data: ITransaction) => {
   const DTO = {
     Date: new Date(data.date).toISOString(),
     Account: data.account.toString(),
-    Category: data.category.toString(),
+    Category: data.category,
     Amount: Number(data.amount),
     Description: data.description,
     Tags: data.tags
@@ -140,7 +140,7 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
 
 export const getCategories = async () => {
   return ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
+    (item, index): ICategory => ({ id: index.toString(), text: item })
   );
 };
 

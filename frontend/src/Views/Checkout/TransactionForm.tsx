@@ -129,7 +129,7 @@ const TransactionForm = ({
     // basic validation:
     let error = false;
     e.preventDefault();
-    if (transaction.category < 0) {
+    if (categories.filter(it => it.id === transaction.category).length === 0) {
       setCategoryError(true);
       error = true;
     } else {

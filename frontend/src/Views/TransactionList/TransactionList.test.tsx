@@ -11,15 +11,15 @@ import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 
 const mockTransactions = [0, 1, 2].map(i => {
-  const transaction = createEmptyTransaction();
-  transaction.category = i;
+  const transaction = createEmptyTransaction({});
+  transaction.category = i.toString();
   return transaction;
 });
 
 mockTransactions[2].date = "2019-03-07T12:30";
 
 const mockCategories = ["Beer", "Wine", "Other"].map(
-  (item, index): ICategory => ({ id: index, text: item })
+  (item, index): ICategory => ({ id: index.toString(), text: item })
 );
 const mockAccounts = ["Cash", "Wallet", "Revolut"].map(
   (item, index): IAccount => ({

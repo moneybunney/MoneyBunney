@@ -1,5 +1,6 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import useReactRouter from "use-react-router";
 import { useAccounts, useCategories } from "../../Hooks/useApi";
@@ -48,6 +49,8 @@ const Checkout = (props: IProps) => {
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onFieldChange = (field: string, value: any) => {
     const clone = { ...transaction } as any;
     clone[field] = value;
@@ -61,10 +64,18 @@ const Checkout = (props: IProps) => {
     }
     postTransaction(currentTransaction)
       .catch(error => {
-        console.log(error);
+        enqueueSnackbar(
+          "An unspecified error occured when creating the transaction",
+          {
+            variant: "error"
+          }
+        );
       })
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Successfully created a transaction!", {
+          variant: "success"
+        });
         history.replace(TransactionsLocation);
       });
   };

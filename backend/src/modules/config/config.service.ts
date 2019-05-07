@@ -3,7 +3,14 @@ import * as Joi from 'joi';
 import * as fs from 'fs';
 
 interface EnvConfig {
-  [key: string]: string;
+  NODE_ENV: string;
+  DB_PORT: number;
+  DB_HOST: string;
+  DB_NAME: string;
+  REACT_APP_HOST: string;
+  REACT_APP_PORT: number;
+  REACT_APP_BACKEND_HOST: string;
+  REACT_APP_BACKEND_PORT: number;
 }
 
 export class ConfigService {
@@ -33,6 +40,10 @@ export class ConfigService {
       DB_PORT: Joi.number().default(27017),
       DB_HOST: Joi.string().default('localhost'),
       DB_NAME: Joi.string().default('moneybunney'),
+      REACT_APP_HOST: Joi.string().default('localhost'),
+      REACT_APP_PORT: Joi.number().default(3000),
+      REACT_APP_BACKEND_HOST: Joi.string().default('localhost'),
+      REACT_APP_BACKEND_PORT: Joi.number().default(8080),
     });
 
     const { error, value: validatedEnvConfig } = Joi.validate(
@@ -48,10 +59,13 @@ export class ConfigService {
     return validatedEnvConfig;
   }
 
-  get databaseUri(): string {
+  public get databaseUri(): string {
     const { DB_HOST, DB_PORT, DB_NAME } = this.envConfig;
     const uri = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`;
-
     return uri;
+  }
+
+  public get config(): EnvConfig {
+    return this.envConfig;
   }
 }

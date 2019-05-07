@@ -14,6 +14,7 @@
     "@types/react-dom": "^16.8.2",
     "@types/react-router-dom": "^4.3.1",
     "@types/recharts": "^1.1.14",
+    "notistack": "^0.8.2",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-router-dom": "^5.0.0",
@@ -25,15 +26,16 @@
     "use-react-router": "^1.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cp ../.env ./ && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tslint -p ./tsconfig.json -c ./tslint.json --force",
     "format:tslint": "tslint --fix --project tsconfig.json; prettier --write \"src/**/*.{tsx,ts}\"",
     "format": "prettier --write \"src/**/*.{tsx,ts}\"",
-    "start:prod": "serve -s -l 3000 build",
-    "prestart:prod": "rimraf dist && npm run build"
+    "start:prod": "serve -s",
+    "prestart:prod": "rimraf dist && npm run build",
+    "cypress:open": "cypress open"
   },
   "browserslist": [
     ">0.2%",
@@ -42,6 +44,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/enzyme": "^3.9.1",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "cypress": "^3.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
+    "enzyme-to-json": "^3.3.5",
     "husky": "^1.3.1",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
@@ -54,5 +62,10 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }

@@ -7,7 +7,9 @@ import { CategoryService } from './service/category.service';
 import { TransactionsSchema } from './schemas/transactions.schema';
 import { CategorySchema } from './schemas/category.schema';
 import { LoggerModule } from '../logger/logger.module';
-import { TransactionQueryService } from './service/transaction-query.service';
+import { TransactionQueryService } from './service/transaction.query.service';
+import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -15,9 +17,15 @@ import { TransactionQueryService } from './service/transaction-query.service';
       { name: 'Transactions', schema: TransactionsSchema },
     ]),
     LoggerModule,
+    UserModule,
     MongooseModule.forFeature([{ name: 'Categories', schema: CategorySchema }]),
   ],
   controllers: [TransactionsController, CategoriesController],
-  providers: [TransactionsService, TransactionQueryService, CategoryService],
+  providers: [
+    TransactionsService,
+    TransactionQueryService,
+    CategoryService,
+    UserService,
+  ],
 })
 export class TransactionsModule {}

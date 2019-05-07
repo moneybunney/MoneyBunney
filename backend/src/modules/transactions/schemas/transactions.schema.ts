@@ -10,6 +10,7 @@ export const TransactionsSchema = new mongoose.Schema({
   Amount: Number,
   Description: String,
   Tags: [String],
+  UserId: String,
 });
 
 const Category = mongoose.model('Category', CategorySchema);

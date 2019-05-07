@@ -3,7 +3,6 @@ import React, { ReactElement } from "react";
 import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import LogOutButton from "../LogOutButton";
 import NavigationSidebar from "./NavigationSidebar";
 import PageHeader from "./PageHeader";
 
@@ -28,7 +27,7 @@ const NavigationWrapper = ({ children }: IProps) => {
 
   return (
     <div className={classes.root}>
-      <PageHeader text="Dashboard" />
+      <PageHeader />
       <NavigationSidebar />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

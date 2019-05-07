@@ -16,8 +16,8 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { ChangeEvent, SyntheticEvent } from "react";
-import { ITransaction } from "../../Models/TransactionModel";
-import { IAccount, ICategory } from "./Checkout";
+import { IAccount } from "../../Models/AccountModel";
+import { ICategory, ITransaction } from "../../Models/TransactionModel";
 import TagPicker from "./TagPicker";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -62,6 +62,7 @@ const TransactionForm = ({
   const classes = useStyles();
 
   const transactionAmount = Number(transaction.amount);
+  const [accountError, setAccountError] = React.useState(false);
   const [categoryError, setCategoryError] = React.useState(false);
   const [amountError, setAmountError] = React.useState(false);
   const [dateError, setDateError] = React.useState(false);
@@ -112,6 +113,11 @@ const TransactionForm = ({
     if (fieldId === "category") {
       setCategoryError(false);
     }
+
+    if (fieldId === "account") {
+      setAccountError(false);
+    }
+
     onFieldChange(fieldId, e.target.value);
   };
 
@@ -134,6 +140,13 @@ const TransactionForm = ({
       error = true;
     } else {
       setAmountError(false);
+    }
+
+    if (accounts.filter(it => it.id === transaction.account).length === 0) {
+      setAccountError(true);
+      error = true;
+    } else {
+      setAccountError(false);
     }
 
     if (!error) {
@@ -238,7 +251,7 @@ const TransactionForm = ({
             </FormControl>
           </Grid>
           <Grid item={true} xs={12} sm={3}>
-            <FormControl fullWidth={true}>
+            <FormControl fullWidth={true} error={accountError}>
               <InputLabel htmlFor="account-helper">Account</InputLabel>
               <Select
                 fullWidth={true}
@@ -249,10 +262,13 @@ const TransactionForm = ({
               >
                 {accounts.map(item => (
                   <MenuItem value={item.id} key={item.id}>
-                    {item.text}
+                    {item.name}
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText className={accountError ? "" : classes.hidden}>
+                Please select a valid account
+              </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item={true} xs={12}>

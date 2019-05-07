@@ -55,13 +55,11 @@ function SignIn() {
 
     setTimeout(() => {
       postLogin({ email, password })
-        .then(response => {
+        .then(() => {
           history.replace("/");
         })
-        .catch(error => {
+        .catch(() => {
           setError(true);
-        })
-        .then(() => {
           setLoading(false);
         });
     }, 1500);

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { IAccount } from "../../Models/AccountModel";
 import {
   createEmptyTransaction,
-  IAccount,
   ICategory
 } from "../../Models/TransactionModel";
 import TransactionList from "./TransactionList";
@@ -22,7 +22,11 @@ const mockCategories = ["Beer", "Wine", "Other"].map(
   (item, index): ICategory => ({ id: index, text: item })
 );
 const mockAccounts = ["Cash", "Wallet", "Revolut"].map(
-  (item, index): IAccount => ({ id: index, text: item })
+  (item, index): IAccount => ({
+    id: index.toString(),
+    name: item,
+    initialBalance: 0
+  })
 );
 
 const theme = createMuiTheme({

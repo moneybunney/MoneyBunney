@@ -1,7 +1,12 @@
 export interface IAccount {
   id: string;
   name: string;
-  initialBalance: number;
+  balance: number;
+}
+
+export interface IAccountCreateDTO {
+  Name: string;
+  InitialBalance: number;
 }
 
 export const getAccountName = (id: string, accounts: IAccount[]) => {

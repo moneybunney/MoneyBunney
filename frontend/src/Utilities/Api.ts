@@ -1,4 +1,4 @@
-import { IAccount } from "../Models/AccountModel";
+import { IAccountCreateDTO } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
@@ -32,7 +32,7 @@ export const postTransaction = async (data: ITransaction) => {
   const DTO = {
     Date: new Date(data.date).toISOString(),
     Account: data.account.toString(),
-    Category: data.category.toString(),
+    Category: data.category,
     Amount: Number(data.amount),
     Description: data.description,
     Tags: data.tags
@@ -101,11 +101,7 @@ export const getTransactionListChunk = async (
   return query.execute();
 };
 
-export const postAccount = async (data: IAccount) => {
-  const DTO = {
-    Name: data.name,
-    InitialBalance: Number(data.initialBalance)
-  };
+export const postAccount = async (DTO: IAccountCreateDTO) => {
   const response = await post("/api/accounts", DTO);
   if (response.status === 201) {
     return response.body;
@@ -138,10 +134,18 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
     .sum("Account");
 };
 
-export const getCategories = async () => {
-  return ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
+export const getCategories = async (): Promise<ICategory[]> => {
+  const response = await get("/api/transactions/categories");
+  if (response.status === 200) {
+    const jsonData = await response.json();
+    return jsonData.map((datum: any) => ({
+      id: datum._id,
+      text: datum.Name,
+      icon: datum.Icon
+    }));
+  } else {
+    throw new Error("Something went wrong when fetching categories");
+  }
 };
 
 export const getTags = async (): Promise<string[]> => {

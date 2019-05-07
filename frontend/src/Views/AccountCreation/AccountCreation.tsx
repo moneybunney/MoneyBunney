@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import useReactRouter from "use-react-router";
 
-import { IAccount } from "../../Models/AccountModel";
+import { IAccountCreateDTO } from "../../Models/AccountModel";
 import { AccountsLocation } from "../../routes.constants";
 import { postAccount } from "../../Utilities/Api";
 import AccountForm from "./AccountForm";
@@ -38,10 +38,12 @@ const AccountCreation = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = async (accountName: string, initialBalance: number) => {
-    // TODO: This should actually be some other type which doesn't have the id field
-    const account: IAccount = { id: "", name: accountName, initialBalance };
+    const accountDTO: IAccountCreateDTO = {
+      Name: accountName,
+      InitialBalance: Number(initialBalance)
+    };
     try {
-      await postAccount(account);
+      await postAccount(accountDTO);
       enqueueSnackbar("Successfully created an account!", {
         variant: "success"
       });

@@ -170,7 +170,7 @@ export class TransactionQuery {
         (element): ITransaction => {
           this.throwIfNotString(element.Date);
           this.throwIfNotString(element.Account);
-          this.throwIfNotNumber(element.Category);
+          this.throwIfNotString(element.Category);
           this.throwIfNotNumber(element.Amount);
           this.throwIfNotString(element.Description);
 

@@ -40,10 +40,7 @@ export class TransactionsService {
 
   async findById(id: string): Promise<Transactions> {
     try {
-      return await this.transactionModel
-        .findById(id)
-        .populate('Category')
-        .exec();
+      return await this.transactionModel.findById(id).exec();
     } catch (e) {
       this.logger.log(e.toString());
       throw new BadRequestException('Requested transaction was not found!');
@@ -58,7 +55,6 @@ export class TransactionsService {
         .where('Date')
         .lt(date)
         .limit(Number(amount))
-        .populate('Category')
         .exec();
     } catch (e) {
       this.logger.log(e.toString());

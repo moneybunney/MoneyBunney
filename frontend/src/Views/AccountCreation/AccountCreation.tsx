@@ -1,5 +1,6 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { useSnackbar } from "notistack";
 import React from "react";
 import useReactRouter from "use-react-router";
 
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AccountCreation = () => {
   const classes = useStyles();
   const { history } = useReactRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = async (accountName: string, initialBalance: number) => {
     const accountDTO: IAccountCreateDTO = {
@@ -42,9 +44,13 @@ const AccountCreation = () => {
     };
     try {
       await postAccount(accountDTO);
+      enqueueSnackbar("Successfully created an account!", {
+        variant: "success"
+      });
     } catch (error) {
-      // TODO: Error state in the form?
-      console.error(error);
+      enqueueSnackbar("An unspecified error occured when creating an account", {
+        variant: "error"
+      });
     }
     history.replace(AccountsLocation);
   };

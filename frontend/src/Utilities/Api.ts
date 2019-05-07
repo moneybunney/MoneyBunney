@@ -2,7 +2,7 @@ import { IAccountCreateDTO } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
-import { post, get } from "./Http";
+import { get, post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -151,7 +151,7 @@ export const getCategories = async (): Promise<ICategory[]> => {
 export const getTags = async (): Promise<string[]> => {
   const response = await get("/api/transactions/tags");
   if (response.status === 200) {
-    return await response.json();
+    return response.json();
   } else {
     throw new Error("Something went wrong when fetching tags");
   }

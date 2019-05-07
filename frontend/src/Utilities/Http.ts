@@ -55,7 +55,8 @@ export const get = (
   init?: RequestInit
 ): Promise<Response> => {
   const options: RequestInit = {
-    method: "GET"
+    method: "GET",
+    ...init
   };
   return http(input, options, params);
 };

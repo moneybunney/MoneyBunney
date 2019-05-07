@@ -2,7 +2,7 @@ import { IAccount } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
-import { post } from "./Http";
+import { post, get } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -144,6 +144,11 @@ export const getCategories = async () => {
   );
 };
 
-export const getTags = async () => {
-  return ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
+export const getTags = async (): Promise<string[]> => {
+  const response = await get("/api/transactions/tags");
+  if (response.status === 200) {
+    return await response.json();
+  } else {
+    throw new Error("Something went wrong when fetching tags");
+  }
 };

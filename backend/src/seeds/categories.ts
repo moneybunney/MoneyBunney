@@ -10,43 +10,43 @@ mongoose.connect('mongodb://localhost:27017/moneybunney', {
 const categories = [
   new Category({
     Name: 'Transport',
-    Icon: 'mdi/car',
+    Icon: 'mdiCar',
   }),
   new Category({
     Name: 'Food',
-    Icon: 'mdi/food',
+    Icon: 'mdiFood',
   }),
   new Category({
     Name: 'Entertainment',
-    Icon: 'mdi/gamepad-variant',
+    Icon: 'mdiGamepadVariant',
   }),
   new Category({
     Name: 'Health',
-    Icon: 'mdi/hospital-building',
+    Icon: 'mdiHospitalBuilding',
   }),
   new Category({
     Name: 'Gifts',
-    Icon: 'mdi/gift',
+    Icon: 'mdiGift',
   }),
   new Category({
     Name: 'Bills',
-    Icon: 'mdi/clipboard-text',
+    Icon: 'mdiClipboardText',
   }),
   new Category({
     Name: 'Travel',
-    Icon: 'mdi/wallet-travel',
+    Icon: 'mdiWalletTravel',
   }),
   new Category({
     Name: 'Clothes',
-    Icon: 'mdi/hanger',
+    Icon: 'mdiHanger',
   }),
   new Category({
     Name: 'Personal care',
-    Icon: 'mdi/dumbbell',
+    Icon: 'mdiDumbbell',
   }),
   new Category({
     Name: 'Other',
-    Icon: 'mdi/check-box-outline-blank',
+    Icon: 'mdiCheckBoxOutlineBlank',
   }),
 ];
 

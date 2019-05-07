@@ -36,9 +36,15 @@ export const getNowDate = () => {
 export interface ICategory {
   id: string;
   text: string;
+  icon: string;
 }
 
 export const getCategoryName = (id: string, categories: ICategory[]) => {
   const categoriesWithId = categories.filter(category => category.id === id);
   return categoriesWithId.length !== 0 ? categoriesWithId[0].text : "";
+};
+
+export const getCategoryIcon = (id: string, categories: ICategory[]) => {
+  const categoriesWithId = categories.filter(category => category.id === id);
+  return categoriesWithId.length !== 0 ? categoriesWithId[0].icon : "";
 };

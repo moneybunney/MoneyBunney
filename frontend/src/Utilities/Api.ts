@@ -139,9 +139,23 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
 };
 
 export const getCategories = async () => {
-  return ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index.toString(), text: item })
-  );
+  return [
+    {
+      id: "0",
+      text: "Beer",
+      icon: "mdiBeer"
+    },
+    {
+      id: "1",
+      text: "Wine",
+      icon: "mdiGlassWine"
+    },
+    {
+      id: "2",
+      text: "Other",
+      icon: "mdiBankTransfer"
+    }
+  ];
 };
 
 export const getTags = async () => {

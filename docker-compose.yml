@@ -1,30 +1,57 @@
-version: "3"
+version: "3.2"
 
 services:
   db:
     image: mongo:latest
+    env_file: .env
+    command: mongod --port ${DB_PORT}
     ports:
-      - "27017:27017"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
-      - ./data:/data/db
+      - type: volume
+        source: db-data
+        target: /data/db
 
   backend:
-    build: ./backend
+    env_file: .env
+    build:
+      dockerfile: backend.Dockerfile
+      context: ./
+      args:
+        port: ${REACT_APP_BACKEND_PORT}
     ports:
-      - "8080:8080"
+      - "${REACT_APP_BACKEND_PORT}:${REACT_APP_BACKEND_PORT}"
     depends_on:
       - "db"
     environment:
       - DB_HOST=db
-      - DB_PORT=27017
+      - DB_PORT=${DB_PORT}
       - DB_NAME=moneybunney
+      - REACT_APP_PORT=${REACT_APP_PORT}
+      - REACT_APP_HOST=${REACT_APP_HOST}
 
   frontend:
-    build: ./frontend
+    env_file: .env
+    build:
+      context: ./
+      dockerfile: frontend.Dockerfile
+      args:
+        port: ${REACT_APP_PORT}
+    command:
+      - npm
+      - run
+      - start:prod
+      - --
+      - -l
+      - ${REACT_APP_PORT}
+      - build
     ports:
-      - "3000:3000"
+      - "${REACT_APP_PORT}:${REACT_APP_PORT}"
+    environment:
+      - REACT_APP_BACKEND_HOST=${REACT_APP_BACKEND_HOST}
+      - REACT_APP_BACKEND_PORT=${REACT_APP_BACKEND_PORT}
     depends_on:
       - "backend"
-    environment:
-      - REACT_APP_API_HOST=localhost
-      - REACT_APP_API_PORT=8080
+
+volumes:
+  db-data:

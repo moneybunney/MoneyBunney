@@ -5,6 +5,12 @@ import { Accounts } from '../interfaces/accounts.interface';
 import { AccountDTO } from '../dto/account.dto';
 import { Logger } from '../../logger/logger.service';
 
+interface IAccountDTO {
+  Name: string;
+  InitialBalance: number;
+  _id: string;
+}
+
 @Injectable()
 export class AccountsService {
   constructor(
@@ -13,8 +19,11 @@ export class AccountsService {
     private readonly logger: Logger,
   ) {}
 
-  async create(AccountDto: AccountDTO): Promise<Accounts> {
-    const createdAccount = new this.accountModel(AccountDto);
+  async create(AccountDto: AccountDTO, UserId: string): Promise<Accounts> {
+    const createdAccount = new this.accountModel({
+      ...AccountDto,
+      UserId,
+    });
     return await createdAccount.save();
   }
 
@@ -30,7 +39,14 @@ export class AccountsService {
     }
   }
 
-  public async findAccounts(): Promise<Accounts[]> {
-    return await this.accountModel.find().exec();
+  async findAccounts(UserId: string): Promise<IAccountDTO[]> {
+    const accounts = await this.accountModel.find({ UserId }).exec();
+    return accounts.map(account => {
+      return {
+        Name: account.Name,
+        InitialBalance: account.InitialBalance,
+        _id: account._id,
+      };
+    });
   }
 }

@@ -1,27 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useApi, { useCategories } from "../../Hooks/useApi";
 import { IChart } from "../../Models/ChartModel";
+import { getCategoryName } from "../../Models/TransactionModel";
 import { getExpenseByCategoryData } from "../../Utilities/Api";
 import PieChart from "./PieChart";
 
-const CategoryPie = () => {
-  const [data, setData] = useState<IChart[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getExpenseByCategoryData();
-      const result = response.map(resp => {
-        return {
-          name: resp.Key,
-          value: 0 - resp.Sum
-        };
-      });
-      setData(result);
-      setLoading(false);
-    };
+const fetchChartData = async () => {
+  const response = await getExpenseByCategoryData();
+  return response.map(
+    (resp): IChart => {
+      return {
+        name: resp.Key,
+        value: 0 - resp.Sum
+      };
+    }
+  );
+};
 
-    fetchData();
-  }, []);
-  return <PieChart data={data} loading={loading} />;
+const CategoryPie = () => {
+  const { data, loading } = useApi(fetchChartData, []);
+  const { data: categories } = useCategories();
+
+  const categoryNameReducer = (reduced: IChart[], value: IChart) => {
+    const categoryName = getCategoryName(parseInt(value.name, 10), categories);
+    if (categoryName !== "" && value.value !== 0) {
+      reduced.push({
+        name: categoryName,
+        value: value.value
+      });
+    }
+    return reduced;
+  };
+
+  const dataWithCategories = data.reduce(categoryNameReducer, []);
+  return <PieChart data={dataWithCategories} loading={loading} />;
 };
 
 export default CategoryPie;

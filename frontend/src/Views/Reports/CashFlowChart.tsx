@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useApi, { useAccounts } from "../../Hooks/useApi";
+import { getAccountName } from "../../Models/AccountModel";
+import { IChart } from "../../Models/ChartModel";
 import { IComposedChart } from "../../Models/ComposedChartModel";
 import {
   getExpenseByDateRange,
@@ -32,60 +35,74 @@ const generateDates = (count: number) => {
   return dates.reverse();
 };
 
-const CashFlowChart = ({ numberOfMonths }: IProps) => {
-  const [data, setData] = useState<IComposedChart[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const dates = generateDates(numberOfMonths);
-    const fetchData = async () => {
-      const result = await Promise.all(
-        dates.map(async date => {
-          const fromDate = `${date.year}-${date.month}-01`;
-          const toDate =
-            date.month === 12
-              ? `${date.year + 1}-01-01`
-              : `${date.year}-${date.month + 1}-01`;
-          const incomeResponse = await getIncomeByDateRange(
-            new Date(fromDate),
-            new Date(toDate)
-          );
-          let sum = 0;
-          const positiveValues = incomeResponse.map(resp => {
-            sum += resp.Sum;
-            return {
-              name: resp.Key,
-              value: resp.Sum
-            };
-          });
-          const expenseResponse = await getExpenseByDateRange(
-            new Date(fromDate),
-            new Date(toDate)
-          );
-          const negativeValues = expenseResponse.map(resp => {
-            sum += resp.Sum;
-            return {
-              name: resp.Key,
-              value: resp.Sum
-            };
-          });
-          return {
-            key: `${date.year}-${date.month}`,
-            positiveValues,
-            negativeValues,
-            lineValue: sum
-          };
-        })
-      );
-      setData(result);
-      setLoading(false);
-    };
+const fetchChartData = async (numberOfMonths: number) => {
+  const dates = generateDates(numberOfMonths);
 
-    fetchData();
-  }, []);
+  return Promise.all(
+    dates.map(
+      async (date): Promise<IComposedChart> => {
+        const fromDate = `${date.year}-${date.month}-01`;
+        const toDate =
+          date.month === 12
+            ? `${date.year + 1}-01-01`
+            : `${date.year}-${date.month + 1}-01`;
+        const incomeResponse = await getIncomeByDateRange(
+          new Date(fromDate),
+          new Date(toDate)
+        );
+        let sum = 0;
+        const positiveValues = incomeResponse.map(resp => {
+          sum += resp.Sum;
+          return {
+            name: resp.Key,
+            value: resp.Sum
+          };
+        });
+        const expenseResponse = await getExpenseByDateRange(
+          new Date(fromDate),
+          new Date(toDate)
+        );
+        const negativeValues = expenseResponse.map(resp => {
+          sum += resp.Sum;
+          return {
+            name: resp.Key,
+            value: resp.Sum
+          };
+        });
+        return {
+          key: `${date.year}-${date.month}`,
+          positiveValues,
+          negativeValues,
+          lineValue: sum
+        };
+      }
+    )
+  );
+};
+
+const CashFlowChart = ({ numberOfMonths }: IProps) => {
+  const { data: accounts } = useAccounts();
+  const { data, loading } = useApi(fetchChartData, [], numberOfMonths);
+
+  const accountNameReducer = (reduced: IChart[], value: IChart) => {
+    const accountName = getAccountName(value.name, accounts);
+    if (accountName !== "") {
+      reduced.push({ name: accountName, value: value.value });
+    }
+    return reduced;
+  };
+
+  const dataWithAccountNames = data.map(element => {
+    return {
+      ...element,
+      negativeValues: element.negativeValues.reduce(accountNameReducer, []),
+      positiveValues: element.positiveValues.reduce(accountNameReducer, [])
+    };
+  });
 
   return (
     <ComposedChart
-      data={data}
+      data={dataWithAccountNames}
       loading={loading}
       positiveLabel="Income in "
       negativeLabel="Expenses in "

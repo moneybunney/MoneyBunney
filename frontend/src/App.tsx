@@ -55,7 +55,7 @@ const HomeRoutes = () => {
 
 const App = () => {
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={1}>
       <Router>
         <Switch>
           <GuestRoute path={LoginLocation} Component={Login} />

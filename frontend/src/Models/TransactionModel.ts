@@ -2,7 +2,7 @@ export interface ITransaction {
   id: string;
   date: string;
   account: string; // account index
-  category: number; // category index
+  category: string; // category index
   amount: number;
   description: string;
   tags: string[];
@@ -12,7 +12,7 @@ export const createEmptyTransaction = (
   overrides: Partial<ITransaction>
 ): ITransaction => ({
   account: "0",
-  category: -1,
+  category: "-1",
   date: getNowDate(),
   description: "",
   amount: NaN, // to keep the initial data field empty
@@ -34,11 +34,17 @@ export const getNowDate = () => {
 };
 
 export interface ICategory {
-  id: number;
+  id: string;
   text: string;
+  icon: string;
 }
 
-export const getCategoryName = (id: number, categories: ICategory[]) => {
+export const getCategoryName = (id: string, categories: ICategory[]) => {
   const categoriesWithId = categories.filter(category => category.id === id);
   return categoriesWithId.length !== 0 ? categoriesWithId[0].text : "";
+};
+
+export const getCategoryIcon = (id: string, categories: ICategory[]) => {
+  const categoriesWithId = categories.filter(category => category.id === id);
+  return categoriesWithId.length !== 0 ? categoriesWithId[0].icon : "";
 };

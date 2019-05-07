@@ -27,5 +27,6 @@ import { UserModule } from '../user/user.module';
     CategoryService,
     UserService,
   ],
+  exports: [TransactionQueryService],
 })
 export class TransactionsModule {}

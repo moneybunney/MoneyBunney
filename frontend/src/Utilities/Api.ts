@@ -1,4 +1,4 @@
-import { IAccount } from "../Models/AccountModel";
+import { IAccountCreateDTO } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
@@ -101,11 +101,7 @@ export const getTransactionListChunk = async (
   return query.execute();
 };
 
-export const postAccount = async (data: IAccount) => {
-  const DTO = {
-    Name: data.name,
-    InitialBalance: Number(data.initialBalance)
-  };
+export const postAccount = async (DTO: IAccountCreateDTO) => {
   const response = await post("/api/accounts", DTO);
   if (response.status === 201) {
     return response.body;

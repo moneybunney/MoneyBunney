@@ -8,14 +8,17 @@ export interface ITransaction {
   tags: string[];
 }
 
-export const createEmptyTransaction = (): ITransaction => ({
+export const createEmptyTransaction = (
+  overrides: Partial<ITransaction>
+): ITransaction => ({
   account: "0",
   category: -1,
   date: getNowDate(),
   description: "",
   amount: NaN, // to keep the initial data field empty
   tags: [],
-  id: ""
+  id: "",
+  ...overrides
 });
 
 export const getNowDate = () => {

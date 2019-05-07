@@ -1,7 +1,7 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSnackbar } from "notistack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
@@ -41,10 +41,14 @@ interface IProps {
 
 const Checkout = (props: IProps) => {
   const { data: categories } = useCategories();
-  const { data: accounts } = useAccounts();
+  const {
+    data: accounts,
+    loading: accountsLoading,
+    error: accountsError
+  } = useAccounts();
   const { history } = useReactRouter();
 
-  const [transaction, setTransaction] = useState(createEmptyTransaction());
+  const [transaction, setTransaction] = useState(createEmptyTransaction({}));
 
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
@@ -79,6 +83,15 @@ const Checkout = (props: IProps) => {
         history.replace(TransactionsLocation);
       });
   };
+
+  useEffect(() => {
+    (async () => {
+      setLoading(false);
+      if (accounts.length > 0) {
+        setTransaction(createEmptyTransaction({ account: accounts[0].id }));
+      }
+    })();
+  }, [accountsLoading]);
 
   return (
     <React.Fragment>

@@ -2,7 +2,7 @@ import { IAccount } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
-import { post } from "./Http";
+import { post, get } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -138,24 +138,18 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
     .sum("Account");
 };
 
-export const getCategories = async () => {
-  return [
-    {
-      id: "0",
-      text: "Beer",
-      icon: "mdiBeer"
-    },
-    {
-      id: "1",
-      text: "Wine",
-      icon: "mdiGlassWine"
-    },
-    {
-      id: "2",
-      text: "Other",
-      icon: "mdiBankTransfer"
-    }
-  ];
+export const getCategories = async (): Promise<ICategory[]> => {
+  const response = await get("/api/transactions/categories");
+  if (response.status === 200) {
+    const jsonData = await response.json();
+    return jsonData.map((datum: any) => ({
+      id: datum._id,
+      text: datum.Name,
+      icon: datum.Icon
+    }));
+  } else {
+    throw new Error("Something went wrong when fetching categories");
+  }
 };
 
 export const getTags = async () => {

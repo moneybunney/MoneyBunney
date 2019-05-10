@@ -25,6 +25,7 @@ interface IProps {
   categoryText: string;
   categoryIcon: string;
   accountText: string;
+  onTransactionDeleted: (id: string) => void;
 }
 
 const toDisplayDate = (d: Date) => {
@@ -42,14 +43,26 @@ const TransactionListItem = ({
   transaction,
   categoryText,
   categoryIcon,
-  accountText
+  accountText,
+  onTransactionDeleted
 }: IProps) => {
   const classes = useStyles();
   const [shown, setShown] = React.useState(false);
+  const [deleted, setDeleted] = React.useState(false);
 
   useEffect(() => {
-    setShown(true);
+    if (!deleted) {
+      setShown(true);
+    }
   });
+
+  const onDeleteWrapper = () => {
+    setDeleted(true);
+    setShown(false);
+    console.log("Closing transaction: " + transaction.id);
+    // let the closing animation play out
+    setTimeout(() => onTransactionDeleted(transaction.id), 400);
+  };
 
   const primaryText = transaction.description
     ? transaction.description
@@ -73,8 +86,9 @@ const TransactionListItem = ({
         <ListItemSecondaryAction className={classes.secondary}>
           <TransactionListItemPrice amount={parsedAmount} />
           <DeleteItemButton
-            path="api/transactions"
+            path="/api/transactions"
             params={new Map([["id", transaction.id]])}
+            onDeleted={onDeleteWrapper}
           />
         </ListItemSecondaryAction>
       </ListItem>

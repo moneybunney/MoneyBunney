@@ -28,7 +28,8 @@ enum ActionType {
   ItemsLoaded,
   NoItemsFound,
   Error,
-  ResetTransactionState
+  ResetTransactionState,
+  TransactionDeleted
 }
 
 interface IAction {
@@ -65,6 +66,17 @@ const TransactionListContainer = ({
 
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
+      case ActionType.TransactionDeleted:
+        console.log(
+          "Transaction to be removed from state:" + action.payload[0].id
+        );
+        const filteredTransactions = oldState.transactions.filter(
+          t => t.id !== action.payload[0].id
+        );
+        return {
+          ...oldState
+          // transactions: filteredTransactions,
+        };
       case ActionType.LoadStart:
         return {
           ...oldState,
@@ -91,6 +103,20 @@ const TransactionListContainer = ({
         };
       case ActionType.ResetTransactionState:
         return initialState;
+    }
+  };
+
+  // This is called when user successfully deletes
+  // a transaction and the UI needs to be updated
+  // (the deleted transaction removed)
+  const transactionDeletedCallback = (id: string) => {
+    const transactionToBeRemoved = state.transactions.find(t => t.id === id);
+    if (transactionToBeRemoved !== undefined) {
+      console.log("Dispatching transaction remove!");
+      dispatch({
+        type: ActionType.TransactionDeleted,
+        payload: [transactionToBeRemoved]
+      });
     }
   };
 
@@ -141,6 +167,7 @@ const TransactionListContainer = ({
         requestMoreTransactions={onRequestMoreTranscations}
         loading={state.loadingMore}
         canLoadMore={state.canLoadMore}
+        onTransactionDeleted={transactionDeletedCallback}
       />
     </Paper>
   );

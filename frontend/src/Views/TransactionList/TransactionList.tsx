@@ -27,6 +27,7 @@ interface IProps {
   requestMoreTransactions: () => void;
   canLoadMore: boolean;
   loading: boolean;
+  onTransactionDeleted: (id: string) => void;
 }
 
 const TransactionList = ({
@@ -35,7 +36,8 @@ const TransactionList = ({
   categories,
   requestMoreTransactions,
   canLoadMore = true,
-  loading = true
+  loading = true,
+  onTransactionDeleted
 }: IProps) => {
   const triggerChild = React.useRef<HTMLSpanElement>(null);
   React.useEffect(() => {
@@ -84,6 +86,7 @@ const TransactionList = ({
           categoryText={getCategoryName(t.category, categories)}
           accountText={getAccountName(t)}
           categoryIcon={getCategoryIcon(t.category, categories)}
+          onTransactionDeleted={onTransactionDeleted}
         />
       ))}
       <Collapse in={loading}>

@@ -8,7 +8,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
-import { IAccount } from "../../Models/AccountModel";
+import { useAccounts } from "../../Hooks/useApi";
 import AccountListItem from "./AccountListItem";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,13 +20,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export interface IProps {
-  accounts: IAccount[];
-  loading: boolean;
-}
-
-const AccountList = ({ accounts, loading }: IProps) => {
+const AccountList = () => {
   const classes = useStyles();
+  const { data: accounts, loading } = useAccounts();
+
   return (
     <List className={classes.listRoot}>
       <Collapse in={!loading}>

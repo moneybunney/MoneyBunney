@@ -5,7 +5,6 @@ import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
-import { useAccounts } from "../../Hooks/useApi";
 import { AccountsCreateLocation } from "../../routes.constants";
 import AccountList from "./AccountList";
 
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Accounts = () => {
   const { history } = useReactRouter();
   const classes = useStyles();
-  const { data: accounts, loading } = useAccounts();
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
@@ -42,7 +40,7 @@ const Accounts = () => {
 
   return (
     <Paper className={classes.paper}>
-      <AccountList accounts={accounts} loading={loading} />
+      <AccountList />
       <Fab
         onClick={onClick}
         color="primary"

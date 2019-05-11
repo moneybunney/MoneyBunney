@@ -13,10 +13,7 @@ import AccountListItem from "./AccountListItem";
 
 const useStyles = makeStyles((theme: Theme) => ({
   listRoot: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-    paddingTop: 0,
-    paddingBottom: 0
+    backgroundColor: theme.palette.background.paper
   }
 }));
 
@@ -28,10 +25,10 @@ const AccountList = () => {
     <List className={classes.listRoot}>
       <Collapse in={!loading}>
         {loading && <CircularProgress size={40} />}
-        {accounts.map(account => (
+        {accounts.map((account, index) => (
           <React.Fragment key={account.id}>
             <AccountListItem account={account} />
-            <Divider />
+            {index + 1 < accounts.length && <Divider />}
           </React.Fragment>
         ))}
       </Collapse>

@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {
       marginLeft: "auto",
       marginRight: "auto"
-    }
+    },
+    overflow: "auto"
   },
   fab: {
     position: "fixed",
@@ -39,8 +40,10 @@ const Accounts = () => {
   };
 
   return (
-    <Paper className={classes.paper}>
-      <AccountList />
+    <>
+      <Paper className={classes.paper}>
+        <AccountList />
+      </Paper>
       <Fab
         onClick={onClick}
         color="primary"
@@ -49,7 +52,7 @@ const Accounts = () => {
       >
         <Add />
       </Fab>
-    </Paper>
+    </>
   );
 };
 

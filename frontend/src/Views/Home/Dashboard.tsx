@@ -3,8 +3,8 @@ import React from "react";
 import { Grid, Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import AccountList from "../Accounts/AccountList";
-import CategoryPie from "../Reports/CategoryPie";
+import AccountList from "../../Components/AccountList/AccountList";
+import CategoryPie from "../../Components/Charts/CategoryPie";
 import DashboardStatisticList from "./DashboardStatisticList";
 
 const useStyles = makeStyles((theme: Theme) => ({

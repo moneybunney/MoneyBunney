@@ -5,8 +5,8 @@ import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
+import AccountList from "../../Components/AccountList/AccountList";
 import { AccountsCreateLocation } from "../../routes.constants";
-import AccountList from "./AccountList";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {

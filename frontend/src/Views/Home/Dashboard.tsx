@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Divider, Grid, Paper, Theme, Typography } from "@material-ui/core";
+import { Grid, Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import AccountList from "../Accounts/AccountList";
+import DashboardStatisticList from "./DashboardStatisticList";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -24,6 +25,14 @@ const Dashboard = () => {
         </Typography>
         <Paper className={classes.paper}>
           <AccountList />
+        </Paper>
+      </Grid>
+      <Grid item={true} xs={6}>
+        <Typography className={classes.title} variant={"h4"}>
+          Statistics
+        </Typography>
+        <Paper className={classes.paper}>
+          <DashboardStatisticList />
         </Paper>
       </Grid>
     </Grid>

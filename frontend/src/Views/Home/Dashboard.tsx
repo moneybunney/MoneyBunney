@@ -21,7 +21,7 @@ const Dashboard = () => {
   const classes = useStyles();
   return (
     <Grid container={true} spacing={32}>
-      <Grid item={true} xs={6}>
+      <Grid item={true} md={6} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Accounts
         </Typography>
@@ -29,7 +29,7 @@ const Dashboard = () => {
           <AccountList />
         </Paper>
       </Grid>
-      <Grid item={true} xs={6}>
+      <Grid item={true} md={6} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Statistics
         </Typography>
@@ -37,7 +37,7 @@ const Dashboard = () => {
           <DashboardStatisticList />
         </Paper>
       </Grid>
-      <Grid item={true} xs={6}>
+      <Grid item={true} md={6} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Budgets
         </Typography>
@@ -47,7 +47,7 @@ const Dashboard = () => {
           </Typography>
         </Paper>
       </Grid>
-      <Grid item={true} xs={6}>
+      <Grid item={true} md={6} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Expenses by category
         </Typography>

@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AccountList = () => {
   const classes = useStyles();
   const { data: accounts, loading } = useAccounts();
+  const collapsedHeight = loading
+    ? `${SpinnerSize + MarginTopSize * 2}px`
+    : undefined;
 
   return (
     <List className={classes.listRoot}>
-      <Collapse
-        in={!loading}
-        collapsedHeight={`${SpinnerSize + MarginTopSize * 2}px`}
-      >
+      <Collapse in={!loading} collapsedHeight={collapsedHeight}>
         {loading && (
           <CircularProgress
             className={classes.loadingSpinner}

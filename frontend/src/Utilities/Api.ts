@@ -156,3 +156,79 @@ export const getTags = async (): Promise<string[]> => {
     throw new Error("Something went wrong when fetching tags");
   }
 };
+
+export const getNetWorth = async (): Promise<number> => {
+  const accounts = await getAccounts();
+
+  return accounts
+    .map(acc => acc.balance)
+    .reduce((total, balance) => total + balance);
+};
+
+export const getExpensesToday = async (): Promise<number> => {
+  const todayMidnight = new Date().setHours(0, 0, 0, 0);
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", todayMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getExpensesThisWeek = async (): Promise<number> => {
+  const today = new Date();
+  const lastMonday = new Date().setDate(today.getDate() - today.getDay());
+  const lastMondayMidnight = new Date(lastMonday).setHours(0, 0, 0, 0);
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", lastMondayMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getExpensesThisMonth = async (): Promise<number> => {
+  const today = new Date();
+  const firstOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstOfTheMonthMidnight = new Date(firstOfTheMonth).setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", firstOfTheMonthMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getIncomeThisMonth = async (): Promise<number> => {
+  const today = new Date();
+  const firstOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstOfTheMonthMidnight = new Date(firstOfTheMonth).setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", firstOfTheMonthMidnight)
+    .gt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};

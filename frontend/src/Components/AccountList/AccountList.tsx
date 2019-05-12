@@ -11,12 +11,12 @@ import React from "react";
 import { useAccounts } from "../../Hooks/useApi";
 import AccountListItem from "./AccountListItem";
 
-const SpinnerSize = 40;
-const MarginTopSize = 10;
+const spinnerSize = 40;
+const marginTopSize = 10;
 
 const useStyles = makeStyles((theme: Theme) => ({
   loadingSpinner: {
-    marginTop: `${MarginTopSize}px`,
+    marginTop: `${marginTopSize}px`,
     marginLeft: "20px"
   },
   listRoot: {
@@ -28,7 +28,7 @@ const AccountList = () => {
   const classes = useStyles();
   const { data: accounts, loading } = useAccounts();
   const collapsedHeight = loading
-    ? `${SpinnerSize + MarginTopSize * 2}px`
+    ? `${spinnerSize + marginTopSize * 2}px`
     : undefined;
 
   return (
@@ -37,7 +37,7 @@ const AccountList = () => {
         {loading && (
           <CircularProgress
             className={classes.loadingSpinner}
-            size={SpinnerSize}
+            size={spinnerSize}
           />
         )}
         {accounts.map((account, index) => (

@@ -21,12 +21,12 @@ import {
   getNetWorth
 } from "../../Utilities/Api";
 
-const SpinnerSize = 40;
-const MarginTopSize = 10;
+const spinnerSize = 40;
+const marginTopSize = 10;
 
 const useStyles = makeStyles((theme: Theme) => ({
   loadingSpinner: {
-    marginTop: `${MarginTopSize}px`,
+    marginTop: `${marginTopSize}px`,
     marginLeft: "20px"
   }
 }));
@@ -90,11 +90,11 @@ const DashboardStatisticList = () => {
     <List>
       <Collapse
         in={!loading}
-        collapsedHeight={`${SpinnerSize + MarginTopSize * 2}px`}
+        collapsedHeight={`${spinnerSize + marginTopSize * 2}px`}
       >
         {loading && (
           <CircularProgress
-            size={SpinnerSize}
+            size={spinnerSize}
             className={classes.loadingSpinner}
           />
         )}

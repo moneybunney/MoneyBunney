@@ -5,8 +5,7 @@ import React from "react";
 const useStyles = makeStyles((theme: Theme) => ({
   progress: {
     height: 30,
-    width: 500,
-    margin: "auto"
+    width: 500
   }
 }));
 

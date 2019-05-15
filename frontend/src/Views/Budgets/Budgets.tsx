@@ -7,6 +7,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import AccountList from "../../Components/AccountList/AccountList";
 import { BudgetsCreateLocation } from "../../routes.constants";
 import ProgressBar from "../../Components/ProgressBar";
+import BudgetListItem from "../../Components/BudgetList/BudgetListItem";
+import { IBudget } from "../../Models/BudgetModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   fab: {
@@ -15,6 +17,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: theme.spacing.unit * 10
   }
 }));
+
+const test: IBudget = {
+  id: "test",
+  category: "Kategorija",
+  amount: 200,
+  startDate: "2019-05-10T19:12",
+  endDate: "2019-05-20T19:12"
+};
 
 const Budgets = () => {
   const { history } = useReactRouter();
@@ -27,7 +37,8 @@ const Budgets = () => {
 
   return (
     <>
-      <ProgressBar capacity={100} load={79} />
+      <BudgetListItem budget={test} categoryText={"Kategorija"} load={150} />
+      <BudgetListItem budget={test} categoryText={"Kita"} load={220} />
       <Fab
         onClick={onClick}
         color="primary"

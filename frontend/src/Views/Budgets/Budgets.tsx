@@ -1,12 +1,12 @@
 import React from "react";
-
 import { Fab, Paper, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
-
+import LinearProgress from "@material-ui/core/LinearProgress";
 import AccountList from "../../Components/AccountList/AccountList";
 import { BudgetsCreateLocation } from "../../routes.constants";
+import ProgressBar from "../../Components/ProgressBar";
 
 const useStyles = makeStyles((theme: Theme) => ({
   fab: {
@@ -27,6 +27,7 @@ const Budgets = () => {
 
   return (
     <>
+      <ProgressBar capacity={100} load={79} />
       <Fab
         onClick={onClick}
         color="primary"

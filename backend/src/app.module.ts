@@ -9,6 +9,7 @@ import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 import { Logger } from './modules/logger/logger.service';
 import { LoggerModule } from './modules/logger/logger.module';
+import { BudgetsModule } from './modules/budgets/budgets.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LoggerModule } from './modules/logger/logger.module';
     AccountsModule,
     ConfigModule,
     LoggerModule,
+    BudgetsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,9 +1,10 @@
 import React from "react";
-import CashFlowChart from "./CashFlowChart";
-import CategoryPie from "./CategoryPie";
 
 import { Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+
+import CashFlowChart from "../../Components/Charts/CashFlowChart";
+import CategoryPie from "../../Components/Charts/CategoryPie";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

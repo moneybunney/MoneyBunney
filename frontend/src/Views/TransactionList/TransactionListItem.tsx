@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({}));
 interface IProps {
   transaction: ITransaction;
   categoryText: string;
+  categoryIcon: string;
   accountText: string;
 }
 
@@ -27,6 +28,7 @@ const toDisplayDate = (d: Date) => {
 const TransactionListItem = ({
   transaction,
   categoryText,
+  categoryIcon,
   accountText
 }: IProps) => {
   const classes = useStyles();
@@ -51,7 +53,9 @@ const TransactionListItem = ({
   return (
     <Collapse in={shown}>
       <ListItem button={true}>
-        <TransactionListItemIcon iconId={transaction.category} />
+        <TransactionListItemIcon
+          iconId={categoryIcon !== "" ? categoryIcon : undefined}
+        />
         <ListItemText primary={primaryText} secondary={dateString} />
         <TransactionListItemPrice amount={parsedAmount} />
       </ListItem>

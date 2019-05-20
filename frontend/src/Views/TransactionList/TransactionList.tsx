@@ -1,8 +1,13 @@
-import { Collapse, List, Paper, Theme } from "@material-ui/core";
+import { Collapse, List, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { IAccount } from "../../Models/AccountModel";
-import { ICategory, ITransaction } from "../../Models/TransactionModel";
+import {
+  getCategoryIcon,
+  getCategoryName,
+  ICategory,
+  ITransaction
+} from "../../Models/TransactionModel";
 import TransactionListItem from "./TransactionListItem";
 import TransactionListLoadingItem from "./TransactionListLoadingItem";
 
@@ -76,8 +81,9 @@ const TransactionList = ({
         <TransactionListItem
           key={"transaction_" + i}
           transaction={t}
-          categoryText={categories[t.category].text}
+          categoryText={getCategoryName(t.category, categories)}
           accountText={getAccountName(t)}
+          categoryIcon={getCategoryIcon(t.category, categories)}
         />
       ))}
       <Collapse in={loading}>

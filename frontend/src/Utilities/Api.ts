@@ -1,8 +1,8 @@
-import { IAccount } from "../Models/AccountModel";
+import { IAccountCreateDTO } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
-import { post } from "./Http";
+import { get, post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
 
 interface ILoginData {
@@ -32,7 +32,7 @@ export const postTransaction = async (data: ITransaction) => {
   const DTO = {
     Date: new Date(data.date).toISOString(),
     Account: data.account.toString(),
-    Category: data.category.toString(),
+    Category: data.category,
     Amount: Number(data.amount),
     Description: data.description,
     Tags: data.tags
@@ -101,11 +101,7 @@ export const getTransactionListChunk = async (
   return query.execute();
 };
 
-export const postAccount = async (data: IAccount) => {
-  const DTO = {
-    Name: data.name,
-    InitialBalance: Number(data.initialBalance)
-  };
+export const postAccount = async (DTO: IAccountCreateDTO) => {
   const response = await post("/api/accounts", DTO);
   if (response.status === 201) {
     return response.body;
@@ -138,12 +134,101 @@ export const getIncomeByDateRange = async (from: Date, to: Date) => {
     .sum("Account");
 };
 
-export const getCategories = async () => {
-  return ["Beer", "Wine", "Other"].map(
-    (item, index): ICategory => ({ id: index, text: item })
-  );
+export const getCategories = async (): Promise<ICategory[]> => {
+  const response = await get("/api/transactions/categories");
+  if (response.status === 200) {
+    const jsonData = await response.json();
+    return jsonData.map((datum: any) => ({
+      id: datum._id,
+      text: datum.Name,
+      icon: datum.Icon
+    }));
+  } else {
+    throw new Error("Something went wrong when fetching categories");
+  }
 };
 
-export const getTags = async () => {
-  return ["foo", "bar", "baz", "bez", "booze", "bamboozle"];
+export const getTags = async (): Promise<string[]> => {
+  const response = await get("/api/transactions/tags");
+  if (response.status === 200) {
+    return response.json();
+  } else {
+    throw new Error("Something went wrong when fetching tags");
+  }
+};
+
+export const getNetWorth = async (): Promise<number> => {
+  const accounts = await getAccounts();
+
+  return accounts
+    .map(acc => acc.balance)
+    .reduce((total, balance) => total + balance);
+};
+
+export const getExpensesToday = async (): Promise<number> => {
+  const todayMidnight = new Date().setHours(0, 0, 0, 0);
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", todayMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getExpensesThisWeek = async (): Promise<number> => {
+  const today = new Date();
+  const lastMonday = new Date().setDate(today.getDate() - today.getDay());
+  const lastMondayMidnight = new Date(lastMonday).setHours(0, 0, 0, 0);
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", lastMondayMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getExpensesThisMonth = async (): Promise<number> => {
+  const today = new Date();
+  const firstOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstOfTheMonthMidnight = new Date(firstOfTheMonth).setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", firstOfTheMonthMidnight)
+    .lt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
+};
+
+export const getIncomeThisMonth = async (): Promise<number> => {
+  const today = new Date();
+  const firstOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstOfTheMonthMidnight = new Date(firstOfTheMonth).setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const transactions: ITransaction[] = await new TransactionQuery()
+    .gte("Date", firstOfTheMonthMidnight)
+    .gt("Amount", 0)
+    .execute();
+
+  return transactions
+    .map(transaction => transaction.amount)
+    .reduce((total, amount) => total + amount);
 };

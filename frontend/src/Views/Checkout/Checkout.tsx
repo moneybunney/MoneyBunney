@@ -1,6 +1,7 @@
 import { Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { useAccounts, useCategories } from "../../Hooks/useApi";
 import {
@@ -40,13 +41,19 @@ interface IProps {
 
 const Checkout = (props: IProps) => {
   const { data: categories } = useCategories();
-  const { data: accounts } = useAccounts();
+  const {
+    data: accounts,
+    loading: accountsLoading,
+    error: accountsError
+  } = useAccounts();
   const { history } = useReactRouter();
 
-  const [transaction, setTransaction] = useState(createEmptyTransaction());
+  const [transaction, setTransaction] = useState(createEmptyTransaction({}));
 
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const onFieldChange = (field: string, value: any) => {
     const clone = { ...transaction } as any;
@@ -61,13 +68,30 @@ const Checkout = (props: IProps) => {
     }
     postTransaction(currentTransaction)
       .catch(error => {
-        console.log(error);
+        enqueueSnackbar(
+          "An unspecified error occured when creating the transaction",
+          {
+            variant: "error"
+          }
+        );
       })
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Successfully created a transaction!", {
+          variant: "success"
+        });
         history.replace(TransactionsLocation);
       });
   };
+
+  useEffect(() => {
+    (async () => {
+      setLoading(false);
+      if (accounts.length > 0) {
+        setTransaction(createEmptyTransaction({ account: accounts[0].id }));
+      }
+    })();
+  }, [accountsLoading]);
 
   return (
     <React.Fragment>

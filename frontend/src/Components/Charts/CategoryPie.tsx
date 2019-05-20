@@ -22,7 +22,7 @@ const CategoryPie = () => {
   const { data: categories } = useCategories();
 
   const categoryNameReducer = (reduced: IChart[], value: IChart) => {
-    const categoryName = getCategoryName(parseInt(value.name, 10), categories);
+    const categoryName = getCategoryName(value.name, categories);
     if (categoryName !== "" && value.value !== 0) {
       reduced.push({
         name: categoryName,

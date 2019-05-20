@@ -5,9 +5,8 @@ import { Add } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import useReactRouter from "use-react-router";
 
-import { useAccounts } from "../../Hooks/useApi";
+import AccountList from "../../Components/AccountList/AccountList";
 import { AccountsCreateLocation } from "../../routes.constants";
-import AccountList from "./AccountList";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -21,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.up(360 + theme.spacing.unit * 3 * 2)]: {
       marginLeft: "auto",
       marginRight: "auto"
-    }
+    },
+    overflow: "auto"
   },
   fab: {
     position: "fixed",
@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Accounts = () => {
   const { history } = useReactRouter();
   const classes = useStyles();
-  const { data: accounts, loading } = useAccounts();
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
@@ -41,8 +40,10 @@ const Accounts = () => {
   };
 
   return (
-    <Paper className={classes.paper}>
-      <AccountList accounts={accounts} loading={loading} />
+    <>
+      <Paper className={classes.paper}>
+        <AccountList />
+      </Paper>
       <Fab
         onClick={onClick}
         color="primary"
@@ -51,7 +52,7 @@ const Accounts = () => {
       >
         <Add />
       </Fab>
-    </Paper>
+    </>
   );
 };
 

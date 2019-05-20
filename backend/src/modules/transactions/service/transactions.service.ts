@@ -61,4 +61,11 @@ export class TransactionsService {
       throw new BadRequestException('Validation failure:' + e.toString());
     }
   }
+
+  findAllTags(UserId: string): Promise<string[]> {
+    return this.transactionModel
+      .find({ UserId })
+      .distinct('Tags')
+      .exec();
+  }
 }

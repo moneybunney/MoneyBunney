@@ -4,9 +4,14 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { useCategories } from "../../Hooks/useApi";
-import { createEmptyBudget, IBudget } from "../../Models/BudgetModel";
+import {
+  createEmptyBudget,
+  IBudget,
+  IBudgetCreateDTO
+} from "../../Models/BudgetModel";
 import { BudgetsLocation } from "../../routes.constants";
 import BudgetForm from "./BudgetForm";
+import { postBudget } from "../../Utilities/Api";
 
 const useStyles = makeStyles((theme: Theme) => ({
   layout: {
@@ -32,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface IProps {
-  onSubmit?: (budget: IBudget) => void;
+  onSubmit?: (budget: IBudgetCreateDTO) => void;
 }
 
 const BudgetCreation = (props: IProps) => {
@@ -52,12 +57,27 @@ const BudgetCreation = (props: IProps) => {
     setBudget(clone);
   };
 
-  const onSubmit = (currentBudget: IBudget) => {
+  const onSubmit = (currentBudget: IBudgetCreateDTO) => {
     setLoading(true);
     if (props.onSubmit) {
       props.onSubmit(currentBudget);
     }
-    enqueueSnackbar("Submit not yet implemented!");
+    postBudget(currentBudget)
+      .catch(error => {
+        enqueueSnackbar(
+          "An unspecified error occured when creating the budget",
+          {
+            variant: "error"
+          }
+        );
+      })
+      .then(() => {
+        setLoading(false);
+        enqueueSnackbar("Successfully created a budget!", {
+          variant: "success"
+        });
+        history.replace(BudgetsLocation);
+      });
   };
 
   return (

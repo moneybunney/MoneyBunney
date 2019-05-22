@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getAccounts, getCategories, getTags } from "../Utilities/Api";
+import {
+  getAccounts,
+  getCategories,
+  getTags,
+  getBudgets
+} from "../Utilities/Api";
 
 const useApi = <S, A extends any[]>(
   apiMethod: (...args: A) => Promise<S>,
@@ -34,3 +39,4 @@ export default useApi;
 export const useAccounts = () => useApi(getAccounts, []);
 export const useCategories = () => useApi(getCategories, []);
 export const useTags = () => useApi(getTags, []);
+export const useBudgets = () => useApi(getBudgets, []);

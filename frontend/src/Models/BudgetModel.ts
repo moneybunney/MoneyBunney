@@ -9,15 +9,22 @@ export interface IBudget {
   currentAmount: number;
 }
 
-export const createEmptyBudget = (overrides: Partial<IBudget>): IBudget => ({
-  category: "-1",
-  startDate: getNowDate(),
-  endDate: getNowDate(),
-  id: "",
-  amount: NaN,
-  currentAmount: NaN,
+export const createEmptyBudget = (
+  overrides: Partial<IBudgetCreateDTO>
+): IBudgetCreateDTO => ({
+  Category: "-1",
+  StartDate: getNowDate(),
+  EndDate: getNowDate(),
+  Amount: NaN,
   ...overrides
 });
+
+export interface IBudgetCreateDTO {
+  Category: string;
+  StartDate: string;
+  EndDate: string;
+  Amount: number;
+}
 
 export const getCategoryName = (id: string, categories: ICategory[]) => {
   const categoriesWithId = categories.filter(category => category.id === id);

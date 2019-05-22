@@ -17,7 +17,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import React, { ChangeEvent, SyntheticEvent } from "react";
 import { ICategory } from "../../Models/TransactionModel";
-import { IBudget } from "../../Models/BudgetModel";
+import { IBudgetCreateDTO } from "../../Models/BudgetModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   margin: {
@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IProps {
   onFieldChange: (field: string, value: any) => void;
-  budget: IBudget;
+  budget: IBudgetCreateDTO;
   categories: ICategory[];
   loading: boolean;
-  onSubmit: (budget: IBudget) => void;
+  onSubmit: (budget: IBudgetCreateDTO) => void;
 }
 
 const BudgetForm = ({
@@ -53,7 +53,7 @@ const BudgetForm = ({
 }: IProps) => {
   const classes = useStyles();
 
-  const budgetAmount = Number(budget.amount);
+  const budgetAmount = Number(budget.Amount);
   const [categoryError, setCategoryError] = React.useState(false);
   const [amountError, setAmountError] = React.useState(false);
   const [startDateError, setStartDateError] = React.useState(false);
@@ -62,7 +62,7 @@ const BudgetForm = ({
   const fieldUpdate = (fieldId: string) => (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
-    if (fieldId === "startDate") {
+    if (fieldId === "StartDate") {
       const selectedDate = new Date(e.target.value);
       if (isNaN(selectedDate.getTime())) {
         setStartDateError(true);
@@ -71,7 +71,7 @@ const BudgetForm = ({
       }
     }
 
-    if (fieldId === "endDate") {
+    if (fieldId === "EndDate") {
       const now = new Date();
       const selectedDate = new Date(e.target.value);
       if (selectedDate < now || isNaN(selectedDate.getTime())) {
@@ -81,7 +81,7 @@ const BudgetForm = ({
       }
     }
 
-    if (fieldId === "amount") {
+    if (fieldId === "Amount") {
       setAmountError(false);
     }
 
@@ -98,22 +98,22 @@ const BudgetForm = ({
   const handleSubmit = (e: SyntheticEvent) => {
     // basic validation:
     let error = false;
-    const endDate = new Date(budget.endDate);
-    const startDate = new Date(budget.startDate);
+    const endDate = new Date(budget.EndDate);
+    const startDate = new Date(budget.StartDate);
     e.preventDefault();
-    if (categories.filter(it => it.id === budget.category).length === 0) {
+    if (categories.filter(it => it.id === budget.Category).length === 0) {
       setCategoryError(true);
       error = true;
     } else {
       setCategoryError(false);
     }
-    if (isNaN(budget.amount) || budget.amount <= 0) {
+    if (isNaN(budget.Amount) || budget.Amount <= 0) {
       setAmountError(true);
       error = true;
     } else {
       setAmountError(false);
     }
-    if (budget.endDate <= budget.startDate) {
+    if (budget.EndDate <= budget.StartDate) {
       setEndDateError(true);
       error = true;
     }
@@ -136,8 +136,8 @@ const BudgetForm = ({
               <InputLabel htmlFor="category-helper">Category</InputLabel>
               <Select
                 fullWidth={true}
-                value={budget.category}
-                onChange={handleSelect("category")}
+                value={budget.Category}
+                onChange={handleSelect("Category")}
                 input={<Input name="category" id="category-helper" />}
                 disabled={loading}
               >
@@ -155,12 +155,12 @@ const BudgetForm = ({
           <Grid item={true} xs={12} sm={6}>
             <FormControl fullWidth={true} error={startDateError}>
               <TextField
-                id="budget-start-datetime"
+                id="startDate"
                 label="Start date"
                 type="datetime-local"
-                value={budget.startDate}
+                value={budget.StartDate}
                 InputLabelProps={{ shrink: true }}
-                onChange={fieldUpdate("startDate")}
+                onChange={fieldUpdate("StartDate")}
                 fullWidth={true}
                 disabled={loading}
                 error={startDateError}
@@ -173,12 +173,12 @@ const BudgetForm = ({
           <Grid item={true} xs={12} sm={6}>
             <FormControl fullWidth={true} error={endDateError}>
               <TextField
-                id="budget-end-datetime"
+                id="endDate"
                 label="End date"
                 type="datetime-local"
-                value={budget.endDate}
+                value={budget.EndDate}
                 InputLabelProps={{ shrink: true }}
-                onChange={fieldUpdate("endDate")}
+                onChange={fieldUpdate("EndDate")}
                 fullWidth={true}
                 disabled={loading}
                 error={endDateError}
@@ -195,8 +195,8 @@ const BudgetForm = ({
                 name="amount"
                 label="Amount"
                 fullWidth={true}
-                onChange={fieldUpdate("amount")}
-                value={budget.amount}
+                onChange={fieldUpdate("Amount")}
+                value={budget.Amount}
                 error={amountError}
                 disabled={loading}
                 InputProps={{

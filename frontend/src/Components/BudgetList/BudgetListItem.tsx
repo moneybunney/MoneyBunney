@@ -3,12 +3,14 @@ import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
 import { IBudget } from "../../Models/BudgetModel";
 import ProgressBar from "../ProgressBar";
+import TransactionListItemIcon from "../../Views/TransactionList/TransactionListItemIcon";
 
 const useStyles = makeStyles((theme: Theme) => ({}));
 
 interface IProps {
   budget: IBudget;
   categoryText: string;
+  categoryIcon: string;
   load: number;
 }
 
@@ -23,7 +25,12 @@ const toDisplayDate = (d: Date) => {
   return date + " " + time;
 };
 
-const BudgetListItem = ({ budget, categoryText, load }: IProps) => {
+const BudgetListItem = ({
+  budget,
+  categoryText,
+  categoryIcon,
+  load
+}: IProps) => {
   const classes = useStyles();
   const [shown, setShown] = React.useState(false);
 
@@ -41,6 +48,9 @@ const BudgetListItem = ({ budget, categoryText, load }: IProps) => {
   return (
     <Collapse in={shown}>
       <ListItem button={true}>
+        <TransactionListItemIcon
+          iconId={categoryIcon !== "" ? categoryIcon : undefined}
+        />
         <ListItemText
           primary={primaryText + " " + startDateString + " - " + endDateString}
           secondary={load + "/" + budget.amount + "\u20AC"}

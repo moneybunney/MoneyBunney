@@ -1,9 +1,11 @@
 import { IAccountCreateDTO } from "../Models/AccountModel";
 import { IFilters } from "../Models/TransactionFilterModel";
 import { ICategory, ITransaction } from "../Models/TransactionModel";
+import { IBudgetCreateDTO } from "../Models/BudgetModel";
 import { AccountQuery } from "./AccountQuery/AccountQuery";
 import { get, post } from "./Http";
 import { TransactionQuery } from "./TransactionQuery/TransactionQuery";
+import { BudgetQuery } from "./BudgetQuery/BudgetQuery";
 
 interface ILoginData {
   email: string;
@@ -112,6 +114,19 @@ export const postAccount = async (DTO: IAccountCreateDTO) => {
 
 export const getAccounts = async () => {
   return new AccountQuery().execute();
+};
+
+export const postBudget = async (DTO: IBudgetCreateDTO) => {
+  const response = await post("/api/budgets", DTO);
+  if (response.status === 201) {
+    return response.body;
+  } else {
+    throw new Error("Something went wrong");
+  }
+};
+
+export const getBudgets = async () => {
+  return new BudgetQuery().execute();
 };
 
 export const getExpenseByCategoryData = async () => {

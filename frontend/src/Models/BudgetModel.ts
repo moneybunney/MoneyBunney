@@ -6,6 +6,7 @@ export interface IBudget {
   startDate: string;
   endDate: string;
   amount: number;
+  currentAmount: number;
 }
 
 export const createEmptyBudget = (overrides: Partial<IBudget>): IBudget => ({
@@ -14,6 +15,7 @@ export const createEmptyBudget = (overrides: Partial<IBudget>): IBudget => ({
   endDate: getNowDate(),
   id: "",
   amount: NaN,
+  currentAmount: NaN,
   ...overrides
 });
 

@@ -3,7 +3,8 @@ import {
   Collapse,
   Divider,
   List,
-  Theme
+  Theme,
+  Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
@@ -36,7 +37,18 @@ const BudgetList = () => {
   const collapsedHeight = loading
     ? `${spinnerSize + marginTopSize * 2}px`
     : undefined;
-
+  if (budgets.length == 0) {
+    return (
+      <Typography
+        variant="subheading"
+        align="center"
+        color="textSecondary"
+        style={{ padding: 15 }}
+      >
+        No budgets found
+      </Typography>
+    );
+  }
   return (
     <List className={classes.listRoot}>
       <Collapse in={!loading} collapsedHeight={collapsedHeight}>

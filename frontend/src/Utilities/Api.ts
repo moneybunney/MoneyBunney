@@ -126,7 +126,12 @@ export const postBudget = async (DTO: IBudgetCreateDTO) => {
 };
 
 export const getBudgets = async () => {
-  return new BudgetQuery().execute();
+  const budgets = await new BudgetQuery().execute();
+
+  return budgets.filter(budget => {
+    const endDate = new Date(budget.endDate);
+    return new Date() < endDate;
+  })
 };
 
 export const getExpenseByCategoryData = async () => {

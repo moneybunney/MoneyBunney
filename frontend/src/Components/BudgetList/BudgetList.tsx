@@ -44,7 +44,7 @@ const BudgetList = () => {
         color="textSecondary"
         style={{ padding: 15 }}
       >
-        No budgets found
+        No active budgets found
       </Typography>
     );
   }

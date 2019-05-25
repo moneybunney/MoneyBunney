@@ -15,7 +15,9 @@ import {
   RegisterLocation,
   ReportsLocation,
   TransactionsCreateLocation,
-  TransactionsLocation
+  TransactionsLocation,
+  BudgetsLocation,
+  BudgetsCreateLocation
 } from "./routes.constants";
 
 import AccountCreation from "./Views/AccountCreation/AccountCreation";
@@ -26,6 +28,8 @@ import Login from "./Views/Login/Login";
 import Register from "./Views/Register/Register";
 import Reports from "./Views/Reports/Reports";
 import TransactionView from "./Views/TransactionList/TransactionView";
+import Budgets from "./Views/Budgets/Budgets";
+import BudgetCreation from "./Views/BudgetCreation/BudgetCreation";
 
 import NavigationWrapper from "./Components/NavigationWrapper/NavigationWrapper";
 import GuestRoute from "./Components/routes/GuestRoute";
@@ -47,6 +51,8 @@ const HomeRoutes = () => {
         <Route path={TransactionsCreateLocation} component={Checkout} />
         <Route path={DashboardLocation} component={Dashboard} />
         <Route path={ReportsLocation} component={Reports} />
+        <Route exact={true} path={BudgetsLocation} component={Budgets} />
+        <Route path={BudgetsCreateLocation} component={BudgetCreation} />
         <Redirect to={DashboardLocation} />
       </Switch>
     </NavigationWrapper>

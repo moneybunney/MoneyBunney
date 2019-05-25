@@ -6,7 +6,10 @@ export const AccountsCreateLocation = "/accounts/create";
 
 export const DashboardLocation = "/dashboard";
 export const ReportsLocation = "/reports";
+
 export const BudgetsLocation = "/budgets";
+export const BudgetsCreateLocation = "/budgets/create";
+
 export const AccountInfoLocation = "/account";
 export const SettingsLocation = "/settings";
 

@@ -4,6 +4,7 @@ import { Grid, Paper, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import AccountList from "../../Components/AccountList/AccountList";
+import BudgetList from "../../Components/BudgetList/BudgetList";
 import CategoryPie from "../../Components/Charts/CategoryPie";
 import DashboardStatisticList from "./DashboardStatisticList";
 
@@ -42,9 +43,7 @@ const Dashboard = () => {
           Budgets
         </Typography>
         <Paper className={classes.paper}>
-          <Typography variant={"h5"} style={{ margin: "15px" }}>
-            TBD
-          </Typography>
+          <BudgetList />
         </Paper>
       </Grid>
       <Grid item={true} md={6} xs={12}>

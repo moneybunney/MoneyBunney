@@ -1,9 +1,14 @@
 import { CategorySchema } from '../modules/transactions/schemas/category.schema';
 import * as mongoose from 'mongoose';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
 const Category = mongoose.model('Category', CategorySchema);
 
-mongoose.connect('mongodb://localhost:27017/moneybunney', {
+const dotEnvData = dotenv.parse(fs.readFileSync('../.env'));
+const config = { ...dotEnvData, ...process.env };
+
+mongoose.connect(`mongodb://${config.DB_HOST}:${config.DB_PORT}/moneybunney`, {
   useNewUrlParser: true,
 });
 
@@ -50,15 +55,27 @@ const categories = [
   }),
 ];
 
-let done = 0;
-for (let i = 0; i < categories.length; i++) {
-  categories[i].save(function(err, result) {
-    done++;
-    if (done === categories.length) {
-      exit();
-    }
+Category.deleteMany({}, err => {
+  // out with the old
+  if (err) {
+    // tslint:disable-next-line:no-console
+    console.log(err);
+  }
+  let done = 0;
+  // in with the new
+  categories.forEach(e => {
+    e.save((saveErr, result) => {
+      if (saveErr) {
+        // tslint:disable-next-line: no-console
+        console.log(saveErr);
+      }
+      done++;
+      if (done === categories.length) {
+        exit();
+      }
+    });
   });
-}
+});
 
 function exit() {
   mongoose.disconnect();

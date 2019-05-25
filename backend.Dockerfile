@@ -10,6 +10,7 @@ COPY .env .env
 COPY backend/package*.json ./backend/
 
 RUN npm --prefix ./backend install
+RUN npm --prefix ./backend run-script seed
 
 # Bundle app source
 COPY ./backend ./backend

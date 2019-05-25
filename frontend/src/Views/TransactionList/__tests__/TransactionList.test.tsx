@@ -22,7 +22,8 @@ describe("<TransactionList />", () => {
   const categories: ICategory[] = [
     {
       id: "1",
-      text: "foo"
+      text: "foo",
+      icon: "mdiBankTransfer"
     }
   ];
 
@@ -30,7 +31,7 @@ describe("<TransactionList />", () => {
     {
       id: "0",
       name: "Bar",
-      initialBalance: 0
+      balance: 123
     }
   ];
 

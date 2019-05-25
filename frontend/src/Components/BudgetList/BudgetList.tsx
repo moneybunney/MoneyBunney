@@ -9,13 +9,12 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { useBudgets, useCategories } from "../../Hooks/useApi";
-import BudgetListItem from "./BudgetListItem";
 import {
-  getCategoryName,
   getCategoryIcon,
+  getCategoryName,
   ICategory
 } from "../../Models/TransactionModel";
-import { IBudget } from "../../Models/BudgetModel";
+import BudgetListItem from "./BudgetListItem";
 
 const spinnerSize = 40;
 const marginTopSize = 10;
@@ -37,7 +36,7 @@ const BudgetList = () => {
   const collapsedHeight = loading
     ? `${spinnerSize + marginTopSize * 2}px`
     : undefined;
-  if (budgets.length == 0) {
+  if (!loading && budgets.length === 0) {
     return (
       <Typography
         variant="subheading"

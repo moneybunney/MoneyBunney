@@ -4,9 +4,9 @@ import { mount } from "enzyme";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import Accounts from "../Accounts";
+import Register from "../Register";
 
-describe("<Accounts />", () => {
+describe("<Register />", () => {
   const theme = createMuiTheme({
     typography: {
       useNextVariants: true
@@ -18,7 +18,7 @@ describe("<Accounts />", () => {
       mount(
         <ThemeProvider theme={theme}>
           <Router>
-            <Accounts />
+            <Register />
           </Router>
         </ThemeProvider>
       );

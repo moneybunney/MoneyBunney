@@ -54,12 +54,11 @@ const TransactionListItem = ({
     if (!deleted) {
       setShown(true);
     }
-  });
+  }, [deleted]);
 
   const onDeleteWrapper = () => {
     setDeleted(true);
     setShown(false);
-    console.log("Closing transaction: " + transaction.id);
     // let the closing animation play out
     setTimeout(() => onTransactionDeleted(transaction.id), 400);
   };

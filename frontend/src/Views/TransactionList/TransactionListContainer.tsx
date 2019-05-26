@@ -67,9 +67,6 @@ const TransactionListContainer = ({
   const reducer = (oldState: IState, action: IAction): IState => {
     switch (action.type) {
       case ActionType.TransactionDeleted:
-        console.log(
-          "Transaction to be removed from state:" + action.payload[0].id
-        );
         const filteredTransactions = oldState.transactions.filter(
           t => t.id !== action.payload[0].id
         );
@@ -112,7 +109,6 @@ const TransactionListContainer = ({
   const transactionDeletedCallback = (id: string) => {
     const transactionToBeRemoved = state.transactions.find(t => t.id === id);
     if (transactionToBeRemoved !== undefined) {
-      console.log("Dispatching transaction remove!");
       dispatch({
         type: ActionType.TransactionDeleted,
         payload: [transactionToBeRemoved]

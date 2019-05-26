@@ -157,7 +157,7 @@ const BudgetForm = ({
               <TextField
                 id="startDate"
                 label="Start date"
-                type="datetime-local"
+                type="datetime"
                 value={budget.StartDate}
                 InputLabelProps={{ shrink: true }}
                 onChange={fieldUpdate("StartDate")}
@@ -175,7 +175,7 @@ const BudgetForm = ({
               <TextField
                 id="endDate"
                 label="End date"
-                type="datetime-local"
+                type="datetime"
                 value={budget.EndDate}
                 InputLabelProps={{ shrink: true }}
                 onChange={fieldUpdate("EndDate")}

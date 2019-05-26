@@ -8,6 +8,7 @@ import {
   Param,
   UseGuards,
 } from '@nestjs/common';
+import { AccountsService } from '../accounts/service/accounts.service';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './interfaces/user.interface';
@@ -22,6 +23,7 @@ import { Logger } from '../logger/logger.service';
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly accountsService: AccountsService,
     private readonly logger: Logger,
   ) {}
 
@@ -51,7 +53,11 @@ export class UserController {
   public async create(@Body() createUser: UserDTO, @Res() res: Response) {
     this.logger.log('Received user');
     this.logger.log(createUser.email);
-    await this.userService.createUser(createUser);
+    const user = await this.userService.createUser(createUser);
+    await this.accountsService.create(
+      { Name: 'Cash', InitialBalance: 0 },
+      user.id,
+    );
     let token: string = await Buffer.from(JSON.stringify(createUser)).toString(
       'base64',
     );

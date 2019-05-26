@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AccountsController } from './accounts.controller';
 import { AccountsService } from './service/accounts.service';
@@ -17,7 +17,7 @@ import { TransactionQueryService } from '../transactions/service/transaction.que
       { name: 'Transactions', schema: TransactionsSchema },
     ]),
     LoggerModule,
-    UserModule,
+    forwardRef(() => UserModule),
     TransactionsModule,
   ],
   controllers: [AccountsController],

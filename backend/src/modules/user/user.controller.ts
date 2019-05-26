@@ -8,6 +8,7 @@ import {
   Param,
   UseGuards,
 } from '@nestjs/common';
+import { AccountsService } from '../accounts/service/accounts.service';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './interfaces/user.interface';
@@ -17,10 +18,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { AppError } from '../../common/error/AppError';
 import { AppErrorTypeEnum } from '../../common/error/AppErrorTypeEnum';
 import { Logger } from '../logger/logger.service';
+import { ModuleRef } from '@nestjs/core';
 
 @Controller('api/user')
 export class UserController {
   constructor(
+    private readonly moduleRef: ModuleRef,
     private readonly userService: UserService,
     private readonly logger: Logger,
   ) {}
@@ -51,7 +54,10 @@ export class UserController {
   public async create(@Body() createUser: UserDTO, @Res() res: Response) {
     this.logger.log('Received user');
     this.logger.log(createUser.email);
-    await this.userService.createUser(createUser);
+    const user = await this.userService.createUser(createUser);
+    await this.moduleRef
+      .get(AccountsService, { strict: false })
+      .create({ Name: 'Cash', InitialBalance: 0 }, user.id);
     let token: string = await Buffer.from(JSON.stringify(createUser)).toString(
       'base64',
     );

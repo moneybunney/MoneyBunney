@@ -5,7 +5,6 @@ import {
   Delete,
   Body,
   Query,
-  Param,
   Res,
   UsePipes,
   HttpStatus,
@@ -14,9 +13,7 @@ import {
 import { TransactionsService } from './service/transactions.service';
 import { CategoryService } from './service/category.service';
 import { TransactionDTO } from './dto/transaction.dto';
-import { CategoryDto } from './dto/category.dto';
 import { Transactions } from './interfaces/transactions.interface';
-import { Categories } from './interfaces/category.interface';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Logger } from '../logger/logger.service';
@@ -28,10 +25,10 @@ import { UserService } from '../user/user.service';
 @Controller('api/transactions')
 export class TransactionsController {
   constructor(
+    private readonly userService: UserService,
     private readonly transactionsService: TransactionsService,
     private readonly categoryService: CategoryService,
     private readonly queryService: TransactionQueryService,
-    private readonly userService: UserService,
     private readonly logger: Logger,
   ) {}
 

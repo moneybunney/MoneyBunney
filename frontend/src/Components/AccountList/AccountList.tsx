@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const AccountList = ({ showDelete }: { showDelete?: boolean }) => {
+const AccountList = ({ showDelete = false }: { showDelete?: boolean }) => {
   const classes = useStyles();
   const { data: accounts, loading, setData } = useAccounts();
 

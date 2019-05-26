@@ -26,7 +26,7 @@ Išorinė dalis:
 `cd frontend && npm start`
 
 Vidinė dalis (įsitikinus, kad mongo serveris paleistas):
-`cd backend && npm run start:dev`
+`cd backend && npm run start`
 
 ## Papildoma informacija
 

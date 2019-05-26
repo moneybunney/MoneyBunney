@@ -1,4 +1,4 @@
-import { Theme, Typography } from "@material-ui/core";
+import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
@@ -32,11 +32,13 @@ const BalanceAmountText = ({ amount, difference }: IProps) => {
   }
 
   return (
-    <Typography className={classes.amountText}>
-      <span className={negative ? classes.negative : classes.positive}>
-        {amountText}
-      </span>
-    </Typography>
+    <span
+      className={`${classes.amountText} ${
+        negative ? classes.negative : classes.positive
+      }`}
+    >
+      {amountText}
+    </span>
   );
 };
 

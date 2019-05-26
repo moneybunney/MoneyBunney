@@ -78,3 +78,16 @@ export const getPost = (
   };
   return http(input, options, params);
 };
+
+// -- delet this, delet that,
+export const delet = (
+  input: RequestInfo,
+  params?: Map<string, string>,
+  init?: RequestInit
+): Promise<Response> => {
+  const options: RequestInit = {
+    method: "DELETE",
+    ...init
+  };
+  return http(input, options, params);
+};

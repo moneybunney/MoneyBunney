@@ -35,7 +35,8 @@ export class AccountsService {
 
   async remove(id: string): Promise<any> {
     try {
-      return await this.accountModel
+      await this.transactionModel.deleteMany({ Account: id });
+      await this.accountModel
         .findById(id)
         .remove()
         .exec();

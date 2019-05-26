@@ -1,17 +1,31 @@
-import { Collapse, ListItem, ListItemText, Theme } from "@material-ui/core";
+import {
+  Collapse,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Theme
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
+import DeleteItemButton from "../../Components/DeleteItemButton";
 import { ITransaction } from "../../Models/TransactionModel";
 import TransactionListItemPrice from "./TransactionListItemAmount";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 
-const useStyles = makeStyles((theme: Theme) => ({}));
+const useStyles = makeStyles((theme: Theme) => ({
+  secondary: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+}));
 
 interface IProps {
   transaction: ITransaction;
   categoryText: string;
   categoryIcon: string;
   accountText: string;
+  onTransactionDeleted: (id: string) => void;
 }
 
 const toDisplayDate = (d: Date) => {
@@ -29,14 +43,25 @@ const TransactionListItem = ({
   transaction,
   categoryText,
   categoryIcon,
-  accountText
+  accountText,
+  onTransactionDeleted
 }: IProps) => {
   const classes = useStyles();
   const [shown, setShown] = React.useState(false);
+  const [deleted, setDeleted] = React.useState(false);
 
   useEffect(() => {
-    setShown(true);
-  });
+    if (!deleted) {
+      setShown(true);
+    }
+  }, [deleted]);
+
+  const onDeleteWrapper = () => {
+    setDeleted(true);
+    setShown(false);
+    // let the closing animation play out
+    setTimeout(() => onTransactionDeleted(transaction.id), 400);
+  };
 
   const primaryText = transaction.description
     ? transaction.description
@@ -57,7 +82,14 @@ const TransactionListItem = ({
           iconId={categoryIcon !== "" ? categoryIcon : undefined}
         />
         <ListItemText primary={primaryText} secondary={dateString} />
-        <TransactionListItemPrice amount={parsedAmount} />
+        <ListItemSecondaryAction className={classes.secondary}>
+          <TransactionListItemPrice amount={parsedAmount} />
+          <DeleteItemButton
+            path="/api/transactions"
+            params={new Map([["id", transaction.id]])}
+            onDeleted={onDeleteWrapper}
+          />
+        </ListItemSecondaryAction>
       </ListItem>
     </Collapse>
   );

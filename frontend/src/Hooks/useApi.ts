@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
   getAccounts,
+  getBudgets,
   getCategories,
-  getTags,
-  getBudgets
+  getTags
 } from "../Utilities/Api";
 
 const useApi = <S, A extends any[]>(
@@ -30,7 +30,8 @@ const useApi = <S, A extends any[]>(
   return {
     data,
     loading,
-    error
+    error,
+    setData
   };
 };
 

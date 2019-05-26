@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const AccountList = () => {
   const classes = useStyles();
-  const { data: accounts, loading } = useAccounts();
+  const { data: accounts, loading, setData } = useAccounts();
+  const onAccountDeleted = (id: string) => {
+    setData(accounts.filter(it => it.id !== id));
+  };
   const collapsedHeight = loading
     ? `${spinnerSize + marginTopSize * 2}px`
     : undefined;
@@ -42,7 +45,7 @@ const AccountList = () => {
         )}
         {accounts.map((account, index) => (
           <React.Fragment key={account.id}>
-            <AccountListItem account={account} />
+            <AccountListItem account={account} onDeleted={onAccountDeleted} />
             {index + 1 < accounts.length && <Divider />}
           </React.Fragment>
         ))}

@@ -42,7 +42,7 @@ const Accounts = () => {
   return (
     <>
       <Paper className={classes.paper}>
-        <AccountList />
+        <AccountList showDelete={true} />
       </Paper>
       <Fab
         onClick={onClick}

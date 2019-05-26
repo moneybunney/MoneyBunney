@@ -80,8 +80,6 @@ const applyFilters = (
         query = query.lt("Amount", 0);
       }
     }
-
-    // TODO: Support for Transfers
   }
 
   return query;

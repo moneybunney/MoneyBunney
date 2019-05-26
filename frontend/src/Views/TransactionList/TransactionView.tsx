@@ -42,7 +42,7 @@ const TransactionView = () => {
       key: id.toString(),
       value: text
     })),
-    transactionTypes: ["Expense", "Income", "Transfer"].map(item => ({
+    transactionTypes: ["Expense", "Income"].map(item => ({
       key: item,
       value: item
     })),

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IProps {
   account: IAccount;
-  onDeleted: (id: string) => void;
+  onDeleted?: (id: string) => void;
 }
 
 const AccountListItem = ({ account, onDeleted }: IProps) => {
@@ -40,10 +40,13 @@ const AccountListItem = ({ account, onDeleted }: IProps) => {
   }, [deleted]);
 
   const onDeleteWrapper = () => {
-    setDeleted(true);
-    setShown(false);
-    // let the closing animation play out
-    setTimeout(() => onDeleted(account.id), 400);
+    // make the compiler happy
+    if (onDeleted) {
+      setDeleted(true);
+      setShown(false);
+      // let the closing animation play out
+      setTimeout(() => onDeleted(account.id), 400);
+    }
   };
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -57,11 +60,13 @@ const AccountListItem = ({ account, onDeleted }: IProps) => {
         <ListItemText primary={account.name} />
         <ListItemSecondaryAction className={classes.secondary}>
           <BalanceAmountText amount={account.balance} difference={false} />
-          <DeleteItemButton
-            path="/api/accounts"
-            params={new Map([["id", account.id]])}
-            onDeleted={onDeleteWrapper}
-          />
+          {!!onDeleted && (
+            <DeleteItemButton
+              path="/api/accounts"
+              params={new Map([["id", account.id]])}
+              onDeleted={onDeleteWrapper}
+            />
+          )}
         </ListItemSecondaryAction>
       </ListItem>
     </Collapse>

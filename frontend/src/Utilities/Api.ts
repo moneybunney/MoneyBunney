@@ -117,7 +117,13 @@ export const getAccounts = async () => {
 };
 
 export const postBudget = async (DTO: IBudgetCreateDTO) => {
-  const response = await post("/api/budgets", DTO);
+  const Obj = {
+    StartDate: new Date(DTO.StartDate).toISOString(),
+    EndDate: new Date(DTO.EndDate).toISOString(),
+    Category: DTO.Category,
+    Amount: Number(DTO.Amount)
+  };
+  const response = await post("/api/budgets", Obj);
   if (response.status === 201) {
     return response.body;
   } else {
@@ -131,7 +137,7 @@ export const getBudgets = async () => {
   return budgets.filter(budget => {
     const endDate = new Date(budget.endDate);
     return new Date() < endDate;
-  })
+  });
 };
 
 export const getExpenseByCategoryData = async () => {

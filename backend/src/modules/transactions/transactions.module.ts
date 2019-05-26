@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionsController } from './transactions.controller';
 import { CategoriesController } from './categories.controller';
@@ -17,7 +17,7 @@ import { UserModule } from '../user/user.module';
       { name: 'Transactions', schema: TransactionsSchema },
     ]),
     LoggerModule,
-    UserModule,
+    forwardRef(() => UserModule),
     MongooseModule.forFeature([{ name: 'Categories', schema: CategorySchema }]),
   ],
   controllers: [TransactionsController, CategoriesController],

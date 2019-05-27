@@ -10,8 +10,7 @@ import TransactionList from "./TransactionList";
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     display: "block",
-    // the child list fills the parent
-    width: 360,
+    wdith: "100%",
     marginTop: 32,
     marginBottom: 16,
     marginLeft: theme.spacing.unit * 3,

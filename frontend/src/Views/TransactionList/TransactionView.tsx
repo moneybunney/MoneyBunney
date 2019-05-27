@@ -1,4 +1,4 @@
-import { Theme } from "@material-ui/core";
+import { Grid, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "fixed",
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 20
+  },
+  transactionPapaer: {
+    width: "100%"
   }
 }));
 
@@ -54,11 +57,15 @@ const TransactionView = () => {
 
   return (
     <>
-      <TransactionListContainer
-        filters={filters}
-        accounts={accounts}
-        categories={categories}
-      />
+      <Grid container={true} spacing={32} style={{ justifyContent: "center" }}>
+        <Grid item={true} xs={12} lg={9} xl={6}>
+          <TransactionListContainer
+            filters={filters}
+            accounts={accounts}
+            categories={categories}
+          />
+        </Grid>
+      </Grid>
       <CreateTransactionButton className={classes.createFab} />
       <TransactionFilter
         className={classes.filterFab}

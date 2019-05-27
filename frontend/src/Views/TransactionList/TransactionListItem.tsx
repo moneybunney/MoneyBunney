@@ -8,12 +8,22 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect } from "react";
 import DeleteItemButton from "../../Components/DeleteItemButton";
+import { useAccounts } from "../../Hooks/useApi";
 import { ITransaction } from "../../Models/TransactionModel";
+import { TransactionsCreateLocation } from "../../routes.constants";
 import TransactionListItemPrice from "./TransactionListItemAmount";
 import TransactionListItemIcon from "./TransactionListItemIcon";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  primary: {
+    marginRight: "64px"
+  },
   secondary: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  itemContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -49,11 +59,13 @@ const TransactionListItem = ({
   const classes = useStyles();
   const [shown, setShown] = React.useState(false);
   const [deleted, setDeleted] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   useEffect(() => {
     if (!deleted) {
       setShown(true);
     }
+    setIsMobile(window.innerWidth < 720);
   }, [deleted]);
 
   const onDeleteWrapper = () => {
@@ -63,9 +75,13 @@ const TransactionListItem = ({
     setTimeout(() => onTransactionDeleted(transaction.id), 400);
   };
 
-  const primaryText = transaction.description
-    ? transaction.description
-    : categoryText;
+  const maxPrimaryLen = isMobile ? 36 : 96;
+
+  const primaryText =
+    transaction.description && transaction.description.length < maxPrimaryLen
+      ? transaction.description
+      : categoryText;
+
   const parsedAmount = transaction.amount;
 
   const parsedDate = new Date(transaction.date);
@@ -75,13 +91,19 @@ const TransactionListItem = ({
   today.setSeconds(0);
 
   const dateString = parsedDate >= today ? "Today" : toDisplayDate(parsedDate);
+  const secondaryString =
+    (accountText.length < 15 ? `${accountText} — ` : "") + dateString;
   return (
     <Collapse in={shown}>
-      <ListItem button={true}>
+      <ListItem button={true} className={classes.itemContainer}>
         <TransactionListItemIcon
           iconId={categoryIcon !== "" ? categoryIcon : undefined}
         />
-        <ListItemText primary={primaryText} secondary={dateString} />
+        <ListItemText
+          className={classes.primary}
+          primary={primaryText}
+          secondary={secondaryString}
+        />
         <ListItemSecondaryAction className={classes.secondary}>
           <TransactionListItemPrice amount={parsedAmount} />
           <DeleteItemButton

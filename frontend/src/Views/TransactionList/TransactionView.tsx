@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "fixed",
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 20
-  },
-  transactionPapaer: {
-    width: "100%"
   }
 }));
 

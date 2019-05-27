@@ -5,12 +5,10 @@ import { makeStyles } from "@material-ui/styles";
 
 import { Route, Switch } from "react-router";
 import {
-  AccountInfoLocation,
   AccountsLocation,
   BudgetsLocation,
   DashboardLocation,
   ReportsLocation,
-  SettingsLocation,
   TransactionsLocation
 } from "../../routes.constants";
 import LogOutButton from "../LogOutButton";
@@ -44,8 +42,6 @@ const PageHeader = () => {
             <Route path={AccountsLocation} render={() => "Accounts"} />
             <Route path={ReportsLocation} render={() => "Reports"} />
             <Route path={BudgetsLocation} render={() => "Budget"} />
-            <Route path={AccountInfoLocation} render={() => "Account"} />
-            <Route path={SettingsLocation} render={() => "Settings"} />
             <Route path="/" render={() => "Dashboard"} />
           </Switch>
         </Typography>

@@ -2,7 +2,6 @@ import { Divider, Drawer, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import MainListItems from "./MainListItems";
-import SecondaryListItems from "./SecondaryListItems";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,7 +29,6 @@ const NavigationSidebar = () => {
         <Divider />
         <MainListItems />
         <Divider />
-        <SecondaryListItems />
       </Drawer>
     </React.Fragment>
   );

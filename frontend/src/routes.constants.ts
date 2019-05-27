@@ -10,8 +10,5 @@ export const ReportsLocation = "/reports";
 export const BudgetsLocation = "/budgets";
 export const BudgetsCreateLocation = "/budgets/create";
 
-export const AccountInfoLocation = "/account";
-export const SettingsLocation = "/settings";
-
 export const LoginLocation = "/login";
 export const RegisterLocation = "/register";

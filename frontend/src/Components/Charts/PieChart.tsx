@@ -4,7 +4,18 @@ import React from "react";
 import { Cell, Legend, Pie, PieChart, PieLabelRenderProps } from "recharts";
 import { IChart } from "../../Models/ChartModel";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#2243B6",
+  "#FFAA1D",
+  "#FD3A4A",
+  "#9C51B6",
+  "#E936A7",
+  "#A83731"
+];
 
 const RADIAN = Math.PI / 180;
 

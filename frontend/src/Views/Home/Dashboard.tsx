@@ -38,7 +38,7 @@ const Dashboard = () => {
           <DashboardStatisticList />
         </Paper>
       </Grid>
-      <Grid item={true} md={6} xs={12}>
+      <Grid item={true} md={9} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Budgets
         </Typography>
@@ -46,11 +46,16 @@ const Dashboard = () => {
           <BudgetList />
         </Paper>
       </Grid>
-      <Grid item={true} md={6} xs={12}>
+      <Grid item={true} md={3} xs={12}>
         <Typography className={classes.title} variant={"h4"}>
           Expenses by category
         </Typography>
-        <CategoryPie />
+        <Paper
+          className={classes.paper}
+          style={{ overflow: "hidden", height: "40vh" }}
+        >
+          <CategoryPie />
+        </Paper>
       </Grid>
     </Grid>
   );

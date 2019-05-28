@@ -49,38 +49,36 @@ export class SumAggregator extends Aggregator {
               resolutions.forEach((elements, index) => {
                 const key = uniqueValues[index];
                 let sum = 0;
-                if (payload.dateAggregation) {
+                if (payload.dateAggregation && elements.length > 0) {
                   const dates = this.generateDates(
                     elements[0].Date,
                     elements[elements.length - 1].Date,
                     payload.dateAggregation,
                   );
-                  response.push(
-                    dates.map(date => {
-                      sum = 0;
-                      let dateKey: string;
-                      if (payload.dateAggregation === 'Year') {
-                        dateKey = date.year.toString();
-                        elements.forEach(e => {
-                          if (e.Date.getFullYear() === date.year) {
-                            sum += e.Amount;
-                          }
-                        });
-                      }
-                      if (payload.dateAggregation === 'Month') {
-                        dateKey = `${date.year}-${date.month}`;
-                        elements.forEach(e => {
-                          if (
-                            e.Date.getFullYear() === date.year &&
-                            e.Date.getMonth() + 1 === date.month
-                          ) {
-                            sum += e.Amount;
-                          }
-                        });
-                      }
-                      return { Key: key, DateKey: dateKey, Sum: sum };
-                    }),
-                  );
+                  dates.forEach(date => {
+                    sum = 0;
+                    let dateKey: string;
+                    if (payload.dateAggregation === 'Year') {
+                      dateKey = date.year.toString();
+                      elements.forEach(e => {
+                        if (e.Date.getFullYear() === date.year) {
+                          sum += e.Amount;
+                        }
+                      });
+                    }
+                    if (payload.dateAggregation === 'Month') {
+                      dateKey = `${date.year}-${date.month}`;
+                      elements.forEach(e => {
+                        if (
+                          e.Date.getFullYear() === date.year &&
+                          e.Date.getMonth() + 1 === date.month
+                        ) {
+                          sum += e.Amount;
+                        }
+                      });
+                    }
+                    response.push({ Key: key, DateKey: dateKey, Sum: sum });
+                  });
                 } else {
                   elements.forEach(e => {
                     sum += e.Amount;

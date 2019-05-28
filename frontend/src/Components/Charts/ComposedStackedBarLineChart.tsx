@@ -33,6 +33,32 @@ interface IProps {
   lineLabel?: string;
 }
 
+interface IMaxLengths {
+  negative: number;
+  positive: number;
+}
+
+const maxLengthIndex = (data: IComposedChart[]): IMaxLengths => {
+  let maxNegativeLength = 0;
+  let maxNegativeIndex = 0;
+  let maxPositiveLength = 0;
+  let maxPositiveIndex = 0;
+  data.forEach((element, index) => {
+    if (element.negativeValues.length > maxNegativeLength) {
+      maxNegativeLength = element.negativeValues.length;
+      maxNegativeIndex = index;
+    }
+    if (element.positiveValues.length > maxPositiveLength) {
+      maxPositiveLength = element.positiveValues.length;
+      maxPositiveIndex = index;
+    }
+  });
+  return {
+    negative: maxNegativeIndex,
+    positive: maxPositiveIndex
+  };
+};
+
 const BasicComposedChart = ({
   data,
   loading,
@@ -41,6 +67,7 @@ const BasicComposedChart = ({
   lineLabel = "Line"
 }: IProps) => {
   const classes = useStyles();
+  const maxIndices = maxLengthIndex(data);
   return (
     <React.Fragment>
       {loading && <CircularProgress size={100} className={classes.root} />}
@@ -64,7 +91,7 @@ const BasicComposedChart = ({
           <Legend />
           <ReferenceLine y={0} stroke="#000" />
           {data.length > 0 &&
-            data[0].positiveValues.map((value, index) => {
+            data[maxIndices.positive].positiveValues.map((value, index) => {
               return (
                 <Bar
                   key={`positiveBar_${index}`}
@@ -76,7 +103,7 @@ const BasicComposedChart = ({
               );
             })}
           {data.length > 0 &&
-            data[0].negativeValues.map((value, index) => {
+            data[maxIndices.negative].negativeValues.map((value, index) => {
               return (
                 <Bar
                   key={`negativeBar_${index}`}

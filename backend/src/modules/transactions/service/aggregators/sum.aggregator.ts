@@ -37,6 +37,7 @@ export class SumAggregator extends Aggregator {
             try {
               const query = postSelectorQuery()
                 .where(payload.distinctColumn, k)
+                .sort('Date')
                 .exec();
               queries.push(query);
             } catch (e) {
@@ -48,11 +49,45 @@ export class SumAggregator extends Aggregator {
               resolutions.forEach((elements, index) => {
                 const key = uniqueValues[index];
                 let sum = 0;
-                elements.forEach(e => {
-                  sum += e.Amount;
-                });
-                const o: SumResponseObjectDTO = { Key: key, Sum: sum };
-                response.push(o);
+                if (payload.dateAggregation) {
+                  const dates = this.generateDates(
+                    elements[0].Date,
+                    elements[elements.length - 1].Date,
+                    payload.dateAggregation,
+                  );
+                  response.push(
+                    dates.map(date => {
+                      sum = 0;
+                      let dateKey: string;
+                      if (payload.dateAggregation === 'Year') {
+                        dateKey = date.year.toString();
+                        elements.forEach(e => {
+                          if (e.Date.getFullYear() === date.year) {
+                            sum += e.Amount;
+                          }
+                        });
+                      }
+                      if (payload.dateAggregation === 'Month') {
+                        dateKey = `${date.year}-${date.month}`;
+                        elements.forEach(e => {
+                          if (
+                            e.Date.getFullYear() === date.year &&
+                            e.Date.getMonth() + 1 === date.month
+                          ) {
+                            sum += e.Amount;
+                          }
+                        });
+                      }
+                      return { Key: key, DateKey: dateKey, Sum: sum };
+                    }),
+                  );
+                } else {
+                  elements.forEach(e => {
+                    sum += e.Amount;
+                  });
+                  const o: SumResponseObjectDTO = { Key: key, Sum: sum };
+                  response.push(o);
+                }
               });
               resolve(response);
             })
@@ -86,9 +121,49 @@ export class SumAggregator extends Aggregator {
       );
     }
   }
+
+  private generateDates(
+    startDate: Date,
+    endDate: Date,
+    aggregation: string,
+  ): IDate[] {
+    let year = startDate.getFullYear();
+    const dates: IDate[] = [];
+    switch (aggregation) {
+      case 'Year':
+        while (year !== endDate.getFullYear() + 1) {
+          dates.push({ year });
+          year++;
+        }
+        return dates;
+      case 'Month':
+        let month = startDate.getMonth() + 1;
+        while (
+          (year !== endDate.getFullYear() ||
+            month !== endDate.getMonth() + 2) &&
+          (year !== endDate.getFullYear() + 1 || endDate.getMonth() === 11)
+        ) {
+          dates.push({ year, month });
+          month++;
+          if (month > 12) {
+            month = 1;
+            year++;
+          }
+        }
+        return dates;
+      default:
+        throw new BadRequestException('Invalid date aggregation type.');
+    }
+  }
+}
+
+interface IDate {
+  year: number;
+  month?: number;
 }
 
 class SumAggregatorPayloadDTO {
   @IsString()
   readonly distinctColumn: string;
+  readonly dateAggregation?: string;
 }

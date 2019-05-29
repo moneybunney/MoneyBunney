@@ -4,8 +4,8 @@ import { getAccountName } from "../../Models/AccountModel";
 import { IChart } from "../../Models/ChartModel";
 import { IComposedChart } from "../../Models/ComposedChartModel";
 import {
-  getExpenseByDateRange,
-  getIncomeByDateRange
+  getMonthlyExpensesByDateRange,
+  getMonthlyIncomeByDateRange
 } from "../../Utilities/Api";
 import ComposedChart from "./ComposedStackedBarLineChart";
 
@@ -30,54 +30,66 @@ const generateDates = (count: number) => {
     } else {
       month--;
     }
-    dates.push({ year, month });
   }
+  dates.push({ year, month });
   return dates.reverse();
 };
 
 const fetchChartData = async (numberOfMonths: number) => {
   const dates = generateDates(numberOfMonths);
 
-  return Promise.all(
-    dates.map(
-      async (date): Promise<IComposedChart> => {
-        const fromDate = `${date.year}-${date.month}-01`;
-        const toDate =
-          date.month === 12
-            ? `${date.year + 1}-01-01`
-            : `${date.year}-${date.month + 1}-01`;
-        const incomeResponse = await getIncomeByDateRange(
-          new Date(fromDate),
-          new Date(toDate)
-        );
-        let sum = 0;
-        const positiveValues = incomeResponse.map(resp => {
-          sum += resp.Sum;
-          return {
-            name: resp.Key,
-            value: resp.Sum
-          };
-        });
-        const expenseResponse = await getExpenseByDateRange(
-          new Date(fromDate),
-          new Date(toDate)
-        );
-        const negativeValues = expenseResponse.map(resp => {
-          sum += resp.Sum;
-          return {
-            name: resp.Key,
-            value: resp.Sum
-          };
-        });
-        return {
-          key: `${date.year}-${date.month}`,
-          positiveValues,
-          negativeValues,
-          lineValue: sum
-        };
-      }
-    )
+  const fromDate = `${dates[0].year}-${dates[0].month}-01`;
+  const toDate =
+    dates[1].year === 12
+      ? `${dates[1].year + 1}-01-01`
+      : `${dates[1].year}-${dates[1].month + 1}-01`;
+  const incomeResponse = await getMonthlyIncomeByDateRange(
+    new Date(fromDate),
+    new Date(toDate)
   );
+  const expensesResponse = await getMonthlyExpensesByDateRange(
+    new Date(fromDate),
+    new Date(toDate)
+  );
+  const chartData: IComposedChart[] = [];
+  let year = dates[0].year;
+  let month = dates[0].month;
+  for (let i = 0; i < numberOfMonths; i++) {
+    let sum = 0;
+    const positiveValues: IChart[] = [];
+    const negativeValues: IChart[] = [];
+    incomeResponse.forEach(resp => {
+      if (resp.DateKey === `${year}-${month}`) {
+        sum += resp.Sum;
+        positiveValues.push({
+          name: resp.Key,
+          value: resp.Sum
+        });
+      }
+    });
+    expensesResponse.forEach(resp => {
+      if (resp.DateKey === `${year}-${month}`) {
+        sum += resp.Sum;
+        negativeValues.push({
+          name: resp.Key,
+          value: resp.Sum
+        });
+      }
+    });
+    chartData.push({
+      key: `${year}-${month}`,
+      positiveValues,
+      negativeValues,
+      lineValue: sum
+    });
+    if (month === 12) {
+      month = 1;
+      year++;
+    } else {
+      month++;
+    }
+  }
+  return chartData;
 };
 
 const CashFlowChart = ({ numberOfMonths }: IProps) => {
@@ -99,7 +111,6 @@ const CashFlowChart = ({ numberOfMonths }: IProps) => {
       positiveValues: element.positiveValues.reduce(accountNameReducer, [])
     };
   });
-
   return (
     <ComposedChart
       data={dataWithAccountNames}

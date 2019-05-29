@@ -113,12 +113,14 @@ export class TransactionQuery {
   };
 
   public sum = async (
-    distinctColumn: string
+    distinctColumn: string,
+    dateAggregation?: string
   ): Promise<SumResponseObjectDTO[]> => {
     this.aggregator = {
       Name: "sum",
       Payload: {
-        distinctColumn
+        distinctColumn,
+        dateAggregation
       }
     };
     return this.execute();
@@ -200,10 +202,13 @@ export class TransactionQuery {
         (element: SumResponseObjectDTO): SumResponseObjectDTO => {
           this.throwIfNotString(element.Key);
           this.throwIfNotNumber(element.Sum);
-
+          if (element.DateKey) {
+            this.throwIfNotString(element.DateKey);
+          }
           return {
             Key: element.Key,
-            Sum: element.Sum
+            Sum: element.Sum,
+            DateKey: element.DateKey
           };
         }
       );

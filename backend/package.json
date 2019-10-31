@@ -41,7 +41,7 @@
     "graphql-tools": "^4.0.4",
     "joi": "^14.3.1",
     "mongodb": "^3.1.13",
-    "mongoose": "^5.4.14",
+    "mongoose": "^5.7.5",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "reflect-metadata": "^0.1.12",
